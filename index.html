@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Batchxslt by fkuhn</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Batchxslt</h1>
+        <p class="header">xslt batch processing for dgd metadata</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/fkuhn/batchxslt/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/fkuhn/batchxslt/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/fkuhn/batchxslt">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/fkuhn">fkuhn</a></p>
+
+
+      </header>
+      <section>
+        <h2>
+<a id="about" class="anchor" href="#about" aria-hidden="true"><span class="octicon octicon-link"></span></a>ABOUT</h2>
+
+<p>This small python package batch processes "Database for Spoken German"-specific xslt
+stylesheets to transform the original dgd metadata to cmdi metadata. </p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>INSTALLATION</h2>
+
+<p>Use <code>python setupy.py install</code> to install the package.</p>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>USAGE</h2>
+
+<p><strong>Note Feb 2015</strong> For a more up-to-date How-to refer to the notebook or its html in doc.  </p>
+
+<h3>
+<a id="configuration" class="anchor" href="#configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>CONFIGURATION</h3>
+
+<p>All important paths are set in the local config.xml.  is root element to the
+following subelements:
+, defining global resources like the XSLT processor.
+, which defines parameters for corpus-metadata
+, which defines parameters for event-metadata of a corpus
+, which defines paramters for speaker-metadata of a corpus</p>
+
+<p>Each element uses the attributes "type" and "corpus"</p>
+
+<ul>
+<li>  "type" defines the type of resource that is refered to in the element
+each  metadata-specific element uses the type values "stylesheet", "indirectory", "prefix", "outdirectory" to
+define the type of reference denoted via the metadata-element. </li>
+<li>  "corpus" defines the alias of the corpus refered to. The alias is the official one of the archive of spoken german.
+(e.g. "AD", "BB", "FOLK" etc.) </li>
+</ul>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
