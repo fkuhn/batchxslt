@@ -10,6 +10,9 @@ stylesheets to transform the original dgd metadata to cmdi metadata.
 
 ## USAGE
 
+*Note* For a more up-to-date How-to refer to the notebook or its html in doc.  
+
+
 ### CONFIGURATION
 All important paths are set in the local config.xml. <CONFIG> is root element to the
 following subelements:
@@ -30,6 +33,8 @@ Once all parameters are set, just start the python script
 
 	
 ## CHANGELOG
+
+### 
 
 ### Version 0.1.1 
 * now uses path.abspath to refer to resources
