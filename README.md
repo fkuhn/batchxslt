@@ -10,7 +10,7 @@ stylesheets to transform the original dgd metadata to cmdi metadata.
 
 ## USAGE
 
-*Note* For a more up-to-date How-to refer to the notebook or its html in doc.  
+**Note Feb 2015** For a more up-to-date How-to refer to the notebook or its html in doc.  
 
 
 ### CONFIGURATION
@@ -30,21 +30,3 @@ Each element uses the attributes "type" and "corpus"
 
 ### START
 Once all parameters are set, just start the python script  
-
-	
-## CHANGELOG
-
-### 
-
-### Version 0.1.1 
-* now uses path.abspath to refer to resources
-
-### Version 0.1
-* corpus transformation working
-* changed configuration paths in config.xml to relative paths
-* added saxon processor jarfile to batchxsl/saxon and refer to it in config.xml
-
-### Version 0.1a
-* configuration parameter constants found in runCorpus.py.
-* Just start runCorpus.py after setting parameters right.
-* main.py is a template for configuration settings for the run*.py files at the moment.
