@@ -68,7 +68,8 @@ class XSLBatchProcessor:
                 print "xmldata: " + xmldatadirectory
 
             xmldir = os.listdir(xmldatadirectory)
-            if option != "-silent": print xmldir
+            if option != "-silent":
+                print xmldir
 
         except OSError:
             print "xml Data directory is not readable"
