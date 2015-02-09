@@ -1,4 +1,5 @@
 __author__ = 'kuhn'
+__doc__ = "Resource Parser and XLST Processor class definitions."
 
 import os
 import sys
@@ -40,7 +41,7 @@ class ConfigParser:
 
 class XSLBatchProcessor:
     """
-    a very simple wrapper to call an xsl processor.
+    wrapper to call an xslt processor.
     """
 
     def __init__(self, processorpath):
@@ -52,8 +53,9 @@ class XSLBatchProcessor:
         self.processorpath = processorpath
 
 
-    def start(self, stylesheet, xmldatadirectory, prefix, outputdir):
-
+    def start(self, stylesheet, xmldatadirectory, prefix, outputdir, option):
+        """starts the xslt transformation process and checks if
+         directories are reachable"""
         try:
 
             if os.path.exists(stylesheet):
@@ -66,7 +68,7 @@ class XSLBatchProcessor:
                 print "xmldata: " + xmldatadirectory
 
             xmldir = os.listdir(xmldatadirectory)
-            print xmldir
+            if option != "-silent": print xmldir
 
         except OSError:
             print "xml Data directory is not readable"
@@ -77,8 +79,10 @@ class XSLBatchProcessor:
 
             if os.path.isfile(xmldatadirectory + '/' + metafile) is True:
                 output = outputdir + "/" + prefix + metafile
-                print output
+                if option != "-silent":
+                    print output
                 """
+                saxon call parameters:
                 -s:source -xsl:stylesheet -o:output
                 """
                 try:
@@ -91,12 +95,10 @@ class XSLBatchProcessor:
                     sys.exit()
 
             if os.path.isdir(xmldatadirectory + "/" + metafile) is True:
-                print metafile
+                if "-silent" != option:
+                    print metafile
                 # change scope of outputdir
                 # os.path.abspath()
-
-                # TODO: deal with subdirectory creation for events and speakers
-
                 try:
                     os.mkdir(os.path.abspath(outputdir + '/' + metafile))
                 except OSError:
@@ -106,16 +108,18 @@ class XSLBatchProcessor:
                 for singlefile in os.listdir(xmldatadirectory + "/" + metafile):
 
                     output = os.path.abspath(outputdir + '/' + metafile + "/" + prefix + singlefile)
-                    print output
+                    if option != "-silent":
+                        print output
                     """
                     -s:source -xsl:stylesheet -o:output
                     """
 
                     try:
                         # call the xslt processor
-                        print "processing " + singlefile
+                        if option != "-silent": print "processing " + singlefile
                         os.system(
-                            "java -jar " + self.processorpath + " -s:" + xmldatadirectory + "/" + metafile + "/"
+                            "java -jar " + self.processorpath
+                            + " -s:" + xmldatadirectory + "/" + metafile + "/"
                             + singlefile + " -xsl:"
                             + stylesheet
                             + " -o:" + output)
