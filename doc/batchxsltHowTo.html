@@ -1691,7 +1691,8 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This is a tutorial on how to use batchxslt. First, make sure you have <em>install libxml2</em> on your system. On ubuntu-esque linux distributions, you can install it directly via the official ppas using apt-get:</p>
+<p>This is a tutorial on how to use batchxslt. 
+First, make sure you have <em>install libxml2</em> on your system. On ubuntu-esque linux distributions, you can install it directly via the official ppas using apt-get:</p>
 </div>
 </div>
 </div>
@@ -1700,7 +1701,8 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">sudo</span> apt-get install libxml2</code></pre>
+<pre><code class="language-bash">sudo apt-get install libxml2
+</code></pre>
 </div>
 </div>
 </div>
@@ -1709,9 +1711,12 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>If you are using Windows, you can install libxml2 binaries provided here http://www.zlatkovic.com/libxml.en.html</p>
-<p>You also have to install the <em>saxon xslt processor</em>. It is recommended to put its .jar into the <em>saxon</em> directory of batchxslt and let your configuration file point to it. You will find saxon downloads on its official site http://www.saxonica.com/</p>
-<p>It is possible to use other xslt processors. However, in terms of documentation and compatibility I strongly recommend to use saxon.</p>
+<p>If you are using Windows, you can install libxml2 binaries provided here
+<a href="http://www.zlatkovic.com/libxml.en.html">http://www.zlatkovic.com/libxml.en.html</a></p>
+<p>You also have to install the <em>saxon xslt processor</em>. It is recommended to put its .jar into the <em>saxon</em> directory of batchxslt and let your configuration file point to it.
+You will find saxon downloads on its official site <a href="http://www.saxonica.com/">http://www.saxonica.com/</a>
+The package has been tested with saxon9he.jar.</p>
+<p>It is possible to use other xslt processors. However, in terms of documentation and compatibility I strongly recommend to use saxon. </p>
 </div>
 </div>
 </div>
@@ -1730,7 +1735,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>To have batchxslt find the right paths to sources and output folders as well as the xsl processor used, you must must first set up config.xml. This is a simple xml file used by ConfigParser (see below) when instantiated.</p>
+<p>To have batchxslt find the right paths to sources and output folders as well as the xsl processor used, you must must first set up config.xml. This is a simple xml file used by ConfigParser (see below) when instantiated.    </p>
 </div>
 </div>
 </div>
@@ -1749,37 +1754,38 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;?xml</span> version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;<span class="kw">?&gt;</span>
-<span class="co">&lt;!-- Configuration File for XSLT Batch processing script batchxslt</span>
-<span class="co">Documentation of attribute value:</span>
-<span class="co">processor - defines a xslt processor</span>
-<span class="co">stylesheet - a stylesheet that is used to transform the referred data</span>
-<span class="co">indirectory - the directory where the xml data to be transformed is found</span>
-<span class="co">prefix - the prefix-label that is added to the filename of the transformed file (readabilty purpose)</span>
-<span class="co">outdirectory - the output directory for the transformed file </span>
+<pre><code class="language-xml"><span class="pi">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="comment">&lt;!-- Configuration File for XSLT Batch processing script batchxslt
+Documentation of attribute value:
+processor - defines a xslt processor
+stylesheet - a stylesheet that is used to transform the referred data
+indirectory - the directory where the xml data to be transformed is found
+prefix - the prefix-label that is added to the filename of the transformed file (readabilty purpose)
+outdirectory - the output directory for the transformed file 
 
-<span class="co">This is an example configuration for dgd metadata transformation.</span>
+This is an example configuration for dgd metadata transformation.
 
-<span class="co">--&gt;</span>
-<span class="kw">&lt;CONFIG&gt;</span>
-    <span class="kw">&lt;GLOBAL</span><span class="ot"> type=</span><span class="st">&quot;processor&quot;</span><span class="kw">&gt;</span>../../saxon/saxon9he.jar<span class="kw">&lt;/GLOBAL&gt;</span>
+--&gt;</span>
+<span class="tag">&lt;<span class="title">CONFIG</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">GLOBAL</span> <span class="attribute">type</span>=<span class="value">"processor"</span>&gt;</span>../../saxon/saxon9he.jar<span class="tag">&lt;/<span class="title">GLOBAL</span>&gt;</span>
 
-    <span class="kw">&lt;CORPUS</span><span class="ot"> type=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> corpus=</span><span class="st">&quot;&quot;</span><span class="kw">&gt;</span>../../../xslt/dgdCorpus2cmdi_Rev2.xsl<span class="kw">&lt;/CORPUS&gt;</span>
-    <span class="kw">&lt;CORPUS</span><span class="ot"> type=</span><span class="st">&quot;indirectory&quot;</span><span class="ot"> corpus=</span><span class="st">&quot;&quot;</span><span class="kw">&gt;</span>../../../../metadata/corpora/extern<span class="kw">&lt;/CORPUS&gt;</span>
-    <span class="kw">&lt;CORPUS</span><span class="ot"> type=</span><span class="st">&quot;prefix&quot;</span><span class="ot"> corpus=</span><span class="st">&quot;&quot;</span><span class="kw">&gt;</span>CMDI_<span class="kw">&lt;/CORPUS&gt;</span>
-    <span class="kw">&lt;CORPUS</span><span class="ot"> type=</span><span class="st">&quot;outdirectory&quot;</span><span class="ot"> corpus=</span><span class="st">&quot;&quot;</span><span class="kw">&gt;</span>../../../cmdiOutput/corpus<span class="kw">&lt;/CORPUS&gt;</span>
+    <span class="tag">&lt;<span class="title">CORPUS</span> <span class="attribute">type</span>=<span class="value">"stylesheet"</span> <span class="attribute">corpus</span>=<span class="value">""</span>&gt;</span>../../../xslt/dgdCorpus2cmdi_Rev2.xsl<span class="tag">&lt;/<span class="title">CORPUS</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">CORPUS</span> <span class="attribute">type</span>=<span class="value">"indirectory"</span> <span class="attribute">corpus</span>=<span class="value">""</span>&gt;</span>../../../../metadata/corpora/extern<span class="tag">&lt;/<span class="title">CORPUS</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">CORPUS</span> <span class="attribute">type</span>=<span class="value">"prefix"</span> <span class="attribute">corpus</span>=<span class="value">""</span>&gt;</span>CMDI_<span class="tag">&lt;/<span class="title">CORPUS</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">CORPUS</span> <span class="attribute">type</span>=<span class="value">"outdirectory"</span> <span class="attribute">corpus</span>=<span class="value">""</span>&gt;</span>../../../cmdiOutput/corpus<span class="tag">&lt;/<span class="title">CORPUS</span>&gt;</span>
 
-    <span class="kw">&lt;EVENT</span><span class="ot"> type=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> corpus=</span><span class="st">&quot;&quot;</span><span class="kw">&gt;</span>../../../xslt/dgdEvent2cmdi_Rev3.xsl<span class="kw">&lt;/EVENT&gt;</span>
-    <span class="kw">&lt;EVENT</span><span class="ot"> type=</span><span class="st">&quot;indirectory&quot;</span><span class="ot"> corpus=</span><span class="st">&quot;&quot;</span><span class="kw">&gt;</span>../../../../metadata/events/extern<span class="kw">&lt;/EVENT&gt;</span>
-    <span class="kw">&lt;EVENT</span><span class="ot"> type=</span><span class="st">&quot;prefix&quot;</span><span class="ot"> corpus=</span><span class="st">&quot;&quot;</span><span class="kw">&gt;</span>CMDI_<span class="kw">&lt;/EVENT&gt;</span>
-    <span class="kw">&lt;EVENT</span><span class="ot"> type=</span><span class="st">&quot;outdirectory&quot;</span><span class="ot"> corpus=</span><span class="st">&quot;&quot;</span><span class="kw">&gt;</span>../../../cmdiOutput/event<span class="kw">&lt;/EVENT&gt;</span>
+    <span class="tag">&lt;<span class="title">EVENT</span> <span class="attribute">type</span>=<span class="value">"stylesheet"</span> <span class="attribute">corpus</span>=<span class="value">""</span>&gt;</span>../../../xslt/dgdEvent2cmdi_Rev3.xsl<span class="tag">&lt;/<span class="title">EVENT</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">EVENT</span> <span class="attribute">type</span>=<span class="value">"indirectory"</span> <span class="attribute">corpus</span>=<span class="value">""</span>&gt;</span>../../../../metadata/events/extern<span class="tag">&lt;/<span class="title">EVENT</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">EVENT</span> <span class="attribute">type</span>=<span class="value">"prefix"</span> <span class="attribute">corpus</span>=<span class="value">""</span>&gt;</span>CMDI_<span class="tag">&lt;/<span class="title">EVENT</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">EVENT</span> <span class="attribute">type</span>=<span class="value">"outdirectory"</span> <span class="attribute">corpus</span>=<span class="value">""</span>&gt;</span>../../../cmdiOutput/event<span class="tag">&lt;/<span class="title">EVENT</span>&gt;</span>
 
-    <span class="kw">&lt;SPEAKER</span><span class="ot"> type=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> corpus=</span><span class="st">&quot;&quot;</span><span class="kw">&gt;</span>../../../xslt/dgdSpeaker2cmdi_Rev2.xsl<span class="kw">&lt;/SPEAKER&gt;</span>
-    <span class="kw">&lt;SPEAKER</span><span class="ot"> type=</span><span class="st">&quot;indirectory&quot;</span><span class="ot"> corpus=</span><span class="st">&quot;&quot;</span><span class="kw">&gt;</span>../../../../metadata/speakers/extern<span class="kw">&lt;/SPEAKER&gt;</span>
-    <span class="kw">&lt;SPEAKER</span><span class="ot"> type=</span><span class="st">&quot;prefix&quot;</span><span class="ot"> corpus=</span><span class="st">&quot;&quot;</span><span class="kw">&gt;</span>CMDI_<span class="kw">&lt;/SPEAKER&gt;</span>
-    <span class="kw">&lt;SPEAKER</span><span class="ot"> type=</span><span class="st">&quot;outdirectory&quot;</span><span class="ot"> corpus=</span><span class="st">&quot;&quot;</span><span class="kw">&gt;</span>../../../cmdiOutput/speakers<span class="kw">&lt;/SPEAKER&gt;</span>
-    
-<span class="kw">&lt;/CONFIG&gt;</span></code></pre>
+    <span class="tag">&lt;<span class="title">SPEAKER</span> <span class="attribute">type</span>=<span class="value">"stylesheet"</span> <span class="attribute">corpus</span>=<span class="value">""</span>&gt;</span>../../../xslt/dgdSpeaker2cmdi_Rev2.xsl<span class="tag">&lt;/<span class="title">SPEAKER</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">SPEAKER</span> <span class="attribute">type</span>=<span class="value">"indirectory"</span> <span class="attribute">corpus</span>=<span class="value">""</span>&gt;</span>../../../../metadata/speakers/extern<span class="tag">&lt;/<span class="title">SPEAKER</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">SPEAKER</span> <span class="attribute">type</span>=<span class="value">"prefix"</span> <span class="attribute">corpus</span>=<span class="value">""</span>&gt;</span>CMDI_<span class="tag">&lt;/<span class="title">SPEAKER</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">SPEAKER</span> <span class="attribute">type</span>=<span class="value">"outdirectory"</span> <span class="attribute">corpus</span>=<span class="value">""</span>&gt;</span>../../../cmdiOutput/speakers<span class="tag">&lt;/<span class="title">SPEAKER</span>&gt;</span>
+
+<span class="tag">&lt;/<span class="title">CONFIG</span>&gt;</span>
+</code></pre>
 </div>
 </div>
 </div>
@@ -1807,7 +1813,8 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">python</span> dgdstart.py config.xml</code></pre>
+<pre><code class="language-bash">python dgdstart.py config.xml
+</code></pre>
 </div>
 </div>
 </div>
@@ -1823,7 +1830,9 @@ div#notebook {
 
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">
+In&nbsp;[]:
+</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class="highlight"><pre><span class="n">__author__</span> <span class="o">=</span> <span class="s">&#39;kuhn&#39;</span>
@@ -1871,7 +1880,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>First of all, configuration and processor are created to store the paths of the configuration file.</p>
+<p>First of all, configuration and processor are created to store the paths of the configuration file.  </p>
 </div>
 </div>
 </div>
@@ -1880,11 +1889,12 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<pre class="sourceCode python"><code class="sourceCode python"><span class="co"># read the configuration file from command line</span>
-configuration = processorClasses.ConfigParser(sys.argv[<span class="dv">1</span>])
+<pre><code class="language-python"><span class="comment"># read the configuration file from command line</span>
+configuration = processorClasses.ConfigParser(sys.argv[<span class="number">1</span>])
 
-<span class="co"># set the xslt processor</span>
-processor = processorClasses.XSLBatchProcessor(configuration.<span class="dt">globals</span>.get(<span class="st">&quot;processor&quot;</span>))</code></pre>
+<span class="comment"># set the xslt processor</span>
+processor = processorClasses.XSLBatchProcessor(configuration.globals.get(<span class="string">"processor"</span>))
+</code></pre>
 </div>
 </div>
 </div>
@@ -1902,10 +1912,11 @@ processor = processorClasses.XSLBatchProcessor(configuration.<span class="dt">gl
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<pre class="sourceCode python"><code class="sourceCode python">processor.start(configuration.corpus.get(<span class="st">&quot;stylesheet&quot;</span>),
-                 configuration.corpus.get(<span class="st">&quot;indirectory&quot;</span>),
-                 configuration.corpus.get(<span class="st">&quot;prefix&quot;</span>),
-                 configuration.corpus.get(<span class="st">&quot;outdirectory&quot;</span>))</code></pre>
+<pre><code class="language-python">processor.start(configuration.corpus.get(<span class="string">"stylesheet"</span>),
+                 configuration.corpus.get(<span class="string">"indirectory"</span>),
+                 configuration.corpus.get(<span class="string">"prefix"</span>),
+                 configuration.corpus.get(<span class="string">"outdirectory"</span>))
+</code></pre>
 </div>
 </div>
 </div>
@@ -1914,13 +1925,15 @@ processor = processorClasses.XSLBatchProcessor(configuration.<span class="dt">gl
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Note that <em>outdirectory</em> will create a mirror of the source subdirectory structure of all corpora. If the directories already exist, batchxslt will give you a warning but continue to write over all files already existing in that directory.</p>
+<p>Note that <em>outdirectory</em> will create a mirror of the source subdirectory structure of all corpora. If the directories already exist, batchxslt will give you a warning but continue to write over all files already existing in that directory. </p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">
+In&nbsp;[]:
+</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class="highlight"><pre> 
