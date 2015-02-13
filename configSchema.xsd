@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:element name="CONFIG">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="GLOBAL"/>
+        <xs:element maxOccurs="unbounded" ref="CORPUS"/>
+        <xs:element maxOccurs="unbounded" ref="EVENT"/>
+        <xs:element maxOccurs="unbounded" ref="SPEAKER"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GLOBAL">
+    <xs:complexType mixed="true">
+      <xs:attribute name="type" use="required" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CORPUS">
+    <xs:complexType mixed="true">
+      <xs:attribute name="corpus" use="required"/>
+      <xs:attribute name="type" use="required" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EVENT">
+    <xs:complexType mixed="true">
+      <xs:attribute name="corpus" use="required"/>
+      <xs:attribute name="type" use="required" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SPEAKER">
+    <xs:complexType mixed="true">
+      <xs:attribute name="corpus" use="required"/>
+      <xs:attribute name="type" use="required" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -3,18 +3,18 @@ __doc__ = "starts transformation with dgd configuration"
 
 import sys
 
-import processorClasses
+import processor
 
 
 if __name__ == '__main__':
 
     # read the configuration file from command line
-    configuration = processorClasses.ConfigParser(sys.argv[2])
+    configuration = processor.ConfigParser(sys.argv[2])
     # read option string (1st argument)
     option = sys.argv[1].strip().lower()
 
     # set the xslt processor
-    processor = processorClasses.XSLBatchProcessor(
+    processor = processor.XSLBatchProcessor(
         configuration.globals.get("processor"))
 
     # start the processor for corpus, event and speaker
