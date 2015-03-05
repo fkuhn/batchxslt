@@ -23,19 +23,20 @@ class ResourceTreeCollection(networkx.DiGraph):
 
     def __init__(self, corpuspath, eventspath, speakerspath):
         super(ResourceTreeCollection, self).__init__()
-        corpusNames = os.listdir(corpuspath)
-        eventCorpusNames = os.listdir(eventspath)
-        speakerCorpusNames = os.listdir(speakerspath)
+        corpusnames = os.listdir(corpuspath)
+        eventcorpusnames = os.listdir(eventspath)
+        speakercorpusnames = os.listdir(speakerspath)
         cwdStart = os.getcwd()
 
-        #TODO: define a collection root (e.g. 'AGD') that precedes all corpora
+        # define a collection root that precedes all corpora
+        self.add_node("AGD_root")
 
-        if cmp(corpusNames, eventCorpusNames) and cmp(eventCorpusNames,
-                                                     speakerCorpusNames):
+        if cmp(corpusnames, eventcorpusnames) and cmp(eventcorpusnames,
+                                                     speakercorpusnames):
             logging.info("Resources are aligned")
-            print corpusNames
-            print eventCorpusNames
-            print speakerCorpusNames
+            print corpusnames
+            print eventcorpusnames
+            print speakercorpusnames
 
         else:
             logging.error("Resources are not aligned. Check paths and/ or"
@@ -43,7 +44,7 @@ class ResourceTreeCollection(networkx.DiGraph):
 
         # define corpus nodes
 
-        for corpus in corpusNames:
+        for corpus in corpusnames:
             # iterate over all corpus file names in corpus metadata dir
             # and define a node for each.
             try:
@@ -60,9 +61,12 @@ class ResourceTreeCollection(networkx.DiGraph):
                     'etreeobject': etr}
 
             )
+            # add edge from root to current node
+            self.add_edge('AGD_root', corpus.split('_')[0].rstrip('-'))
+
         # define event nodes and add add them to their corpus root
 
-        for event in eventCorpusNames:
+        for event in eventcorpusnames:
 
             if self.has_node(event):
                 eventcorpusfilepath = eventspath + '/' + event
@@ -87,7 +91,7 @@ class ResourceTreeCollection(networkx.DiGraph):
 
         # change cwd to events directory
 
-        for speaker in speakerCorpusNames:
+        for speaker in speakercorpusnames:
 
             if self.has_node(speaker):
                 speakercorpusfilepath = speakerspath + '/' + speaker
@@ -107,7 +111,9 @@ class ResourceTreeCollection(networkx.DiGraph):
                     )
                     self.add_edge(speaker, speakernodename)
 
-        # add event ->speaker edges for speaker in events
+        # TODO: add event ->speaker edges for speaker in events
+
+
 
     @staticmethod
     def contextpath(fname, startpath):
