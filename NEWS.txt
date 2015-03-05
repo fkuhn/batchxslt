@@ -1,10 +1,16 @@
 News
 ====
 
+0.2
+---
+*Release data Mar 5th 2015
+
+* all archive resources are now completely rendered as digraph structure using networkx
+
 0.1
 ---
 
-*Release date: 07.02.2015*
+*Release date: Feb 7th 2015*
 
 * release on github
 * example configuration
