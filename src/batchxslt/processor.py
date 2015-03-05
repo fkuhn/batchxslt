@@ -1,5 +1,5 @@
 __author__ = 'kuhn'
-__doc__ = "Resource Parser and XLST Processor class definitions."
+__doc__ = 'Resource Parser and XLST Processor class definitions.'
 
 import os
 import sys
@@ -7,7 +7,7 @@ import sys
 from lxml import etree
 
 
-class ConfigParser:
+class ConfigParser(object):
     """
     Simple configuration file parser. template for further extensions.
     Parses config.xml in main module directory. How to use config.xml
@@ -39,7 +39,7 @@ class ConfigParser:
                 self.speaker.update({item.get("type"): item.text})
 
 
-class XSLBatchProcessor:
+class XSLBatchProcessor(object):
     """
     wrapper to call an xslt processor.
     """
@@ -52,8 +52,7 @@ class XSLBatchProcessor:
         os.path.exists(processorpath)
         self.processorpath = processorpath
 
-
-    def start(self, stylesheet, xmldatadirectory, prefix, outputdir, option):
+    def start(self, stylesheet, xmldatadirectory, prefix, outputdir):
         """starts the xslt transformation process and checks if
          directories are reachable"""
         try:
@@ -68,20 +67,15 @@ class XSLBatchProcessor:
                 print "xmldata: " + xmldatadirectory
 
             xmldir = os.listdir(xmldatadirectory)
-            if option != "-silent":
-                print xmldir
 
         except OSError():
             print "xml Data directory is not readable"
             sys.exit()
 
         for metafile in xmldir:
-            # os.chdir(outputdir)
 
             if os.path.isfile(xmldatadirectory + '/' + metafile) is True:
                 output = outputdir + "/" + prefix + metafile
-                if option != "-silent":
-                    print output
                 """
                 saxon call parameters:
                 -s:source -xsl:stylesheet -o:output
@@ -96,8 +90,6 @@ class XSLBatchProcessor:
                     sys.exit()
 
             if os.path.isdir(xmldatadirectory + "/" + metafile) is True:
-                if "-silent" != option:
-                    print metafile
                 # change scope of outputdir
                 # os.path.abspath()
                 try:
@@ -106,18 +98,17 @@ class XSLBatchProcessor:
                     print "cannot create directory " + outputdir + "/" + metafile
                     print "Maybe it already exists..."
 
-                for singlefile in os.listdir(xmldatadirectory + "/" + metafile):
+                for singlefile in os.listdir(
+                                        xmldatadirectory + "/" + metafile):
 
-                    output = os.path.abspath(outputdir + '/' + metafile + "/" + prefix + singlefile)
-                    if option != "-silent":
-                        print output
+                    output = os.path.abspath(
+                        outputdir + '/' + metafile + "/" + prefix + singlefile)
                     """
                     -s:source -xsl:stylesheet -o:output
                     """
 
                     try:
                         # call the xslt processor
-                        if option != "-silent": print "processing " + singlefile
                         os.system(
                             "java -jar " + self.processorpath
                             + " -s:" + xmldatadirectory + "/" + metafile + "/"
