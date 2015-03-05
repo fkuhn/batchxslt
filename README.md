@@ -1,20 +1,21 @@
-## ABOUT
+## About
 This small python package batch processes "Database for Spoken German"-specific xslt
 stylesheets to transform the original dgd metadata to cmdi metadata.
 
 
-## INSTALLATION
+## Installation
 
  Use ```python setupy.py install ``` to install the package.
 
 
-## USAGE
+## Usage
 
 **Note Feb 2015** For a more up-to-date How-to refer to the notebook or its html in doc.  
 
 
-### CONFIGURATION
-All important paths are set in the local config.xml. <CONFIG> is root element to the
+### Configuration File
+All important paths are set in the local config.xml.
+<CONFIG> is root element to the
 following subelements:
 <GLOBAL>, defining global resources like the XSLT processor.
 <CORPUS>, which defines parameters for corpus-metadata
@@ -28,5 +29,5 @@ Each element uses the attributes "type" and "corpus"
 *	"corpus" defines the alias of the corpus refered to. The alias is the official one of the archive of spoken german.
 	(e.g. "AD", "BB", "FOLK" etc.) 
 
-### START
-Once all parameters are set, just start the python script  
+### Starting Transformation
+Once all parameters are set, call the python script dgdstart.py
