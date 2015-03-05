@@ -27,6 +27,9 @@ class ResourceTreeCollection(networkx.DiGraph):
         eventCorpusNames = os.listdir(eventspath)
         speakerCorpusNames = os.listdir(speakerspath)
         cwdStart = os.getcwd()
+
+        #TODO: define a collection root (e.g. 'AGD') that precedes all corpora
+
         if cmp(corpusNames, eventCorpusNames) and cmp(eventCorpusNames,
                                                      speakerCorpusNames):
             logging.info("Resources are aligned")
