@@ -6,6 +6,7 @@ import processor
 import logging
 import sys
 
+
 def main():
     """
     console entry point
