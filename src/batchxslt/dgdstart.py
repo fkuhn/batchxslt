@@ -8,7 +8,7 @@ from optparse import OptionParser
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level="info")
+    # logging.basicConfig(level="info")
     # read the configuration file from command line
 
     # define options

@@ -7,6 +7,7 @@ import os
 from lxml import etree
 
 DGDROOT = "dgd2_data"
+SPEAKERXPATH = "//InEvent/Event"
 
 
 class ResourceTreeCollection(networkx.DiGraph):
@@ -126,6 +127,17 @@ class ResourceTreeCollection(networkx.DiGraph):
                 return None
 
     # TODO: find all speakers in an event
+
+    @staticmethod
+    def findevents(speakernode):
+        """
+        :param speakernode
+        :return list of event labels
+        searches for events a speaker takes part in by looking up the
+        metadata itself with xpath
+        """
+
+        root = speakernode.get("etreeobject").getroot()
 
 
 class ResourceTree(networkx.DiGraph):
