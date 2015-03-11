@@ -2,6 +2,7 @@ __author__ = 'kuhn'
 
 import os
 import sys
+import codecs
 from lxml import etree
 
 
@@ -30,13 +31,13 @@ class PostProcessor(object):
         """
 
         if os.path.isfile(filename):
-            self.__rplace_nv(etree.parse(filename))
+            self.__rplace_nv(etree.parse(filename), filename)
         else:
             flist = os.listdir(filename)
             for fn in flist:
-                self.__rplace_nv(etree.parse(fn))
+                self.__rplace_nv(etree.parse(fn), fn)
 
-    def __rplace_nv(self, etreeobj):
+    def __rplace_nv(self, etreeobj, filename):
         """
 
         :param file:
@@ -49,3 +50,8 @@ class PostProcessor(object):
             if element.text.lower() in self.__notfiled:
                 element.text = self.__notfiled.get(element.text.lower())
 
+        fobject = codecs.open(filename, mode='w', encoding='utf-8', )
+        etreeobj.write(fobject, method='XML', pretty_print=True,
+                       encoding='utf-8')
+
+        fobject.close()
