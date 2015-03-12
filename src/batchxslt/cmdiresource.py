@@ -90,12 +90,10 @@ class ResourceTreeCollection(networkx.DiGraph):
 
         # define speaker nodes and add them to their corpus root
 
-        # change cwd to events directory
-
-        for speaker in speakercorpusnames:
-
-            if self.has_node(speaker):
-                speakercorpusfilepath = speakerspath + '/' + speaker
+        for speakercorp in speakercorpusnames:
+            # find corpus the speaker is part of
+            if self.has_node(speakercorp):
+                speakercorpusfilepath = speakerspath + '/' + speakercorp
 
                 for filename in os.listdir(speakercorpusfilepath):
                     try:
@@ -106,11 +104,11 @@ class ResourceTreeCollection(networkx.DiGraph):
                         continue
                     speakernodename = filename.split('.')[0]
                     self.add_node(speakernodename, {
-                        'repopath': self.contextpath(speaker, DGDROOT),
+                        'repopath': self.contextpath(speakercorp, DGDROOT),
                         'corpusroot': False,
                         'etreeobject': etr}
                     )
-                    self.add_edge(speaker, speakernodename)
+                    self.add_edge(speakercorp, speakernodename)
 
         # TODO: add event ->speaker edges for speaker in events
 
@@ -132,9 +130,15 @@ class ResourceTreeCollection(networkx.DiGraph):
         :param speakernode
         :return list of event labels
         searches for events a speaker takes part in by looking up the
-        metadata itself with xpath
+        metadata itself
         """
+        expression = "/CMD/Components/InEvents/Event"
+        inevent = speakernode.get("etreeobject").xpath(expression)
 
-        root = speakernode.get("etreeobject").getroot()
+        inevent = [event.text for event in inevent]
+        return inevent
+
+
+
 
 
