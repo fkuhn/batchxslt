@@ -11,7 +11,7 @@ if __name__ == '__main__':
     # logging.basicConfig(level="info")
     # read the configuration file from command line
 
-    # define options
+    # TODO: define options
     optionparse = OptionParser()
 
 try:
