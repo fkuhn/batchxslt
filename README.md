@@ -31,3 +31,4 @@ Each element uses the attributes "type" and "corpus"
 
 ### Starting Transformation
 Once all parameters are set, call the python script dgdstart.py
+

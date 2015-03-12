@@ -27,13 +27,13 @@ class ResourceTreeCollection(networkx.DiGraph):
         corpusnames = os.listdir(corpuspath)
         eventcorpusnames = os.listdir(eventspath)
         speakercorpusnames = os.listdir(speakerspath)
-        cwdStart = os.getcwd()
+        # cwdstart = os.getcwd()
 
         # define a collection root that precedes all corpora
         self.add_node("AGD_root")
 
         if cmp(corpusnames, eventcorpusnames) and cmp(eventcorpusnames,
-                                                     speakercorpusnames):
+                                                      speakercorpusnames):
             logging.info("Resources are aligned")
             print corpusnames
             print eventcorpusnames
@@ -55,7 +55,7 @@ class ResourceTreeCollection(networkx.DiGraph):
                 continue
 
             self.add_node(
-                corpus.split('_')[0].rstrip('-'),
+                corpus.split('_')[0].rstrip('-').lstrip('CMDI_'),
                 {
                     'repopath': self.contextpath(corpus, DGDROOT),
                     'corpusroot': True,
@@ -80,7 +80,7 @@ class ResourceTreeCollection(networkx.DiGraph):
                                       filename)
                         continue
 
-                    eventnodename = filename.split('.')[0]
+                    eventnodename = filename.split('.')[0].lstrip('CMDI_')
                     self.add_node(eventnodename, {
                         'repopath': self.contextpath(event, DGDROOT),
                         'corpusroot': False,
@@ -102,13 +102,19 @@ class ResourceTreeCollection(networkx.DiGraph):
                         logging.error("Warning. xml file was not parsed: " +
                                       filename)
                         continue
-                    speakernodename = filename.split('.')[0]
+                    speakernodename = filename.split('.')[0].lstrip('CMDI_')
                     self.add_node(speakernodename, {
                         'repopath': self.contextpath(speakercorp, DGDROOT),
                         'corpusroot': False,
                         'etreeobject': etr}
                     )
+                    # define an edge from the parent corpus (speakercorp)
+                    # to the current speakernode
                     self.add_edge(speakercorp, speakernodename)
+                    # define edges from events to current speaker
+                    speakerevents = self.findevents(speakernodename)
+                    for event in speakerevents:
+                        self.add_edge(event, speakernodename)
 
         # TODO: add event ->speaker edges for speaker in events
 
@@ -135,7 +141,7 @@ class ResourceTreeCollection(networkx.DiGraph):
         expression = "/CMD/Components/InEvents/Event"
         inevent = speakernode.get("etreeobject").xpath(expression)
 
-        inevent = [event.text for event in inevent]
+        inevent = [event.text.split('.')[0] for event in inevent]
         return inevent
 
 
