@@ -116,8 +116,6 @@ class ResourceTreeCollection(networkx.DiGraph):
                     for event in speakerevents:
                         self.add_edge(event, speakernodename)
 
-        # TODO: add event ->speaker edges for speaker in events
-
     @staticmethod
     def contextpath(fname, startpath):
         # FIXME: method always returns None.
@@ -127,8 +125,6 @@ class ResourceTreeCollection(networkx.DiGraph):
                 return os.path.join(root, fname)
             else:
                 return None
-
-    # TODO: find all speakers in an event
 
     @staticmethod
     def findevents(speakernode):
