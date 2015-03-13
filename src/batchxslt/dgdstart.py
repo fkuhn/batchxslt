@@ -5,7 +5,7 @@ import sys
 import processor
 import logging
 from optparse import OptionParser
-
+import primarylink
 
 if __name__ == '__main__':
     # logging.basicConfig(level="info")
@@ -47,6 +47,10 @@ proc.start(configuration.speaker.get("stylesheet"),
            configuration.speaker.get("outdirectory"))
 
 print "finished tranformations"
+
+primdat = primarylink.PrimaryDataPath('/data/primarypath.csv')
+
+
 
 
 

@@ -59,6 +59,7 @@ class ResourceTreeCollection(networkx.DiGraph):
                 {
                     'repopath': self.contextpath(corpus, DGDROOT),
                     'corpusroot': True,
+                    'type': 'metadata',
                     'etreeobject': etr}
 
             )
@@ -84,6 +85,7 @@ class ResourceTreeCollection(networkx.DiGraph):
                     self.add_node(eventnodename, {
                         'repopath': self.contextpath(event, DGDROOT),
                         'corpusroot': False,
+                        'type': 'metadata',
                         'etreeobject': etr}
                     )
                     self.add_edge(event, eventnodename)
@@ -106,6 +108,7 @@ class ResourceTreeCollection(networkx.DiGraph):
                     self.add_node(speakernodename, {
                         'repopath': self.contextpath(speakercorp, DGDROOT),
                         'corpusroot': False,
+                        'type': 'metadata',
                         'etreeobject': etr}
                     )
                     # define an edge from the parent corpus (speakercorp)
