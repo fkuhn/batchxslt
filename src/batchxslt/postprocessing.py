@@ -28,8 +28,7 @@ class PostProcessor(object):
         """
         takes a filename or foldername and
         replaces all german generic text nonvalue-strings with more
-        international
-        ones
+        international ones.
         :param filename: string
         :return:
         """
