@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.9.1">
+  <compounddef id="dc/d43/dgdsinglestart_8py" kind="file" language="Python">
+    <compoundname>dgdsinglestart.py</compoundname>
+    <innernamespace refid="d3/d64/namespacebatchxslt_1_1dgdsinglestart">batchxslt::dgdsinglestart</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="d3/d64/namespacebatchxslt_1_1dgdsinglestart" refkind="compound"><highlight class="normal">__author__<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;kuhn&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal">__doc__<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;start<sp/>transformation<sp/>of<sp/>a<sp/>single<sp/>corpus&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/dgdsinglestart.py"/>
+  </compounddef>
+</doxygen>

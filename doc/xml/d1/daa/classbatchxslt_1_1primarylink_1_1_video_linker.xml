@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.9.1">
+  <compounddef id="d1/daa/classbatchxslt_1_1primarylink_1_1_video_linker" kind="class" language="Python" prot="public">
+    <compoundname>batchxslt::primarylink::VideoLinker</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">object</basecompoundref>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="d1/daa/classbatchxslt_1_1primarylink_1_1_video_linker_1a4fbfab2aa675d0721371c723268f285f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>batchxslt.primarylink.VideoLinker::mediaroot</definition>
+        <argsstring></argsstring>
+        <name>mediaroot</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/primarylink.py" line="64" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/primarylink.py" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="d1/daa/classbatchxslt_1_1primarylink_1_1_video_linker_1abaa9c1a4ed457bf9ed577d8cb4e406bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def batchxslt.primarylink.VideoLinker.__init__</definition>
+        <argsstring>(self, mediaroot)</argsstring>
+        <name>__init__</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="d1/daa/classbatchxslt_1_1primarylink_1_1_video_linker_1a4fbfab2aa675d0721371c723268f285f" kindref="member">mediaroot</ref></type>
+          <defname>mediaroot</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/primarylink.py" line="62" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/primarylink.py" bodystart="62" bodyend="69"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Media Linker takes a path that acts as root and writes
+their associated metadata.
+</verbatim> </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="56">
+        <label>batchxslt.primarylink.VideoLinker</label>
+        <link refid="d1/daa/classbatchxslt_1_1primarylink_1_1_video_linker"/>
+        <childnode refid="57" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="57">
+        <label>object</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="58">
+        <label>batchxslt.primarylink.VideoLinker</label>
+        <link refid="d1/daa/classbatchxslt_1_1primarylink_1_1_video_linker"/>
+        <childnode refid="59" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="59">
+        <label>object</label>
+      </node>
+    </collaborationgraph>
+    <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/primarylink.py" line="57" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/primarylink.py" bodystart="57" bodyend="69"/>
+    <listofallmembers>
+      <member refid="d1/daa/classbatchxslt_1_1primarylink_1_1_video_linker_1abaa9c1a4ed457bf9ed577d8cb4e406bf" prot="public" virt="non-virtual"><scope>batchxslt::primarylink::VideoLinker</scope><name>__init__</name></member>
+      <member refid="d1/daa/classbatchxslt_1_1primarylink_1_1_video_linker_1a4fbfab2aa675d0721371c723268f285f" prot="public" virt="non-virtual"><scope>batchxslt::primarylink::VideoLinker</scope><name>mediaroot</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

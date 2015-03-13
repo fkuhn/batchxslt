@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.9.1">
+  <compounddef id="dd/d23/classbatchxslt_1_1processor_1_1_x_s_l_batch_processor" kind="class" language="Python" prot="public">
+    <compoundname>batchxslt::processor::XSLBatchProcessor</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">object</basecompoundref>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="dd/d23/classbatchxslt_1_1processor_1_1_x_s_l_batch_processor_1a658896a4b7cfd17294b7d66dddab5abd" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>batchxslt.processor.XSLBatchProcessor::processorpath</definition>
+        <argsstring></argsstring>
+        <name>processorpath</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" line="53" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="dd/d23/classbatchxslt_1_1processor_1_1_x_s_l_batch_processor_1a5972d2c35a1609015515293badc1bbe7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def batchxslt.processor.XSLBatchProcessor.__init__</definition>
+        <argsstring>(self, processorpath)</argsstring>
+        <name>__init__</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="dd/d23/classbatchxslt_1_1processor_1_1_x_s_l_batch_processor_1a658896a4b7cfd17294b7d66dddab5abd" kindref="member">processorpath</ref></type>
+          <defname>processorpath</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>:param absolute processorpath: e.g. c:\saxonHE\saxon9he.jar
+:return:
+</verbatim> </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" line="47" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" bodystart="47" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="dd/d23/classbatchxslt_1_1processor_1_1_x_s_l_batch_processor_1a26cfcf3f886e77058438d618658cc7b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def batchxslt.processor.XSLBatchProcessor.start</definition>
+        <argsstring>(self, stylesheet, xmldatadirectory, prefix, outputdir)</argsstring>
+        <name>start</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>stylesheet</type>
+          <defname>stylesheet</defname>
+        </param>
+        <param>
+          <type>xmldatadirectory</type>
+          <defname>xmldatadirectory</defname>
+        </param>
+        <param>
+          <type>prefix</type>
+          <defname>prefix</defname>
+        </param>
+        <param>
+          <type>outputdir</type>
+          <defname>outputdir</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>starts the xslt transformation process and checks if
+ directories are reachable</verbatim> </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" line="55" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" bodystart="55" bodyend="126"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>wrapper to call an xslt processor.
+</verbatim> </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="61">
+        <label>object</label>
+      </node>
+      <node id="60">
+        <label>batchxslt.processor.XSLBatchProcessor</label>
+        <link refid="dd/d23/classbatchxslt_1_1processor_1_1_x_s_l_batch_processor"/>
+        <childnode refid="61" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="63">
+        <label>object</label>
+      </node>
+      <node id="62">
+        <label>batchxslt.processor.XSLBatchProcessor</label>
+        <link refid="dd/d23/classbatchxslt_1_1processor_1_1_x_s_l_batch_processor"/>
+        <childnode refid="63" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" line="42" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" bodystart="42" bodyend="126"/>
+    <listofallmembers>
+      <member refid="dd/d23/classbatchxslt_1_1processor_1_1_x_s_l_batch_processor_1a5972d2c35a1609015515293badc1bbe7" prot="public" virt="non-virtual"><scope>batchxslt::processor::XSLBatchProcessor</scope><name>__init__</name></member>
+      <member refid="dd/d23/classbatchxslt_1_1processor_1_1_x_s_l_batch_processor_1a658896a4b7cfd17294b7d66dddab5abd" prot="public" virt="non-virtual"><scope>batchxslt::processor::XSLBatchProcessor</scope><name>processorpath</name></member>
+      <member refid="dd/d23/classbatchxslt_1_1processor_1_1_x_s_l_batch_processor_1a26cfcf3f886e77058438d618658cc7b5" prot="public" virt="non-virtual"><scope>batchxslt::processor::XSLBatchProcessor</scope><name>start</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

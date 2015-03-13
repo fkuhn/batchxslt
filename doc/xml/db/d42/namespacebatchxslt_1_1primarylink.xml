@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.9.1">
+  <compounddef id="db/d42/namespacebatchxslt_1_1primarylink" kind="namespace" language="Python">
+    <compoundname>batchxslt::primarylink</compoundname>
+    <innerclass refid="d1/d1a/classbatchxslt_1_1primarylink_1_1_audio_linker" prot="public">batchxslt::primarylink::AudioLinker</innerclass>
+    <innerclass refid="da/d8e/classbatchxslt_1_1primarylink_1_1_primary_data_path" prot="public">batchxslt::primarylink::PrimaryDataPath</innerclass>
+    <innerclass refid="db/dc4/classbatchxslt_1_1primarylink_1_1_transcript_linker" prot="public">batchxslt::primarylink::TranscriptLinker</innerclass>
+    <innerclass refid="d1/daa/classbatchxslt_1_1primarylink_1_1_video_linker" prot="public">batchxslt::primarylink::VideoLinker</innerclass>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="db/d42/namespacebatchxslt_1_1primarylink_1a6163af58aebcbac771c49a95e544946a" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string batchxslt::primarylink.__author__</definition>
+        <argsstring></argsstring>
+        <name>__author__</name>
+        <initializer>= &apos;kuhn&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/primarylink.py" line="1" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/primarylink.py" bodystart="1" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="db/d42/namespacebatchxslt_1_1primarylink_1aa78a3782fe90770d3785ae6c9bcb0e91" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string batchxslt::primarylink.__doc__</definition>
+        <argsstring></argsstring>
+        <name>__doc__</name>
+        <initializer>= &apos;link the cmdi resources by writing resource proxy elements and href attributes&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/primarylink.py" line="2" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/primarylink.py" bodystart="2" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/primarylink.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

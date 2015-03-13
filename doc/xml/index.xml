@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.8.9.1">
+  <compound refid="d1/d1a/classbatchxslt_1_1primarylink_1_1_audio_linker" kind="class"><name>batchxslt::primarylink::AudioLinker</name>
+  </compound>
+  <compound refid="de/d42/classbatchxslt_1_1processor_1_1_config_parser" kind="class"><name>batchxslt::processor::ConfigParser</name>
+    <member refid="de/d42/classbatchxslt_1_1processor_1_1_config_parser_1a98c0047e4a75ef19343b92fbdd27a17c" kind="variable"><name>configfile</name></member>
+    <member refid="de/d42/classbatchxslt_1_1processor_1_1_config_parser_1aeb567c2af7ed7f776ea37ed2362cf8e6" kind="variable"><name>root</name></member>
+    <member refid="de/d42/classbatchxslt_1_1processor_1_1_config_parser_1a14befbc0fbb1225002569ddfce63d583" kind="variable"><name>configItemsList</name></member>
+    <member refid="de/d42/classbatchxslt_1_1processor_1_1_config_parser_1a745f2e03e5bc801d7e0b9ed6aa2f0f5c" kind="variable"><name>globals</name></member>
+    <member refid="de/d42/classbatchxslt_1_1processor_1_1_config_parser_1aede8c0123de49a137e9fe93010c01f1d" kind="variable"><name>speaker</name></member>
+    <member refid="de/d42/classbatchxslt_1_1processor_1_1_config_parser_1a6cb407c9623a9dd4d99dda4f4cf34ed1" kind="variable"><name>event</name></member>
+    <member refid="de/d42/classbatchxslt_1_1processor_1_1_config_parser_1aa9a03f79a87eba74dd69b7dca7f458f7" kind="variable"><name>corpus</name></member>
+    <member refid="de/d42/classbatchxslt_1_1processor_1_1_config_parser_1a7fb0c145c83583d9b32be29bf049c8a8" kind="function"><name>__init__</name></member>
+  </compound>
+  <compound refid="d6/d3a/classbatchxslt_1_1postprocessing_1_1_post_processor" kind="class"><name>batchxslt::postprocessing::PostProcessor</name>
+    <member refid="d6/d3a/classbatchxslt_1_1postprocessing_1_1_post_processor_1a631194e2a0c204ff4a66784c218c76e6" kind="variable"><name>__notfiled</name></member>
+    <member refid="d6/d3a/classbatchxslt_1_1postprocessing_1_1_post_processor_1a34c965f23398661040fdf69beb39ee28" kind="variable"><name>__nonvalue</name></member>
+    <member refid="d6/d3a/classbatchxslt_1_1postprocessing_1_1_post_processor_1a1c320ce7f25bf2690821edbbe70c0096" kind="variable"><name>__outputpath</name></member>
+    <member refid="d6/d3a/classbatchxslt_1_1postprocessing_1_1_post_processor_1ad58ff32843bafe5528b7c55c3e5f4905" kind="function"><name>__init__</name></member>
+    <member refid="d6/d3a/classbatchxslt_1_1postprocessing_1_1_post_processor_1a3dae534d1ea47e1102225c089945c737" kind="function"><name>replace_nonvalues</name></member>
+    <member refid="d6/d3a/classbatchxslt_1_1postprocessing_1_1_post_processor_1a9e787801ddf2b10adeba68828e86c394" kind="function"><name>__rplace_nv</name></member>
+  </compound>
+  <compound refid="da/d8e/classbatchxslt_1_1primarylink_1_1_primary_data_path" kind="class"><name>batchxslt::primarylink::PrimaryDataPath</name>
+    <member refid="da/d8e/classbatchxslt_1_1primarylink_1_1_primary_data_path_1a06bc8d1c49fb2b4c2282a17f8a5e0ec6" kind="function"><name>__init__</name></member>
+  </compound>
+  <compound refid="df/d0f/classbatchxslt_1_1cmdiresource_1_1_resource_tree_collection" kind="class"><name>batchxslt::cmdiresource::ResourceTreeCollection</name>
+    <member refid="df/d0f/classbatchxslt_1_1cmdiresource_1_1_resource_tree_collection_1a0233144a0c6519599b43b40a12d9ea35" kind="function"><name>__init__</name></member>
+    <member refid="df/d0f/classbatchxslt_1_1cmdiresource_1_1_resource_tree_collection_1a56f3a1eca349d53c915c22fb119f0728" kind="function"><name>contextpath</name></member>
+    <member refid="df/d0f/classbatchxslt_1_1cmdiresource_1_1_resource_tree_collection_1a2c66ca064180f421585f89a89770f222" kind="function"><name>findevents</name></member>
+  </compound>
+  <compound refid="db/dc4/classbatchxslt_1_1primarylink_1_1_transcript_linker" kind="class"><name>batchxslt::primarylink::TranscriptLinker</name>
+    <member refid="db/dc4/classbatchxslt_1_1primarylink_1_1_transcript_linker_1aa08e8309063c4dff1ce73fed8355bc89" kind="variable"><name>transcriptroot</name></member>
+    <member refid="db/dc4/classbatchxslt_1_1primarylink_1_1_transcript_linker_1ad8c70721a023475e881212df9c388b1f" kind="variable"><name>corpusnames</name></member>
+    <member refid="db/dc4/classbatchxslt_1_1primarylink_1_1_transcript_linker_1a2f9290a0bc3aeac2062d25bf52b0dd3e" kind="function"><name>__init__</name></member>
+    <member refid="db/dc4/classbatchxslt_1_1primarylink_1_1_transcript_linker_1a1ecbe9fc99368ba988a385d15bd607de" kind="function"><name>get_transscripts</name></member>
+  </compound>
+  <compound refid="d1/daa/classbatchxslt_1_1primarylink_1_1_video_linker" kind="class"><name>batchxslt::primarylink::VideoLinker</name>
+    <member refid="d1/daa/classbatchxslt_1_1primarylink_1_1_video_linker_1a4fbfab2aa675d0721371c723268f285f" kind="variable"><name>mediaroot</name></member>
+    <member refid="d1/daa/classbatchxslt_1_1primarylink_1_1_video_linker_1abaa9c1a4ed457bf9ed577d8cb4e406bf" kind="function"><name>__init__</name></member>
+  </compound>
+  <compound refid="dd/d23/classbatchxslt_1_1processor_1_1_x_s_l_batch_processor" kind="class"><name>batchxslt::processor::XSLBatchProcessor</name>
+    <member refid="dd/d23/classbatchxslt_1_1processor_1_1_x_s_l_batch_processor_1a658896a4b7cfd17294b7d66dddab5abd" kind="variable"><name>processorpath</name></member>
+    <member refid="dd/d23/classbatchxslt_1_1processor_1_1_x_s_l_batch_processor_1a5972d2c35a1609015515293badc1bbe7" kind="function"><name>__init__</name></member>
+    <member refid="dd/d23/classbatchxslt_1_1processor_1_1_x_s_l_batch_processor_1a26cfcf3f886e77058438d618658cc7b5" kind="function"><name>start</name></member>
+  </compound>
+  <compound refid="d0/dea/namespacebatchxslt" kind="namespace"><name>batchxslt</name>
+    <member refid="d0/dea/namespacebatchxslt_1acf44ae090fc4a15605fda5e9d62af19d" kind="variable"><name>__author__</name></member>
+    <member refid="d0/dea/namespacebatchxslt_1a29a9874aaaf5252371f8b4ef7f7f0562" kind="variable"><name>__doc__</name></member>
+    <member refid="d0/dea/namespacebatchxslt_1ad38cc6da293934d81aa5c1a1880686a6" kind="function"><name>main</name></member>
+  </compound>
+  <compound refid="d4/db4/namespacebatchxslt_1_1cmdiresource" kind="namespace"><name>batchxslt::cmdiresource</name>
+    <member refid="d4/db4/namespacebatchxslt_1_1cmdiresource_1a3db22ac28c595bb815ea1f0059f778cc" kind="variable"><name>__author__</name></member>
+    <member refid="d4/db4/namespacebatchxslt_1_1cmdiresource_1a545fd40ddfc73856f5b84e69f214d74b" kind="variable"><name>DGDROOT</name></member>
+    <member refid="d4/db4/namespacebatchxslt_1_1cmdiresource_1a0bb689afce27aa1d1e418d3c25b00378" kind="variable"><name>SPEAKERXPATH</name></member>
+  </compound>
+  <compound refid="d3/d64/namespacebatchxslt_1_1dgdsinglestart" kind="namespace"><name>batchxslt::dgdsinglestart</name>
+    <member refid="d3/d64/namespacebatchxslt_1_1dgdsinglestart_1a33e8d49c00d1a8ef00791b531aebf753" kind="variable"><name>__author__</name></member>
+    <member refid="d3/d64/namespacebatchxslt_1_1dgdsinglestart_1abc2dca43da0d8f1e629dbc619c2774d7" kind="variable"><name>__doc__</name></member>
+  </compound>
+  <compound refid="d5/dc8/namespacebatchxslt_1_1dgdstart" kind="namespace"><name>batchxslt::dgdstart</name>
+    <member refid="d5/dc8/namespacebatchxslt_1_1dgdstart_1afb7f8d3c40082d277c1d6261f92e4902" kind="variable"><name>__author__</name></member>
+    <member refid="d5/dc8/namespacebatchxslt_1_1dgdstart_1aa8f35e0a923480eaab98e43f2cf57ea0" kind="variable"><name>__doc__</name></member>
+    <member refid="d5/dc8/namespacebatchxslt_1_1dgdstart_1a44ebd956e1c7db721b0536ccd3532068" kind="variable"><name>optionparse</name></member>
+    <member refid="d5/dc8/namespacebatchxslt_1_1dgdstart_1ae6be486e81d6e57d3022155e412359f2" kind="variable"><name>configuration</name></member>
+    <member refid="d5/dc8/namespacebatchxslt_1_1dgdstart_1ab27d760c7fa3cb3833b6993c821ce2d8" kind="variable"><name>proc</name></member>
+    <member refid="d5/dc8/namespacebatchxslt_1_1dgdstart_1a79662ea2cdd3dd916d9d7fa95876c1ae" kind="variable"><name>primdat</name></member>
+  </compound>
+  <compound refid="d4/de2/namespacebatchxslt_1_1postprocessing" kind="namespace"><name>batchxslt::postprocessing</name>
+    <member refid="d4/de2/namespacebatchxslt_1_1postprocessing_1a685e76bf3c77d9ee1d93997b65387137" kind="variable"><name>__author__</name></member>
+  </compound>
+  <compound refid="db/d42/namespacebatchxslt_1_1primarylink" kind="namespace"><name>batchxslt::primarylink</name>
+    <member refid="db/d42/namespacebatchxslt_1_1primarylink_1a6163af58aebcbac771c49a95e544946a" kind="variable"><name>__author__</name></member>
+    <member refid="db/d42/namespacebatchxslt_1_1primarylink_1aa78a3782fe90770d3785ae6c9bcb0e91" kind="variable"><name>__doc__</name></member>
+  </compound>
+  <compound refid="d4/d49/namespacebatchxslt_1_1processor" kind="namespace"><name>batchxslt::processor</name>
+    <member refid="d4/d49/namespacebatchxslt_1_1processor_1a4158fea92c844d042fbdba51228fad6a" kind="variable"><name>__author__</name></member>
+    <member refid="d4/d49/namespacebatchxslt_1_1processor_1ad92d28e39ae8cc54cc5e25c98cb3136e" kind="variable"><name>__doc__</name></member>
+  </compound>
+  <compound refid="d3/d9a/____init_____8py" kind="file"><name>__init__.py</name>
+  </compound>
+  <compound refid="dc/dd2/cmdiresource_8py" kind="file"><name>cmdiresource.py</name>
+  </compound>
+  <compound refid="dc/d43/dgdsinglestart_8py" kind="file"><name>dgdsinglestart.py</name>
+  </compound>
+  <compound refid="d3/d9e/dgdstart_8py" kind="file"><name>dgdstart.py</name>
+  </compound>
+  <compound refid="d6/d2a/postprocessing_8py" kind="file"><name>postprocessing.py</name>
+  </compound>
+  <compound refid="d1/d57/primarylink_8py" kind="file"><name>primarylink.py</name>
+  </compound>
+  <compound refid="d3/d55/processor_8py" kind="file"><name>processor.py</name>
+  </compound>
+  <compound refid="dir_b6dc80697e1e30e606138d2311fe3938" kind="dir"><name>src/batchxslt</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
+  </compound>
+</doxygenindex>

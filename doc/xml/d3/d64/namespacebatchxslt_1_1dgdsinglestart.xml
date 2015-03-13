@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.9.1">
+  <compounddef id="d3/d64/namespacebatchxslt_1_1dgdsinglestart" kind="namespace" language="Python">
+    <compoundname>batchxslt::dgdsinglestart</compoundname>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="d3/d64/namespacebatchxslt_1_1dgdsinglestart_1a33e8d49c00d1a8ef00791b531aebf753" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string batchxslt::dgdsinglestart.__author__</definition>
+        <argsstring></argsstring>
+        <name>__author__</name>
+        <initializer>= &apos;kuhn&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/dgdsinglestart.py" line="1" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/dgdsinglestart.py" bodystart="1" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d3/d64/namespacebatchxslt_1_1dgdsinglestart_1abc2dca43da0d8f1e629dbc619c2774d7" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string batchxslt::dgdsinglestart.__doc__</definition>
+        <argsstring></argsstring>
+        <name>__doc__</name>
+        <initializer>= &apos;start transformation of a single corpus&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/dgdsinglestart.py" line="2" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/dgdsinglestart.py" bodystart="2" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/dgdsinglestart.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

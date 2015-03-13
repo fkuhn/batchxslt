@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.9.1">
+  <compounddef id="d4/de2/namespacebatchxslt_1_1postprocessing" kind="namespace" language="Python">
+    <compoundname>batchxslt::postprocessing</compoundname>
+    <innerclass refid="d6/d3a/classbatchxslt_1_1postprocessing_1_1_post_processor" prot="public">batchxslt::postprocessing::PostProcessor</innerclass>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="d4/de2/namespacebatchxslt_1_1postprocessing_1a685e76bf3c77d9ee1d93997b65387137" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string batchxslt::postprocessing.__author__</definition>
+        <argsstring></argsstring>
+        <name>__author__</name>
+        <initializer>= &apos;kuhn&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/postprocessing.py" line="1" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/postprocessing.py" bodystart="1" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/postprocessing.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

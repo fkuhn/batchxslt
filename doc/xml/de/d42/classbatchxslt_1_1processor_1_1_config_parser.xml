@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.9.1">
+  <compounddef id="de/d42/classbatchxslt_1_1processor_1_1_config_parser" kind="class" language="Python" prot="public">
+    <compoundname>batchxslt::processor::ConfigParser</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">object</basecompoundref>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="de/d42/classbatchxslt_1_1processor_1_1_config_parser_1a98c0047e4a75ef19343b92fbdd27a17c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>batchxslt.processor.ConfigParser::configfile</definition>
+        <argsstring></argsstring>
+        <name>configfile</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" line="22" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="de/d42/classbatchxslt_1_1processor_1_1_config_parser_1aeb567c2af7ed7f776ea37ed2362cf8e6" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>batchxslt.processor.ConfigParser::root</definition>
+        <argsstring></argsstring>
+        <name>root</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" line="23" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="de/d42/classbatchxslt_1_1processor_1_1_config_parser_1a14befbc0fbb1225002569ddfce63d583" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>batchxslt.processor.ConfigParser::configItemsList</definition>
+        <argsstring></argsstring>
+        <name>configItemsList</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" line="24" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="de/d42/classbatchxslt_1_1processor_1_1_config_parser_1a745f2e03e5bc801d7e0b9ed6aa2f0f5c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>batchxslt.processor.ConfigParser::globals</definition>
+        <argsstring></argsstring>
+        <name>globals</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" line="25" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="de/d42/classbatchxslt_1_1processor_1_1_config_parser_1aede8c0123de49a137e9fe93010c01f1d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>batchxslt.processor.ConfigParser::speaker</definition>
+        <argsstring></argsstring>
+        <name>speaker</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" line="26" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="de/d42/classbatchxslt_1_1processor_1_1_config_parser_1a6cb407c9623a9dd4d99dda4f4cf34ed1" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>batchxslt.processor.ConfigParser::event</definition>
+        <argsstring></argsstring>
+        <name>event</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" line="27" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="de/d42/classbatchxslt_1_1processor_1_1_config_parser_1aa9a03f79a87eba74dd69b7dca7f458f7" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>batchxslt.processor.ConfigParser::corpus</definition>
+        <argsstring></argsstring>
+        <name>corpus</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" line="28" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="de/d42/classbatchxslt_1_1processor_1_1_config_parser_1a7fb0c145c83583d9b32be29bf049c8a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def batchxslt.processor.ConfigParser.__init__</definition>
+        <argsstring>(self, configfile)</argsstring>
+        <name>__init__</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="de/d42/classbatchxslt_1_1processor_1_1_config_parser_1a98c0047e4a75ef19343b92fbdd27a17c" kindref="member">configfile</ref></type>
+          <defname>configfile</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>:param configfile
+:return
+</verbatim> </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" line="17" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" bodystart="17" bodyend="41"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Simple configuration file parser. template for further extensions.
+Parses config.xml in main module directory. How to use config.xml
+see README.md
+</verbatim> </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="37">
+        <label>object</label>
+      </node>
+      <node id="36">
+        <label>batchxslt.processor.ConfigParser</label>
+        <link refid="de/d42/classbatchxslt_1_1processor_1_1_config_parser"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="39">
+        <label>object</label>
+      </node>
+      <node id="38">
+        <label>batchxslt.processor.ConfigParser</label>
+        <link refid="de/d42/classbatchxslt_1_1processor_1_1_config_parser"/>
+        <childnode refid="39" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" line="10" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" bodystart="10" bodyend="42"/>
+    <listofallmembers>
+      <member refid="de/d42/classbatchxslt_1_1processor_1_1_config_parser_1a7fb0c145c83583d9b32be29bf049c8a8" prot="public" virt="non-virtual"><scope>batchxslt::processor::ConfigParser</scope><name>__init__</name></member>
+      <member refid="de/d42/classbatchxslt_1_1processor_1_1_config_parser_1a98c0047e4a75ef19343b92fbdd27a17c" prot="public" virt="non-virtual"><scope>batchxslt::processor::ConfigParser</scope><name>configfile</name></member>
+      <member refid="de/d42/classbatchxslt_1_1processor_1_1_config_parser_1a14befbc0fbb1225002569ddfce63d583" prot="public" virt="non-virtual"><scope>batchxslt::processor::ConfigParser</scope><name>configItemsList</name></member>
+      <member refid="de/d42/classbatchxslt_1_1processor_1_1_config_parser_1aa9a03f79a87eba74dd69b7dca7f458f7" prot="public" virt="non-virtual"><scope>batchxslt::processor::ConfigParser</scope><name>corpus</name></member>
+      <member refid="de/d42/classbatchxslt_1_1processor_1_1_config_parser_1a6cb407c9623a9dd4d99dda4f4cf34ed1" prot="public" virt="non-virtual"><scope>batchxslt::processor::ConfigParser</scope><name>event</name></member>
+      <member refid="de/d42/classbatchxslt_1_1processor_1_1_config_parser_1a745f2e03e5bc801d7e0b9ed6aa2f0f5c" prot="public" virt="non-virtual"><scope>batchxslt::processor::ConfigParser</scope><name>globals</name></member>
+      <member refid="de/d42/classbatchxslt_1_1processor_1_1_config_parser_1aeb567c2af7ed7f776ea37ed2362cf8e6" prot="public" virt="non-virtual"><scope>batchxslt::processor::ConfigParser</scope><name>root</name></member>
+      <member refid="de/d42/classbatchxslt_1_1processor_1_1_config_parser_1aede8c0123de49a137e9fe93010c01f1d" prot="public" virt="non-virtual"><scope>batchxslt::processor::ConfigParser</scope><name>speaker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

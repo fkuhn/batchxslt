@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.9.1">
+  <compounddef id="d3/d9e/dgdstart_8py" kind="file" language="Python">
+    <compoundname>dgdstart.py</compoundname>
+    <innernamespace refid="d5/dc8/namespacebatchxslt_1_1dgdstart">batchxslt::dgdstart</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="d5/dc8/namespacebatchxslt_1_1dgdstart" refkind="compound"><highlight class="normal">__author__<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;kuhn&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal">__doc__<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;starts<sp/>transformation<sp/>with<sp/>dgd<sp/>configuration&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sys</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>processor</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>logging</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>optparse<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>OptionParser</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>primarylink</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>__name__<sp/>==<sp/></highlight><highlight class="stringliteral">&apos;__main__&apos;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>logging.basicConfig(level=&quot;info&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>read<sp/>the<sp/>configuration<sp/>file<sp/>from<sp/>command<sp/>line</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>TODO:<sp/>define<sp/>options</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>optionparse<sp/>=<sp/>OptionParser()</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>configuration<sp/>=<sp/><ref refid="de/d42/classbatchxslt_1_1processor_1_1_config_parser" kindref="compound">processor.ConfigParser</ref>(sys.argv[1])</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>IndexError:</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>logging.error(</highlight><highlight class="stringliteral">&quot;No<sp/>configuration<sp/>file<sp/>given.<sp/>Aborting&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>sys.exit()</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>IOError:</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>logging.error(</highlight><highlight class="stringliteral">&quot;configuration<sp/>File&quot;</highlight><highlight class="normal"><sp/>+<sp/>sys.argv[1]<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>not<sp/>found.&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>sys.exit()</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">#<sp/>TODO:<sp/>use<sp/>a<sp/>better<sp/>option<sp/>handling.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">#<sp/>set<sp/>the<sp/>xslt<sp/>processor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal">proc<sp/>=<sp/><ref refid="dd/d23/classbatchxslt_1_1processor_1_1_x_s_l_batch_processor" kindref="compound">processor.XSLBatchProcessor</ref>(</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>configuration.globals.get(</highlight><highlight class="stringliteral">&quot;processor&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">#<sp/>start<sp/>the<sp/>processor<sp/>for<sp/>corpus,<sp/>event<sp/>and<sp/>speaker</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keywordflow">print</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;starting<sp/>corpus<sp/>transformations&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal">proc.start(configuration.corpus.get(</highlight><highlight class="stringliteral">&quot;stylesheet&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>configuration.corpus.get(</highlight><highlight class="stringliteral">&quot;indirectory&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>configuration.corpus.get(</highlight><highlight class="stringliteral">&quot;prefix&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>configuration.corpus.get(</highlight><highlight class="stringliteral">&quot;outdirectory&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keywordflow">print</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;starting<sp/>event<sp/>transformations&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal">proc.start(configuration.event.get(</highlight><highlight class="stringliteral">&quot;stylesheet&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>configuration.event.get(</highlight><highlight class="stringliteral">&quot;indirectory&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>configuration.event.get(</highlight><highlight class="stringliteral">&quot;prefix&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>configuration.event.get(</highlight><highlight class="stringliteral">&quot;outdirectory&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keywordflow">print</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;starting<sp/>speaker<sp/>transformation&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal">proc.start(configuration.speaker.get(</highlight><highlight class="stringliteral">&quot;stylesheet&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>configuration.speaker.get(</highlight><highlight class="stringliteral">&quot;indirectory&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>configuration.speaker.get(</highlight><highlight class="stringliteral">&quot;prefix&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>configuration.speaker.get(</highlight><highlight class="stringliteral">&quot;outdirectory&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keywordflow">print</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;finished<sp/>tranformations&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal">primdat<sp/>=<sp/><ref refid="da/d8e/classbatchxslt_1_1primarylink_1_1_primary_data_path" kindref="compound">primarylink.PrimaryDataPath</ref>(</highlight><highlight class="stringliteral">&apos;/data/primarypath.csv&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/dgdstart.py"/>
+  </compounddef>
+</doxygen>

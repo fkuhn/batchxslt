@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.9.1">
+  <compounddef id="d1/d57/primarylink_8py" kind="file" language="Python">
+    <compoundname>primarylink.py</compoundname>
+    <innerclass refid="da/d8e/classbatchxslt_1_1primarylink_1_1_primary_data_path" prot="public">batchxslt::primarylink::PrimaryDataPath</innerclass>
+    <innerclass refid="db/dc4/classbatchxslt_1_1primarylink_1_1_transcript_linker" prot="public">batchxslt::primarylink::TranscriptLinker</innerclass>
+    <innerclass refid="d1/d1a/classbatchxslt_1_1primarylink_1_1_audio_linker" prot="public">batchxslt::primarylink::AudioLinker</innerclass>
+    <innerclass refid="d1/daa/classbatchxslt_1_1primarylink_1_1_video_linker" prot="public">batchxslt::primarylink::VideoLinker</innerclass>
+    <innernamespace refid="db/d42/namespacebatchxslt_1_1primarylink">batchxslt::primarylink</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="db/d42/namespacebatchxslt_1_1primarylink" refkind="compound"><highlight class="normal">__author__<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;kuhn&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal">__doc__<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;link<sp/>the<sp/>cmdi<sp/>resources<sp/>by<sp/>writing<sp/>resource<sp/>proxy<sp/>elements<sp/>and<sp/>href<sp/>attributes&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>collections<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>OrderedDict</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>lxml<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>etree</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>logging</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>numpy</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>os</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11" refid="da/d8e/classbatchxslt_1_1primarylink_1_1_primary_data_path" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="da/d8e/classbatchxslt_1_1primarylink_1_1_primary_data_path" kindref="compound">PrimaryDataPath</ref>(dict):</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="13"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="14"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="da/d8e/classbatchxslt_1_1primarylink_1_1_primary_data_path_1a06bc8d1c49fb2b4c2282a17f8a5e0ec6" kindref="member">__init__</ref>(self,<sp/>csvfile):</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>super(PrimaryDataPath,<sp/>self).<ref refid="da/d8e/classbatchxslt_1_1primarylink_1_1_primary_data_path_1a06bc8d1c49fb2b4c2282a17f8a5e0ec6" kindref="member">__init__</ref>()</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>key_value<sp/>=<sp/>numpy.loadtxt(csvfile,<sp/>dtype=</highlight><highlight class="stringliteral">&apos;string&apos;</highlight><highlight class="normal">,<sp/>delimiter=</highlight><highlight class="stringliteral">&quot;;&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.update({k:<sp/>v<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>k,<sp/>v<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>key_value})</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="db/dc4/classbatchxslt_1_1primarylink_1_1_transcript_linker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="db/dc4/classbatchxslt_1_1primarylink_1_1_transcript_linker" kindref="compound">TranscriptLinker</ref>(OrderedDict):</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Resource<sp/>Linker<sp/>takes<sp/>a<sp/>path<sp/>that<sp/>acts<sp/>as<sp/>root<sp/>and<sp/>writes<sp/>their</highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>associated<sp/>Transcript<sp/>file<sp/>paths<sp/>to<sp/>orresponding<sp/>href</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>element<sp/>attributes.</highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="db/dc4/classbatchxslt_1_1primarylink_1_1_transcript_linker_1a2f9290a0bc3aeac2062d25bf52b0dd3e" kindref="member">__init__</ref>(self,<sp/>transcriptroot):</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>super(TranscriptLinker,<sp/>self).<ref refid="db/dc4/classbatchxslt_1_1primarylink_1_1_transcript_linker_1a2f9290a0bc3aeac2062d25bf52b0dd3e" kindref="member">__init__</ref>()</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="db/dc4/classbatchxslt_1_1primarylink_1_1_transcript_linker_1aa08e8309063c4dff1ce73fed8355bc89" kindref="member">transcriptroot</ref><sp/>=<sp/>transcriptroot</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="db/dc4/classbatchxslt_1_1primarylink_1_1_transcript_linker_1ad8c70721a023475e881212df9c388b1f" kindref="member">corpusnames</ref><sp/>=<sp/>os.listdir(self.<ref refid="db/dc4/classbatchxslt_1_1primarylink_1_1_transcript_linker_1aa08e8309063c4dff1ce73fed8355bc89" kindref="member">transcriptroot</ref>)</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>corpusname<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>self.<ref refid="db/dc4/classbatchxslt_1_1primarylink_1_1_transcript_linker_1ad8c70721a023475e881212df9c388b1f" kindref="member">corpusnames</ref>:</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.update({corpusname:<sp/>self.<ref refid="db/dc4/classbatchxslt_1_1primarylink_1_1_transcript_linker_1a1ecbe9fc99368ba988a385d15bd607de" kindref="member">get_transscripts</ref>(corpusname)})</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">pass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="db/dc4/classbatchxslt_1_1primarylink_1_1_transcript_linker_1a1ecbe9fc99368ba988a385d15bd607de" kindref="member">get_transscripts</ref>(self,<sp/>corpusname):</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>a<sp/>corpus<sp/>abbreviation<sp/>string.</highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:return<sp/>a<sp/>dict<sp/>of<sp/>filename<sp/>to<sp/>href-paths</highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>transcripts<sp/>=<sp/>os.listdir(self.<ref refid="db/dc4/classbatchxslt_1_1primarylink_1_1_transcript_linker_1aa08e8309063c4dff1ce73fed8355bc89" kindref="member">transcriptroot</ref>+</highlight><highlight class="stringliteral">&apos;/&apos;</highlight><highlight class="normal">+corpusname)</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>transcriptnames<sp/>=<sp/>dict()</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>transcript<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>transcripts:</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>transcriptnames.update({transcript:</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="db/dc4/classbatchxslt_1_1primarylink_1_1_transcript_linker_1aa08e8309063c4dff1ce73fed8355bc89" kindref="member">transcriptroot</ref>+</highlight><highlight class="stringliteral">&apos;/&apos;</highlight><highlight class="normal">+corpusname+</highlight><highlight class="stringliteral">&apos;/&apos;</highlight><highlight class="normal">+transcript})</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>transcriptnames</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="d1/d1a/classbatchxslt_1_1primarylink_1_1_audio_linker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="d1/d1a/classbatchxslt_1_1primarylink_1_1_audio_linker" kindref="compound">AudioLinker</ref>(object):</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="52"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Audio<sp/>Linker<sp/>takes<sp/>a<sp/>path<sp/>that<sp/>acts<sp/>as<sp/>root<sp/>and<sp/>writes</highlight></codeline>
+<codeline lineno="53"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>a<sp/>valid<sp/>href<sp/>to<sp/>their<sp/>associated<sp/>metadata.</highlight></codeline>
+<codeline lineno="54"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="d1/daa/classbatchxslt_1_1primarylink_1_1_video_linker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">VideoLinker(object):</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="59"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Media<sp/>Linker<sp/>takes<sp/>a<sp/>path<sp/>that<sp/>acts<sp/>as<sp/>root<sp/>and<sp/>writes</highlight></codeline>
+<codeline lineno="60"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>their<sp/>associated<sp/>metadata.</highlight></codeline>
+<codeline lineno="61"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="d1/daa/classbatchxslt_1_1primarylink_1_1_video_linker_1abaa9c1a4ed457bf9ed577d8cb4e406bf" kindref="member">__init__</ref>(self,<sp/>mediaroot):</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.mediaroot<sp/>=<sp/>mediaroot</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/primarylink.py"/>
+  </compounddef>
+</doxygen>

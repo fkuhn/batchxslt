@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.9.1">
+  <compounddef id="d0/dea/namespacebatchxslt" kind="namespace" language="Python">
+    <compoundname>batchxslt</compoundname>
+    <innernamespace refid="d4/db4/namespacebatchxslt_1_1cmdiresource">batchxslt::cmdiresource</innernamespace>
+    <innernamespace refid="d3/d64/namespacebatchxslt_1_1dgdsinglestart">batchxslt::dgdsinglestart</innernamespace>
+    <innernamespace refid="d5/dc8/namespacebatchxslt_1_1dgdstart">batchxslt::dgdstart</innernamespace>
+    <innernamespace refid="d4/de2/namespacebatchxslt_1_1postprocessing">batchxslt::postprocessing</innernamespace>
+    <innernamespace refid="db/d42/namespacebatchxslt_1_1primarylink">batchxslt::primarylink</innernamespace>
+    <innernamespace refid="d4/d49/namespacebatchxslt_1_1processor">batchxslt::processor</innernamespace>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="d0/dea/namespacebatchxslt_1acf44ae090fc4a15605fda5e9d62af19d" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string batchxslt.__author__</definition>
+        <argsstring></argsstring>
+        <name>__author__</name>
+        <initializer>= &quot;fkuhn&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/__init__.py" line="2" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/__init__.py" bodystart="2" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d0/dea/namespacebatchxslt_1a29a9874aaaf5252371f8b4ef7f7f0562" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string batchxslt.__doc__</definition>
+        <argsstring></argsstring>
+        <name>__doc__</name>
+        <initializer>= &quot;batchxslt 0.1 Refer to /doc for a tutorial.&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/__init__.py" line="3" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/__init__.py" bodystart="3" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="d0/dea/namespacebatchxslt_1ad38cc6da293934d81aa5c1a1880686a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def batchxslt.main</definition>
+        <argsstring>()</argsstring>
+        <name>main</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>console entry point
+</verbatim> </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/__init__.py" line="10" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/__init__.py" bodystart="10" bodyend="26"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/__init__.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

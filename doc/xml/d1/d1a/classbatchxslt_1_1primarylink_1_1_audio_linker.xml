@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.9.1">
+  <compounddef id="d1/d1a/classbatchxslt_1_1primarylink_1_1_audio_linker" kind="class" language="Python" prot="public">
+    <compoundname>batchxslt::primarylink::AudioLinker</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">object</basecompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Audio Linker takes a path that acts as root and writes
+a valid href to their associated metadata.
+</verbatim> </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="33">
+        <label>object</label>
+      </node>
+      <node id="32">
+        <label>batchxslt.primarylink.AudioLinker</label>
+        <link refid="d1/d1a/classbatchxslt_1_1primarylink_1_1_audio_linker"/>
+        <childnode refid="33" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="35">
+        <label>object</label>
+      </node>
+      <node id="34">
+        <label>batchxslt.primarylink.AudioLinker</label>
+        <link refid="d1/d1a/classbatchxslt_1_1primarylink_1_1_audio_linker"/>
+        <childnode refid="35" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/primarylink.py" line="50" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/primarylink.py" bodystart="50" bodyend="57"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

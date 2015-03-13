@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.9.1">
+  <compounddef id="d6/d3a/classbatchxslt_1_1postprocessing_1_1_post_processor" kind="class" language="Python" prot="public">
+    <compoundname>batchxslt::postprocessing::PostProcessor</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">object</basecompoundref>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="d6/d3a/classbatchxslt_1_1postprocessing_1_1_post_processor_1a631194e2a0c204ff4a66784c218c76e6" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>batchxslt.postprocessing.PostProcessor::__notfiled</definition>
+        <argsstring></argsstring>
+        <name>__notfiled</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/postprocessing.py" line="20" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/postprocessing.py" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d6/d3a/classbatchxslt_1_1postprocessing_1_1_post_processor_1a34c965f23398661040fdf69beb39ee28" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>batchxslt.postprocessing.PostProcessor::__nonvalue</definition>
+        <argsstring></argsstring>
+        <name>__nonvalue</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/postprocessing.py" line="23" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/postprocessing.py" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d6/d3a/classbatchxslt_1_1postprocessing_1_1_post_processor_1a1c320ce7f25bf2690821edbbe70c0096" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>batchxslt.postprocessing.PostProcessor::__outputpath</definition>
+        <argsstring></argsstring>
+        <name>__outputpath</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/postprocessing.py" line="25" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/postprocessing.py" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="d6/d3a/classbatchxslt_1_1postprocessing_1_1_post_processor_1ad58ff32843bafe5528b7c55c3e5f4905" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def batchxslt.postprocessing.PostProcessor.__init__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__init__</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>:return:
+</verbatim> </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/postprocessing.py" line="14" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/postprocessing.py" bodystart="14" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="d6/d3a/classbatchxslt_1_1postprocessing_1_1_post_processor_1a3dae534d1ea47e1102225c089945c737" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def batchxslt.postprocessing.PostProcessor.replace_nonvalues</definition>
+        <argsstring>(self, filename)</argsstring>
+        <name>replace_nonvalues</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>filename</type>
+          <defname>filename</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>takes a filename or foldername and
+replaces all german generic text nonvalue-strings with more
+international
+ones
+:param filename: string
+:return:
+</verbatim> </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/postprocessing.py" line="27" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/postprocessing.py" bodystart="27" bodyend="45"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="d6/d3a/classbatchxslt_1_1postprocessing_1_1_post_processor_1a9e787801ddf2b10adeba68828e86c394" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def batchxslt.postprocessing.PostProcessor.__rplace_nv</definition>
+        <argsstring>(self, etreeobj, fname)</argsstring>
+        <name>__rplace_nv</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>etreeobj</type>
+          <defname>etreeobj</defname>
+        </param>
+        <param>
+          <type>fname</type>
+          <defname>fname</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>:param etreeobj, fname:
+:return:
+</verbatim> </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/postprocessing.py" line="46" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/postprocessing.py" bodystart="46" bodyend="67"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>post processing tasks for each metafile type
+</verbatim> </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="40">
+        <label>batchxslt.postprocessing.PostProcessor</label>
+        <link refid="d6/d3a/classbatchxslt_1_1postprocessing_1_1_post_processor"/>
+        <childnode refid="41" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="41">
+        <label>object</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="42">
+        <label>batchxslt.postprocessing.PostProcessor</label>
+        <link refid="d6/d3a/classbatchxslt_1_1postprocessing_1_1_post_processor"/>
+        <childnode refid="43" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="43">
+        <label>object</label>
+      </node>
+    </collaborationgraph>
+    <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/postprocessing.py" line="9" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/postprocessing.py" bodystart="9" bodyend="67"/>
+    <listofallmembers>
+      <member refid="d6/d3a/classbatchxslt_1_1postprocessing_1_1_post_processor_1ad58ff32843bafe5528b7c55c3e5f4905" prot="public" virt="non-virtual"><scope>batchxslt::postprocessing::PostProcessor</scope><name>__init__</name></member>
+      <member refid="d6/d3a/classbatchxslt_1_1postprocessing_1_1_post_processor_1a34c965f23398661040fdf69beb39ee28" prot="private" virt="non-virtual"><scope>batchxslt::postprocessing::PostProcessor</scope><name>__nonvalue</name></member>
+      <member refid="d6/d3a/classbatchxslt_1_1postprocessing_1_1_post_processor_1a631194e2a0c204ff4a66784c218c76e6" prot="private" virt="non-virtual"><scope>batchxslt::postprocessing::PostProcessor</scope><name>__notfiled</name></member>
+      <member refid="d6/d3a/classbatchxslt_1_1postprocessing_1_1_post_processor_1a1c320ce7f25bf2690821edbbe70c0096" prot="private" virt="non-virtual"><scope>batchxslt::postprocessing::PostProcessor</scope><name>__outputpath</name></member>
+      <member refid="d6/d3a/classbatchxslt_1_1postprocessing_1_1_post_processor_1a9e787801ddf2b10adeba68828e86c394" prot="private" virt="non-virtual"><scope>batchxslt::postprocessing::PostProcessor</scope><name>__rplace_nv</name></member>
+      <member refid="d6/d3a/classbatchxslt_1_1postprocessing_1_1_post_processor_1a3dae534d1ea47e1102225c089945c737" prot="public" virt="non-virtual"><scope>batchxslt::postprocessing::PostProcessor</scope><name>replace_nonvalues</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

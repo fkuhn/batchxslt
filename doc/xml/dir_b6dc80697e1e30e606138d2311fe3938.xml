@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.9.1">
+  <compounddef id="dir_b6dc80697e1e30e606138d2311fe3938" kind="dir">
+    <compoundname>src/batchxslt</compoundname>
+    <innerfile refid="d3/d9a/____init_____8py">__init__.py</innerfile>
+    <innerfile refid="dc/dd2/cmdiresource_8py">cmdiresource.py</innerfile>
+    <innerfile refid="dc/d43/dgdsinglestart_8py">dgdsinglestart.py</innerfile>
+    <innerfile refid="d3/d9e/dgdstart_8py">dgdstart.py</innerfile>
+    <innerfile refid="d6/d2a/postprocessing_8py">postprocessing.py</innerfile>
+    <innerfile refid="d1/d57/primarylink_8py">primarylink.py</innerfile>
+    <innerfile refid="d3/d55/processor_8py">processor.py</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/"/>
+  </compounddef>
+</doxygen>

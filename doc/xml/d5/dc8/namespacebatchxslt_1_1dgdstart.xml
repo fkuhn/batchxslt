@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.9.1">
+  <compounddef id="d5/dc8/namespacebatchxslt_1_1dgdstart" kind="namespace" language="Python">
+    <compoundname>batchxslt::dgdstart</compoundname>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="d5/dc8/namespacebatchxslt_1_1dgdstart_1afb7f8d3c40082d277c1d6261f92e4902" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string batchxslt::dgdstart.__author__</definition>
+        <argsstring></argsstring>
+        <name>__author__</name>
+        <initializer>= &apos;kuhn&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/dgdstart.py" line="1" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/dgdstart.py" bodystart="1" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d5/dc8/namespacebatchxslt_1_1dgdstart_1aa8f35e0a923480eaab98e43f2cf57ea0" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string batchxslt::dgdstart.__doc__</definition>
+        <argsstring></argsstring>
+        <name>__doc__</name>
+        <initializer>= &quot;starts transformation with dgd <ref refid="d5/dc8/namespacebatchxslt_1_1dgdstart_1ae6be486e81d6e57d3022155e412359f2" kindref="member">configuration</ref>&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/dgdstart.py" line="2" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/dgdstart.py" bodystart="2" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d5/dc8/namespacebatchxslt_1_1dgdstart_1a44ebd956e1c7db721b0536ccd3532068" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple batchxslt::dgdstart.optionparse</definition>
+        <argsstring></argsstring>
+        <name>optionparse</name>
+        <initializer>= OptionParser()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/dgdstart.py" line="15" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/dgdstart.py" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d5/dc8/namespacebatchxslt_1_1dgdstart_1ae6be486e81d6e57d3022155e412359f2" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple batchxslt::dgdstart.configuration</definition>
+        <argsstring></argsstring>
+        <name>configuration</name>
+        <initializer>= <ref refid="de/d42/classbatchxslt_1_1processor_1_1_config_parser" kindref="compound">processor.ConfigParser</ref>(sys.argv[1])</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/dgdstart.py" line="18" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/dgdstart.py" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d5/dc8/namespacebatchxslt_1_1dgdstart_1ab27d760c7fa3cb3833b6993c821ce2d8" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple batchxslt::dgdstart.proc</definition>
+        <argsstring></argsstring>
+        <name>proc</name>
+        <initializer>= <ref refid="dd/d23/classbatchxslt_1_1processor_1_1_x_s_l_batch_processor" kindref="compound">processor.XSLBatchProcessor</ref>(
+    configuration.globals.get(&quot;processor&quot;))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/dgdstart.py" line="29" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/dgdstart.py" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d5/dc8/namespacebatchxslt_1_1dgdstart_1a79662ea2cdd3dd916d9d7fa95876c1ae" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple batchxslt::dgdstart.primdat</definition>
+        <argsstring></argsstring>
+        <name>primdat</name>
+        <initializer>= <ref refid="da/d8e/classbatchxslt_1_1primarylink_1_1_primary_data_path" kindref="compound">primarylink.PrimaryDataPath</ref>(&apos;/data/primarypath.csv&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/dgdstart.py" line="51" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/dgdstart.py" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/dgdstart.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.9.1">
+  <compounddef id="d4/db4/namespacebatchxslt_1_1cmdiresource" kind="namespace" language="Python">
+    <compoundname>batchxslt::cmdiresource</compoundname>
+    <innerclass refid="df/d0f/classbatchxslt_1_1cmdiresource_1_1_resource_tree_collection" prot="public">batchxslt::cmdiresource::ResourceTreeCollection</innerclass>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="d4/db4/namespacebatchxslt_1_1cmdiresource_1a3db22ac28c595bb815ea1f0059f778cc" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string batchxslt::cmdiresource.__author__</definition>
+        <argsstring></argsstring>
+        <name>__author__</name>
+        <initializer>= &apos;kuhn&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/cmdiresource.py" line="1" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/cmdiresource.py" bodystart="1" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d4/db4/namespacebatchxslt_1_1cmdiresource_1a545fd40ddfc73856f5b84e69f214d74b" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string batchxslt::cmdiresource.DGDROOT</definition>
+        <argsstring></argsstring>
+        <name>DGDROOT</name>
+        <initializer>= &quot;dgd2_data&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/cmdiresource.py" line="9" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/cmdiresource.py" bodystart="9" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d4/db4/namespacebatchxslt_1_1cmdiresource_1a0bb689afce27aa1d1e418d3c25b00378" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string batchxslt::cmdiresource.SPEAKERXPATH</definition>
+        <argsstring></argsstring>
+        <name>SPEAKERXPATH</name>
+        <initializer>= &quot;//InEvent/Event&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/cmdiresource.py" line="10" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/cmdiresource.py" bodystart="10" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/cmdiresource.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

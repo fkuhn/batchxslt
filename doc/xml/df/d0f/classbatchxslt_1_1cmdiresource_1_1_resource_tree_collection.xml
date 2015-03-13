@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.9.1">
+  <compounddef id="df/d0f/classbatchxslt_1_1cmdiresource_1_1_resource_tree_collection" kind="class" language="Python" prot="public">
+    <compoundname>batchxslt::cmdiresource::ResourceTreeCollection</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">DiGraph</basecompoundref>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="df/d0f/classbatchxslt_1_1cmdiresource_1_1_resource_tree_collection_1a0233144a0c6519599b43b40a12d9ea35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def batchxslt.cmdiresource.ResourceTreeCollection.__init__</definition>
+        <argsstring>(self, corpuspath, eventspath, speakerspath)</argsstring>
+        <name>__init__</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>corpuspath</type>
+          <defname>corpuspath</defname>
+        </param>
+        <param>
+          <type>eventspath</type>
+          <defname>eventspath</defname>
+        </param>
+        <param>
+          <type>speakerspath</type>
+          <defname>speakerspath</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/cmdiresource.py" line="25" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/cmdiresource.py" bodystart="25" bodyend="121"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="df/d0f/classbatchxslt_1_1cmdiresource_1_1_resource_tree_collection_1a56f3a1eca349d53c915c22fb119f0728" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def batchxslt.cmdiresource.ResourceTreeCollection.contextpath</definition>
+        <argsstring>(fname, startpath)</argsstring>
+        <name>contextpath</name>
+        <param>
+          <type>fname</type>
+          <defname>fname</defname>
+        </param>
+        <param>
+          <type>startpath</type>
+          <defname>startpath</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>find the path from a startpath to a given file</verbatim> </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/cmdiresource.py" line="123" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/cmdiresource.py" bodystart="123" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="df/d0f/classbatchxslt_1_1cmdiresource_1_1_resource_tree_collection_1a2c66ca064180f421585f89a89770f222" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def batchxslt.cmdiresource.ResourceTreeCollection.findevents</definition>
+        <argsstring>(speakernode)</argsstring>
+        <name>findevents</name>
+        <param>
+          <type>speakernode</type>
+          <defname>speakernode</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>:param speakernode
+:return list of event labels
+searches for events a speaker takes part in by looking up the
+metadata itself
+</verbatim> </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/cmdiresource.py" line="133" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/cmdiresource.py" bodystart="133" bodyend="150"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>represent resources in a tree structure. all involved paths
+The resurce collection is a Digraph representation of all data.
+each data is a node that holds a dict defining their attributes:
+
+repopath : &lt;path locates the metadata file in the dgd repository scopus&gt;
+corpusroot : &lt;boolean. is the file a corpus catalogue or not?&gt;
+
+input data paths must be pointed towards already cmdi transformed data.
+</verbatim> </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="48">
+        <label>batchxslt.cmdiresource.ResourceTreeCollection</label>
+        <link refid="df/d0f/classbatchxslt_1_1cmdiresource_1_1_resource_tree_collection"/>
+        <childnode refid="49" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="49">
+        <label>networkx::DiGraph</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="50">
+        <label>batchxslt.cmdiresource.ResourceTreeCollection</label>
+        <link refid="df/d0f/classbatchxslt_1_1cmdiresource_1_1_resource_tree_collection"/>
+        <childnode refid="51" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="51">
+        <label>networkx::DiGraph</label>
+      </node>
+    </collaborationgraph>
+    <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/cmdiresource.py" line="13" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/cmdiresource.py" bodystart="13" bodyend="150"/>
+    <listofallmembers>
+      <member refid="df/d0f/classbatchxslt_1_1cmdiresource_1_1_resource_tree_collection_1a0233144a0c6519599b43b40a12d9ea35" prot="public" virt="non-virtual"><scope>batchxslt::cmdiresource::ResourceTreeCollection</scope><name>__init__</name></member>
+      <member refid="df/d0f/classbatchxslt_1_1cmdiresource_1_1_resource_tree_collection_1a56f3a1eca349d53c915c22fb119f0728" prot="public" virt="non-virtual"><scope>batchxslt::cmdiresource::ResourceTreeCollection</scope><name>contextpath</name></member>
+      <member refid="df/d0f/classbatchxslt_1_1cmdiresource_1_1_resource_tree_collection_1a2c66ca064180f421585f89a89770f222" prot="public" virt="non-virtual"><scope>batchxslt::cmdiresource::ResourceTreeCollection</scope><name>findevents</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

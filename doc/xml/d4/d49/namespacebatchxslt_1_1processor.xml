@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.9.1">
+  <compounddef id="d4/d49/namespacebatchxslt_1_1processor" kind="namespace" language="Python">
+    <compoundname>batchxslt::processor</compoundname>
+    <innerclass refid="de/d42/classbatchxslt_1_1processor_1_1_config_parser" prot="public">batchxslt::processor::ConfigParser</innerclass>
+    <innerclass refid="dd/d23/classbatchxslt_1_1processor_1_1_x_s_l_batch_processor" prot="public">batchxslt::processor::XSLBatchProcessor</innerclass>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="d4/d49/namespacebatchxslt_1_1processor_1a4158fea92c844d042fbdba51228fad6a" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string batchxslt::processor.__author__</definition>
+        <argsstring></argsstring>
+        <name>__author__</name>
+        <initializer>= &apos;kuhn&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" line="1" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" bodystart="1" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="d4/d49/namespacebatchxslt_1_1processor_1ad92d28e39ae8cc54cc5e25c98cb3136e" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string batchxslt::processor.__doc__</definition>
+        <argsstring></argsstring>
+        <name>__doc__</name>
+        <initializer>= &apos;Resource Parser and XLST Processor class definitions.&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" line="2" column="1" bodyfile="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" bodystart="2" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/kuhn/Data/GitHub/batchxslt/src/batchxslt/processor.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>
