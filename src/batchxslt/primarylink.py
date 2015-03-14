@@ -20,32 +20,41 @@ class PrimaryDataPath(dict):
 
 class TranscriptLinker(OrderedDict):
     """
-    Resource Linker takes a path that acts as root and writes their
+    Transcript Linker takes a path that acts as root and writes their
     associated Transcript file paths to orresponding href
     element attributes.
     """
-    def __init__(self, transcriptroot):
+
+    def __init__(self, transcriptroot, href_prefix):
         super(TranscriptLinker, self).__init__()
+
+        logging.basicConfig(level=logging.INFO)
 
         self.transcriptroot = transcriptroot
         self.corpusnames = os.listdir(self.transcriptroot)
+        self.href_prefix = href_prefix
 
         for corpusname in self.corpusnames:
-            # TODO: dict of corpusnames to dict of transcriptnames to href-paths
+            logging.info('reading ' + corpusname)
             self.update({corpusname: self.get_transscripts(corpusname)})
             pass
 
     def get_transscripts(self, corpusname):
         """
-        :param a corpus abbreviation string.
-        :return a dict of filename to href-paths
+
+        :param corpusname
+        :return transcriptnames
         """
+        # TODO: Path of trancript is not yet absolute
         transcripts = os.listdir(self.transcriptroot+'/'+corpusname)
         transcriptnames = dict()
         for transcript in transcripts:
             transcriptnames.update({transcript:
-                                    self.transcriptroot+'/'+corpusname+'/'+transcript})
+                                    self.href_prefix + '/' +
+                                    self.transcriptroot + '/' +
+                                    corpusname+'/'+transcript})
         return transcriptnames
+
 
 class AudioLinker(object):
     """
