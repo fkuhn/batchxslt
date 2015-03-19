@@ -2,6 +2,7 @@ __author__ = 'kuhn'
 __doc__ = "starts transformation with dgd configuration"
 
 import sys
+import os
 import processor
 import logging
 from optparse import OptionParser
@@ -50,6 +51,10 @@ print "finished tranformations"
 
 primdat = primarylink.PrimaryDataPath('/data/primarypath.csv')
 
+
+# insert Resources element to cmdi files
+for cmdifile in os.listdir(configuration.corpus.get("outdirectory")):
+    pass
 
 
 
