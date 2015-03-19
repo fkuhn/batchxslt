@@ -158,10 +158,6 @@ class ResourceTreeCollection(networkx.DiGraph):
         """
         pass
 
-
-
-        resourceproxies.insert(resourceproxy)
-
     @staticmethod
     def contextpath(fname, startpath):
         # FIXME: method always returns None.
