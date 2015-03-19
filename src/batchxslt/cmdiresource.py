@@ -6,9 +6,11 @@ import logging
 import os
 from lxml import etree
 
+# TODO: define paths in csv files
 DGDROOT = "dgd2_data"
+RESOURCEPROXIES = "ResourceProxyList"
 SPEAKERXPATH = "//InEvent/Event"
-
+RESOURCEPATH = "dgd2_data/dgd2cmdi/cmdiOutput/"
 
 class ResourceTreeCollection(networkx.DiGraph):
     """
@@ -122,6 +124,31 @@ class ResourceTreeCollection(networkx.DiGraph):
                     for event in speakerevents:
                         self.add_edge(event, speakernodename)
 
+    def define_resourceproxy(self, metafilenode):
+        """
+        defines the ResourceProxies for all Resources referred via edges
+        :param metafilenode:
+        :return:
+        """
+
+        cmdi_etrobj = metafilenode.node.get("etreeobject")
+        cmdiroot = cmdi_etrobj.getroot()
+        resourceproxies = cmdiroot.find(RESOURCEPROXIES)
+
+        out_edges = self.out_edges(metafilenode)
+        for edge in out_edges:
+            # where is the edge pointed to?
+            node = edge[1]
+            # access the filename
+            node_fname = self.node.get(node).get("filename")
+            resourceproxy = etree.Element("ResourceProxy")
+            resourceproxy.text = node_fname
+            resourceproxy.set("href", node_fname)
+
+            # insert new resourceproxyelement in list
+            resourceproxies.append(resourceproxy)
+
+
     def insert_resources2cmdi(self, cmdifile):
         """
         inserts the Resources Elements and all Subelments (e.g.
@@ -129,6 +156,11 @@ class ResourceTreeCollection(networkx.DiGraph):
         :param cmdifile:
         :return: modified cmdifile
         """
+        pass
+
+
+
+        resourceproxies.insert(resourceproxy)
 
     @staticmethod
     def contextpath(fname, startpath):

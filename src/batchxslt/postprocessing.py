@@ -6,7 +6,7 @@ import codecs
 from lxml import etree
 
 
-class PostProcessor(object):
+class ValueProcessing(object):
     """
     post processing tasks for each metafile type
     """
@@ -44,7 +44,6 @@ class PostProcessor(object):
 
     def __rplace_nv(self, etreeobj, fname):
         """
-
         :param etreeobj, fname:
         :return:
         """
