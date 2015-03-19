@@ -50,21 +50,22 @@ class ResourceTreeCollection(networkx.DiGraph):
             # and define a node for each.
             try:
                 etr = etree.parse(corpuspath+'/'+corpus)
+
             except (etree.XMLSyntaxError, IOError):
                 logging.error("Warning. xml file was not parsed: "+corpus)
                 continue
-
             self.add_node(
-                corpus.split('_')[0].rstrip('-').lstrip('CMDI_'),
+                corpus.split('_')[1].rstrip('-'),
                 {
                     'repopath': self.contextpath(corpus, DGDROOT),
                     'corpusroot': True,
                     'type': 'metadata',
-                    'etreeobject': etr}
+                    'etreeobject': etr,
+                    'filename': corpus}
 
             )
             # add edge from root to current node
-            self.add_edge('AGD_root', corpus.split('_')[0].rstrip('-'))
+            self.add_edge('AGD_root', corpus.split('_')[1].rstrip('-'))
 
         # define event nodes and add add them to their corpus root
 
@@ -86,7 +87,8 @@ class ResourceTreeCollection(networkx.DiGraph):
                         'repopath': self.contextpath(event, DGDROOT),
                         'corpusroot': False,
                         'type': 'metadata',
-                        'etreeobject': etr}
+                        'etreeobject': etr,
+                        'filename': filename}
                     )
                     self.add_edge(event, eventnodename)
 
@@ -109,7 +111,8 @@ class ResourceTreeCollection(networkx.DiGraph):
                         'repopath': self.contextpath(speakercorp, DGDROOT),
                         'corpusroot': False,
                         'type': 'metadata',
-                        'etreeobject': etr}
+                        'etreeobject': etr,
+                        'filename': filename}
                     )
                     # define an edge from the parent corpus (speakercorp)
                     # to the current speakernode
@@ -118,6 +121,14 @@ class ResourceTreeCollection(networkx.DiGraph):
                     speakerevents = self.findevents(speakernodename)
                     for event in speakerevents:
                         self.add_edge(event, speakernodename)
+
+    def insert_resources2cmdi(self, cmdifile):
+        """
+        inserts the Resources Elements and all Subelments (e.g.
+        ResourceProxyList) to a cmdi file.
+        :param cmdifile:
+        :return: modified cmdifile
+        """
 
     @staticmethod
     def contextpath(fname, startpath):
@@ -129,8 +140,7 @@ class ResourceTreeCollection(networkx.DiGraph):
             else:
                 return None
 
-    @staticmethod
-    def findevents(speakernode):
+    def findevents(self, speakernode):
         """
         :param speakernode
         :return list of event labels
@@ -138,10 +148,25 @@ class ResourceTreeCollection(networkx.DiGraph):
         metadata itself
         """
         expression = "/CMD/Components/InEvents/Event"
-        inevent = speakernode.get("etreeobject").xpath(expression)
+        inevent = self.node.get(speakernode).get("etreeobject").xpath(expression)
 
         inevent = [event.text.split('.')[0] for event in inevent]
         return inevent
+
+    def findspeakers(self, eventnode):
+        """
+        :param eventnode:
+        :return: list of speaker labels found in event
+        """
+        session = "/CMD/Components/DGDEvent/Session"
+        speakerpath = "/Speaker/Label"
+        sessionsofevent = self.node.get(eventnode).get("etreeobject").xpath(session)
+        speakerlabels = list()
+
+        for session in sessionsofevent:
+
+            speakerlabels.extend([speaker.text for speaker in session.xpath(speakerpath)])
+        return speakerlabels
 
 
 
