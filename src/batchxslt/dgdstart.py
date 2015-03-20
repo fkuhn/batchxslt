@@ -7,6 +7,7 @@ import processor
 import logging
 from optparse import OptionParser
 import primarylink
+import postprocessing
 
 if __name__ == '__main__':
     # logging.basicConfig(level="info")
@@ -53,9 +54,11 @@ primdat = primarylink.PrimaryDataPath('/data/primarypath.csv')
 
 
 # insert Resources element to cmdi files
-for cmdifile in os.listdir(configuration.corpus.get("outdirectory")):
-    pass
+for group in os.listdir(configuration.corpus.get("outdirectory")):
+    for corpus in configuration.corpus.get("outdirectory") + '/' + group:
+        pass
 
 
+valueprocessor = postprocessing.ValueProcessing()
 
 
