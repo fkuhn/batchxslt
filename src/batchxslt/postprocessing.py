@@ -1,9 +1,10 @@
-__author__ = 'kuhn'
-
+import codecs
 import os
 import sys
-import codecs
+
 from lxml import etree
+
+__author__ = 'kuhn'
 
 
 class ValueProcessing(object):
@@ -61,4 +62,3 @@ class ValueProcessing(object):
                                  encoding='utf-8')
         fobject.write(fstring)
         fobject.close()
-
