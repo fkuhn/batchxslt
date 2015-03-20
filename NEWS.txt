@@ -1,6 +1,9 @@
 News
 ====
 
+0.3
+
+
 0.2
 ---
 *Release data Mar 5th 2015
