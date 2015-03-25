@@ -83,7 +83,9 @@ class XSLBatchProcessor(object):
                 try:
                     print "processing " + metafile
                     os.system(
-                        "java -jar " + self.processorpath + " -s:" + xmldatadirectory + "/" + metafile + " -xsl:" + stylesheet
+                        "java -jar " + self.processorpath + " -s:" +
+                        xmldatadirectory + "/" +
+                        metafile + " -xsl:" + stylesheet
                         + " -o:" + output)
                 except OSError:
                     print "cannot call processor"
@@ -98,8 +100,7 @@ class XSLBatchProcessor(object):
                     print "cannot create directory " + outputdir + "/" + metafile
                     print "Maybe it already exists..."
 
-                for singlefile in os.listdir(
-                                        xmldatadirectory + "/" + metafile):
+                for singlefile in os.listdir(xmldatadirectory + "/" + metafile):
 
                     output = os.path.abspath(
                         outputdir + '/' + metafile + "/" + prefix + singlefile)
