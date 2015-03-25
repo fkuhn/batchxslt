@@ -12,6 +12,7 @@ RESOURCEPROXIES = "ResourceProxyList"
 SPEAKERXPATH = "//InEvent/Event"
 RESOURCEPATH = "dgd2_data/dgd2cmdi/cmdiOutput/"
 
+
 class ResourceTreeCollection(networkx.DiGraph):
     """
     represent resources in a tree structure. all involved paths
@@ -147,7 +148,8 @@ class ResourceTreeCollection(networkx.DiGraph):
 
             # insert new resourceproxyelement in list
             resourceproxies.append(resourceproxy)
-
+            # TODO: connect this method to the workflow
+            # TODO: make sure elements are written to output
 
     def insert_resources2cmdi(self, cmdifile):
         """
