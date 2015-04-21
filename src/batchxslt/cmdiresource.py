@@ -119,46 +119,14 @@ class ResourceTreeCollection(networkx.DiGraph):
                     )
                     # define an edge from the parent corpus (speakercorp)
                     # to the current speakernode
+                    # example: "PF" --> "PF--_S_00103.xml"
                     self.add_edge(speakercorp, speakernodename)
                     # define edges from events to current speaker
+
                     speakerevents = self.findevents(speakernodename)
                     for event in speakerevents:
                         self.add_edge(event, speakernodename)
 
-    def define_resourceproxy(self, metafilenode):
-        """
-        defines the ResourceProxies for all Resources referred via edges
-        :param metafilenode:
-        :return:
-        """
-
-        cmdi_etrobj = metafilenode.node.get("etreeobject")
-        cmdiroot = cmdi_etrobj.getroot()
-        resourceproxies = cmdiroot.find(RESOURCEPROXIES)
-
-        out_edges = self.out_edges(metafilenode)
-        for edge in out_edges:
-            # where is the edge pointed to?
-            node = edge[1]
-            # access the filename
-            node_fname = self.node.get(node).get("filename")
-            resourceproxy = etree.Element("ResourceProxy")
-            resourceproxy.text = node_fname
-            resourceproxy.set("href", node_fname)
-
-            # insert new resourceproxyelement in list
-            resourceproxies.append(resourceproxy)
-            # TODO: connect this method to the workflow
-            # TODO: make sure elements are written to output
-
-    def insert_resources2cmdi(self, cmdifile):
-        """
-        inserts the Resources Elements and all Subelments (e.g.
-        ResourceProxyList) to a cmdi file.
-        :param cmdifile:
-        :return: modified cmdifile
-        """
-        pass
 
     @staticmethod
     def contextpath(fname, startpath):
@@ -175,30 +143,66 @@ class ResourceTreeCollection(networkx.DiGraph):
         :param speakernode
         :return list of event labels
         searches for events a speaker takes part in by looking up the
-        metadata itself
+        metadata itself.
+        Since there is no physical resource for sessions, they are not
+        filed as nodes.
         """
-        expression = "/CMD/Components/InEvents/Event"
+        expression = "//InEvents/EventSession"
         inevent = self.node.get(speakernode).get("etreeobject").xpath(expression)
-
-        inevent = [event.text.split('.')[0] for event in inevent]
-        return inevent
+        # must add _extern label to find in graph
+        # inevent_out = [event.text + '_extern.xml' for event in inevent]
+        inevent_out = [event.text for event in inevent]
+        return inevent_out
 
     def findspeakers(self, eventnode):
         """
         :param eventnode:
-        :return: list of speaker labels found in event
+        :return: list of speaker labels fo/und in event
         """
-        session = "/CMD/Components/DGDEvent/Session"
-        speakerpath = "/Speaker/Label"
+        session = "//Session"
+        speakerpath = "Speaker/Label"
         sessionsofevent = self.node.get(eventnode).get("etreeobject").xpath(session)
         speakerlabels = list()
 
-        for session in sessionsofevent:
+        # add all sessions of the event as attribute
+        self.node(eventnode).update({'sessions': sessionsofevent})
 
+        for session in sessionsofevent:
+            # must add "_extern" label to find speaker in graphh
             speakerlabels.extend([speaker.text for speaker in session.xpath(speakerpath)])
+            # speakerlabels.extend([speaker.text + '_extern.xml' for speaker in session.xpath(speakerpath)])
         return speakerlabels
 
+    def define_resourceproxy(self, metafilenode):
+        """
+        defines the ResourceProxies for all Resources referred via edges
+               <Resources>
+        <ResourceProxyList> </ResourceProxyList>
+        <JournalFileProxyList> </JournalFileProxyList>
+        <ResourceRelationList> </ResourceRelationList>
+        </Resources>
+        :param metafilenode:
+        :return:
+        """
 
+        cmdi_etrobj = metafilenode.node.get("etreeobject")
+        cmdiroot = cmdi_etrobj.getroot()
+        resourceproxies = cmdiroot.find("ResourceProxyList")
+
+        out_edges = self.out_edges(metafilenode)
+        for edge in out_edges:
+            # where is the edge pointed to?
+            node = edge[1]
+            # access the filename
+            node_fname = self.node.get(node).get("filename")
+            resourceproxy = etree.Element("ResourceProxy")
+            resourceproxy.text = node_fname
+            resourceproxy.set("href", node_fname)
+
+            # insert new resourceproxyelement in list
+            resourceproxies.append(resourceproxy)
+            # TODO: connect this method to the workflow
+            # TODO: make sure elements are written to output
 
 
 
