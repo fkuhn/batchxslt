@@ -14,7 +14,7 @@ def main():
     print "batchxslt 0.2"
 
     try:
-        configuration = processor.ConfigParser(sys.argv[1])
+        configuration = processor.Configurator(sys.argv[1])
     except IndexError:
         logging.error("No configuration file given. Aborting")
         sys.exit()

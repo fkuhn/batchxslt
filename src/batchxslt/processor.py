@@ -3,11 +3,11 @@ __doc__ = 'Resource Parser and XLST Processor class definitions.'
 
 import os
 import sys
-
+import csv
 from lxml import etree
 
 
-class ConfigParser(object):
+class Configurator(object):
     """
     Simple configuration file parser. template for further extensions.
     Parses config.xml in main module directory. How to use config.xml
@@ -37,6 +37,17 @@ class ConfigParser(object):
                 self.event.update({item.get("type"): item.text})
             if item.tag == "SPEAKER":
                 self.speaker.update({item.get("type"): item.text})
+
+
+class CsvConfigurator(object):
+    """
+    a more flexible config parser using just csv files as input.
+    """
+
+    def __init__(self, configfile):
+
+        __configreader = csv.DictReader(open(configfile), delimeter=',')
+    pass
 
 
 class XSLBatchProcessor(object):

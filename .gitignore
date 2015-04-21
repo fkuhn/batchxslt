@@ -12,3 +12,5 @@ dist
 
 *.idea
 .idea
+
+doc/.ipynb_checkpoints

@@ -8,6 +8,7 @@ import logging
 from optparse import OptionParser
 import primarylink
 import postprocessing
+import cmdiresource
 
 if __name__ == '__main__':
     # logging.basicConfig(level="info")
@@ -17,15 +18,13 @@ if __name__ == '__main__':
     optionparse = OptionParser()
 
 try:
-    configuration = processor.ConfigParser(sys.argv[1])
+    configuration = processor.Configurator(sys.argv[1])
 except IndexError:
     logging.error("No configuration file given. Aborting")
     sys.exit()
 except IOError:
     logging.error("configuration File" + sys.argv[1] + " not found.")
     sys.exit()
-
-# TODO: use a better option handling.
 
 # set the xslt processor
 proc = processor.XSLBatchProcessor(
@@ -52,11 +51,11 @@ print "finished tranformations"
 
 primdat = primarylink.PrimaryDataPath('/data/primarypath.csv')
 
+# build the cmdi resource tree for referencing
+cmdi_resourcetree = cmdiresource.ResourceTreeCollection(configuration.corpus.get("outdirectory"),
+                                                        configuration.event.get("outdirectory"),
+                                                        configuration.speaker.get("outdirectory"))
 
-# insert Resources element to cmdi files
-for group in os.listdir(configuration.corpus.get("outdirectory")):
-    for corpus in configuration.corpus.get("outdirectory") + '/' + group:
-        pass
 
 
 valueprocessor = postprocessing.ValueProcessing()
