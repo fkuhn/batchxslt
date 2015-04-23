@@ -11,9 +11,9 @@ DGDROOT = "dgd2_data"
 RESOURCEPROXIES = "ResourceProxyList"
 SPEAKERXPATH = "//InEvent/Event"
 RESOURCEPATH = "dgd2_data/dgd2cmdi/cmdiOutput/"
+PREFIX = 'cmdi_'
 
-
-class ResourceTreeCollection(networkx.DiGraph):
+class ResourceTreeCollection(networkx.MultiDiGraph):
     """
     represent resources in a tree structure. all involved paths
     The resurce collection is a Digraph representation of all data.
@@ -90,7 +90,7 @@ class ResourceTreeCollection(networkx.DiGraph):
                                       filename)
                         continue
 
-                    eventnodename = filename.split('.')[0].lstrip('CMDI_')
+                    eventnodename = filename.split('.')[0].lstrip(PREFIX).rstrip('_extern')
                     self.add_node(eventnodename, {
                         'repopath': self.contextpath(event, DGDROOT),
                         'corpusroot': False,
@@ -99,6 +99,9 @@ class ResourceTreeCollection(networkx.DiGraph):
                         'filename': filename}
                     )
                     self.add_edge(event, eventnodename)
+            # finally connect an event to all speakers that take part in it.
+            for speaker in self.find_speakers(event):
+                self.add_edge(event, speaker)
 
         # define speaker nodes and add them to their corpus root
 
@@ -121,7 +124,7 @@ class ResourceTreeCollection(networkx.DiGraph):
                         logging.error("Warning. xml file was not parsed: " +
                                       filename)
                         continue
-                    speakernodename = filename.split('.')[0].lstrip('CMDI_')
+                    speakernodename = filename.split('.')[0].lstrip(PREFIX).rstrip('_extern')
                     self.add_node(speakernodename, {
                         'repopath': self.contextpath(speakercorp, DGDROOT),
                         'corpusroot': False,
@@ -135,7 +138,7 @@ class ResourceTreeCollection(networkx.DiGraph):
                     self.add_edge(speakercorp, speakernodename)
                     # define edges from events to current speaker
 
-                    speakerevents = self.findevents(speakernodename)
+                    speakerevents = self.find_events(speakernodename)
                     for event in speakerevents:
                         self.add_edge(event, speakernodename)
 
@@ -161,9 +164,9 @@ class ResourceTreeCollection(networkx.DiGraph):
         expression = "//InEvents/EventSession"
         inevent = self.node.get(speakernode).get("etreeobject").xpath(expression)
         # must add _extern label to find in graph
-        #inevent_out = [event.text + '_extern.xml' for event in inevent]
-        inevent_out = [event.text for event in inevent]
-        return inevent_out
+        # inevent_out = [event.text + '_extern.xml' for event in inevent]
+        ineventsessions_out = [event.text for event in inevent]
+        return ineventsessions_out
 
     def find_events(self, speakernode):
         """
@@ -175,9 +178,11 @@ class ResourceTreeCollection(networkx.DiGraph):
         filed as nodes.
         """
         sessions = self.find_eventsessions(speakernode)
+        # take the session of event label and split it down to the event
         events = ['_'.join(str(segment) for segment in session.split('_')[0:3])
                   for session in sessions]
-
+        events = list(set(events))
+        return events
 
     def find_speakers(self, eventnode):
         """
