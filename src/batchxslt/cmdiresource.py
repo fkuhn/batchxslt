@@ -149,7 +149,7 @@ class ResourceTreeCollection(networkx.DiGraph):
             else:
                 return None
 
-    def findevents(self, speakernode):
+    def find_eventsessions(self, speakernode):
         """
         :param speakernode
         :return list of event labels
@@ -161,11 +161,25 @@ class ResourceTreeCollection(networkx.DiGraph):
         expression = "//InEvents/EventSession"
         inevent = self.node.get(speakernode).get("etreeobject").xpath(expression)
         # must add _extern label to find in graph
-        inevent_out = [event.text + '_extern.xml' for event in inevent]
-        #inevent_out = [event.text for event in inevent]
+        #inevent_out = [event.text + '_extern.xml' for event in inevent]
+        inevent_out = [event.text for event in inevent]
         return inevent_out
 
-    def findspeakers(self, eventnode):
+    def find_events(self, speakernode):
+        """
+        :param speakernode
+        :return list of event labels
+        searches for events a speaker takes part in by looking up the
+        metadata itself.
+        Since there is no physical resource for sessions, they are not
+        filed as nodes.
+        """
+        sessions = self.find_eventsessions(speakernode)
+        events = ['_'.join(str(segment) for segment in session.split('_')[0:3])
+                  for session in sessions]
+
+
+    def find_speakers(self, eventnode):
         """
         :param eventnode:
         :return: list of speaker labels fo/und in event
