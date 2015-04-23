@@ -2,7 +2,14 @@ News
 ====
 
 0.3
+---
+**April 2015**
+Notebooks are now updated and can be used for complete orchestration
 
+0.25
+---
+**Note Feb 2015**
+For a more up-to-date How-to refer to notebooks/ **
 
 0.2
 ---
@@ -12,7 +19,6 @@ News
 
 0.1
 ---
-
 *Release date: Feb 7th 2015*
 
 * release on github

@@ -2,7 +2,6 @@
 This small python package batch processes "Database for Spoken German"-specific xslt
 stylesheets to transform the original dgd metadata to cmdi metadata.
 
-
 ## Installation
 
  Use ```python setupy.py install ``` to install the package.
@@ -10,7 +9,8 @@ stylesheets to transform the original dgd metadata to cmdi metadata.
 
 ## Usage
 
-**Note Feb 2015** For a more up-to-date How-to refer to the notebook or its html in doc.  
+**April 2015** Notebooks are now updated and can be used for complete orchestration
+**Note Feb 2015** For a more up-to-date How-to refer to notebooks/ **   
 
 
 ### Configuration File

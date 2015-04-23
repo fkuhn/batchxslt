@@ -92,7 +92,7 @@ class XSLBatchProcessor(object):
                 -s:source -xsl:stylesheet -o:output
                 """
                 try:
-                    print "processing " + metafile
+                    # print "processing " + metafile
                     os.system(
                         "java -jar " + self.processorpath + " -s:" +
                         xmldatadirectory + "/" +

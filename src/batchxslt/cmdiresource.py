@@ -74,6 +74,11 @@ class ResourceTreeCollection(networkx.DiGraph):
 
         for event in eventcorpusnames:
 
+            """
+            define eventnodes. note that each event has a number of sessions that
+            are not explicitly stored as nodes.
+            """
+
             if self.has_node(event):
                 eventcorpusfilepath = eventspath + '/' + event
 
@@ -98,6 +103,13 @@ class ResourceTreeCollection(networkx.DiGraph):
         # define speaker nodes and add them to their corpus root
 
         for speakercorp in speakercorpusnames:
+
+            """
+            define speakernodes. note that each speaker is part of an session
+            in an event. to just find the event, a speaker has taken part,
+            access the <InEvent> element of the speaker cmdi metadata.
+            """
+
             # find corpus the speaker is part of
             if self.has_node(speakercorp):
                 speakercorpusfilepath = speakerspath + '/' + speakercorp
@@ -127,7 +139,6 @@ class ResourceTreeCollection(networkx.DiGraph):
                     for event in speakerevents:
                         self.add_edge(event, speakernodename)
 
-
     @staticmethod
     def contextpath(fname, startpath):
         # FIXME: method always returns None.
@@ -150,8 +161,8 @@ class ResourceTreeCollection(networkx.DiGraph):
         expression = "//InEvents/EventSession"
         inevent = self.node.get(speakernode).get("etreeobject").xpath(expression)
         # must add _extern label to find in graph
-        # inevent_out = [event.text + '_extern.xml' for event in inevent]
-        inevent_out = [event.text for event in inevent]
+        inevent_out = [event.text + '_extern.xml' for event in inevent]
+        #inevent_out = [event.text for event in inevent]
         return inevent_out
 
     def findspeakers(self, eventnode):
@@ -165,7 +176,7 @@ class ResourceTreeCollection(networkx.DiGraph):
         speakerlabels = list()
 
         # add all sessions of the event as attribute
-        self.node(eventnode).update({'sessions': sessionsofevent})
+        self.node.get(eventnode).update({'sessions': sessionsofevent})
 
         for session in sessionsofevent:
             # must add "_extern" label to find speaker in graphh
@@ -203,6 +214,16 @@ class ResourceTreeCollection(networkx.DiGraph):
             resourceproxies.append(resourceproxy)
             # TODO: connect this method to the workflow
             # TODO: make sure elements are written to output
+
+    def build_resourceproxy(self, cmdifile):
+        """
+        takes a cmcdi converted dgd-metadata file,
+        parses it, builds a resourceproxy list for
+        this file and writes the content to
+        <Resources> of the file
+        :param cmdifile:
+        :return:
+        """
 
 
 
