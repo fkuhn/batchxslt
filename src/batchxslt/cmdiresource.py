@@ -5,6 +5,7 @@ import codecs
 import logging
 import os
 from lxml import etree
+import sys
 
 # TODO: define paths in csv files
 DGDROOT = "dgd2_data"
@@ -219,14 +220,17 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         cmdiroot = cmdi_etrobj.getroot()
         resourceproxies = cmdiroot.find("ResourceProxyList")
 
-        out_edges = self.out_edges(metafilenode)
-        for edge in out_edges:
+        in_nodes = [i[0] for i in self.in_edges(metafilenode)]
+        out_nodes = [i[1] for i in self.out_edges(metafilenode)]
+
+        resource_nodes = set(in_nodes.extend(out_nodes))
+
+        for node in resource_nodes:
             # where is the edge pointed to?
-            node = edge[1]
             # access the filename
             node_fname = self.node.get(node).get("filename")
             resourceproxy = etree.Element("ResourceProxy")
-            resourceproxy.text = node_fname
+            resourceproxy.text = str(node)
             resourceproxy.set("href", node_fname)
 
             # insert new resourceproxyelement in list
@@ -234,15 +238,33 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             # TODO: connect this method to the workflow
             # TODO: make sure elements are written to output
 
-    def build_resourceproxy(self, cmdifile):
+    def build_resourceproxy(self):
         """
-        takes a cmcdi converted dgd-metadata file,
-        parses it, builds a resourceproxy list for
-        this file and writes the content to
-        <Resources> of the file
+        inplace resourceproxy generation of the resource.
+        modifies the stored etree object of each resource.
         :param cmdifile:
         :return:
         """
+
+        for resourcetuple in self.nodes_iter():
+
+            # get the etreeobject
+            self.define_resourceproxy(resourcetuple[1])
+
+    def write_cmdifiles(self, outputpath):
+        """
+        writes cmdi files to given path
+        :param outputpath:
+        :return:
+        """
+
+        for node in self.nodes_iter():
+
+            os.mkdir()
+
+
+
+
 
 
 
