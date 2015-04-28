@@ -13,6 +13,7 @@ RESOURCEPROXIES = "ResourceProxyList"
 SPEAKERXPATH = "//InEvent/Event"
 RESOURCEPATH = "dgd2_data/dgd2cmdi/cmdiOutput/"
 PREFIX = 'cmdi_'
+NAME = 'AGD'
 
 class ResourceTreeCollection(networkx.MultiDiGraph):
     """
@@ -31,6 +32,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         corpusnames = os.listdir(corpuspath)
         eventcorpusnames = os.listdir(eventspath)
         speakercorpusnames = os.listdir(speakerspath)
+        self.name = NAME
         # cwdstart = os.getcwd()
 
         # define a collection root that precedes all corpora
@@ -216,14 +218,14 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         :return:
         """
 
-        cmdi_etrobj = metafilenode.node.get("etreeobject")
+        cmdi_etrobj = self.node.get(metafilenode).get("etreeobject")
         cmdiroot = cmdi_etrobj.getroot()
         resourceproxies = cmdiroot.find("ResourceProxyList")
 
-        in_nodes = [i[0] for i in self.in_edges(metafilenode)]
-        out_nodes = [i[1] for i in self.out_edges(metafilenode)]
-
-        resource_nodes = set(in_nodes.extend(out_nodes))
+        speakers = self.find_speakers(metafilenode)
+        events = self.find_events(metafilenode)
+        #FIXME: resource_nodes is NoneType Object
+        resource_nodes = events + speakers # todo: insert corpus reference
 
         for node in resource_nodes:
             # where is the edge pointed to?
@@ -246,22 +248,33 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         :return:
         """
 
-        for resourcetuple in self.nodes_iter():
+        for resource in self.nodes_iter():
 
             # get the etreeobject
-            self.define_resourceproxy(resourcetuple[1])
+            self.define_resourceproxy(resource)
 
-    def write_cmdifiles(self, outputpath):
+    def get_cmdi(self, outputpath):
         """
-        writes cmdi files to given path
+        outputs the cmdi as prettyprinted xml.
         :param outputpath:
         :return:
         """
 
         for node in self.nodes_iter():
 
-            os.mkdir()
+            pass
 
+    def build_geolocations(self):
+        """
+        inplace computation of the geolocations
+        :return:
+        """
+        # TODO: find geolocation package to compute locations
+        # from the provided grid coordinates
+
+        for node in self.nodes_iter():
+
+            pass
 
 
 
