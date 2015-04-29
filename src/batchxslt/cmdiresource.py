@@ -249,7 +249,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
         for resource in self.nodes_iter():
 
-            # get the etreeobject
+            # pass the node name to define_resourceproxy
             if resource is not NoneType:
                 self.define_resourceproxy(resource)
 
