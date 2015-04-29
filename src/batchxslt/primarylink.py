@@ -41,7 +41,6 @@ class TranscriptLinker(OrderedDict):
 
     def get_transscripts(self, corpusname):
         """
-
         :param corpusname
         :return transcriptnames
         """
