@@ -251,7 +251,8 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         for resource in self.nodes_iter():
 
             # get the etreeobject
-            self.define_resourceproxy(resource)
+            if resource is not NoneType:
+                self.define_resourceproxy(resource)
 
     def get_cmdi(self, outputpath):
         """
