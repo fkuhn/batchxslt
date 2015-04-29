@@ -6,6 +6,7 @@ import logging
 import os
 from lxml import etree
 import sys
+import mimetypes
 
 # TODO: define paths in csv files
 DGDROOT = "dgd2_data"
@@ -220,24 +221,37 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
         cmdi_etrobj = self.node.get(metafilenode).get("etreeobject")
         cmdiroot = cmdi_etrobj.getroot()
-        resourceproxies = cmdiroot.find("ResourceProxyList")
+        resourceproxies = cmdiroot.find("Resources").find("ResourceProxyList")
 
-        speakers = self.find_speakers(metafilenode)
-        events = self.find_events(metafilenode)
-        #FIXME: resource_nodes is NoneType Object
-        resource_nodes = events + speakers # todo: insert corpus reference
+        in_nodes = [i[0] for i in self.in_edges(metafilenode)]
+        out_nodes = [i[1] for i in self.out_edges(metafilenode)]
+
+        resource_nodes = set(out_nodes + in_nodes)
 
         for node in resource_nodes:
             # where is the edge pointed to?
             # access the filename
             node_fname = self.node.get(node).get("filename")
             resourceproxy = etree.Element("ResourceProxy")
-            resourceproxy.text = str(node)
+            resourceref = etree.SubElement(resourceproxy, "ResourceRef")
+            resourcetype = etree.SubElement(resourceproxy, "ResourceType")
+            resourceproxy.set("id", node)
+            resourcetype.set("mimetype", mimetypes.guess_type(node_fname))
+            resourceref.text = "http://handle.net"
+
+            resourceproxy = etree.SubElement(resourceproxy, "ResourceIsPart")
             resourceproxy.set("href", node_fname)
 
             # insert new resourceproxyelement in list
             resourceproxies.append(resourceproxy)
-            
+
+    def write_xml(self, nodename, fname):
+        """
+        write the xml of a node
+        :param node:
+        :return:
+        """
+        self.node.get(nodename).get('etreeobject').write(fname, encoding='utf-8', method='xml')
 
     def build_resourceproxy(self):
         """
@@ -250,7 +264,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         for resource in self.nodes_iter():
 
             # pass the node name to define_resourceproxy
-            if resource is not NoneType:
+            if resource is not None:
                 self.define_resourceproxy(resource)
 
     def get_cmdi(self, nodename):
