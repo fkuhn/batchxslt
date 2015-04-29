@@ -237,13 +237,17 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             resourcetype = etree.SubElement(resourceproxy, "ResourceType")
             resourceproxy.set("id", node)
             resourcetype.set("mimetype", mimetypes.guess_type(node_fname)[0])
-            resourceref.text = cmdi_etrobj  # TODO: needs an absolute path for pid generation (thomas' url)
+            resourceref.text = os.path.abspath(node_fname)  # add absolute path
 
             resourceproxy = etree.SubElement(resourceproxy, "ResourceIsPart")
             resourceproxy.set("href", node_fname)
 
             # insert new resourceproxyelement in list
             resourceproxies.append(resourceproxy)
+
+        # version resource info
+        isVersionOf = etree.SubElement(resourceproxies, "isVersionOf")
+
 
     def write_xml(self, nodename, fname):
         """
