@@ -262,13 +262,15 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
         pass
 
-    def build_geolocations(self):
+    def build_geolocation(self, nodename):
         """
         inplace computation of the geolocations
         :return:
         """
         # TODO: find geolocation package to compute locations
         # from the provided grid coordinates
+        
+        # if provided, obtain grid coordinates.
 
         for node in self.nodes_iter():
 
