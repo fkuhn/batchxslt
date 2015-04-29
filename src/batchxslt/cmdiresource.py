@@ -246,7 +246,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             resourceproxies.append(resourceproxy)
 
         # version resource info
-        isVersionOf = etree.SubElement(resourceproxies, "isVersionOf")
+        # isVersionOf = etree.SubElement(resourceproxies, "isVersionOf")
 
 
     def write_xml(self, nodename, fname):
