@@ -254,16 +254,14 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             if resource is not NoneType:
                 self.define_resourceproxy(resource)
 
-    def get_cmdi(self, outputpath):
+    def get_cmdi(self, nodename):
         """
-        outputs the cmdi as prettyprinted xml.
+        outputs the cmdi of the node as prettyprinted xml.
         :param outputpath:
         :return:
         """
 
-        for node in self.nodes_iter():
-
-            pass
+        pass
 
     def build_geolocations(self):
         """
