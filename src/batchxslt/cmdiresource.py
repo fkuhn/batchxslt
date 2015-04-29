@@ -237,8 +237,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
             # insert new resourceproxyelement in list
             resourceproxies.append(resourceproxy)
-            # TODO: connect this method to the workflow
-            # TODO: make sure elements are written to output
+            
 
     def build_resourceproxy(self):
         """
