@@ -31,13 +31,19 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
     corpusroot : <boolean. is the file a corpus catalogue or not?>
 
     input data paths must be pointed towards already cmdi transformed data.
+
+    NOTE: April 29th
+    Speakers are not removed from resource proxy generation. Transcript nodes
+    are added. their type is labelled "transcript" accordingly.
+
     """
 
-    def __init__(self, corpuspath, eventspath, speakerspath):
+    def __init__(self, corpuspath, eventspath, speakerspath, transcriptspath):
         super(ResourceTreeCollection, self).__init__()
         corpusnames = os.listdir(corpuspath)
         eventcorpusnames = os.listdir(eventspath)
         speakercorpusnames = os.listdir(speakerspath)
+        transcriptscorpusnames = os.listdir(transcriptspath)
         self.name = NAME
         # cwdstart = os.getcwd()
 
@@ -151,6 +157,40 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     for event in speakerevents:
                         self.add_edge(event, speakernodename)
 
+        # define transcriptnodes and add them to their corpusroot
+
+        for transcriptcorp in transcriptscorpusnames:
+
+            """
+            define transcriptnodes for each corpus found in the primary source folders
+            the event that an trancript is counted to is simply derived by splitting the
+            string of the transcript filename. naming paradigm will not change so method is
+            simple and safe.
+            Each transcript is part of a recording session.
+            """
+            # FIXME: dict stays empty file key of the node is defined.
+            if self.has_node(transcriptcorp):
+
+                transcriptcorpusfilepath = transcriptspath + '/' + transcriptcorp
+
+                for filename in os.listdir(transcriptcorpusfilepath):
+
+                    # contruct node name. eg. from FOLK_E_00004_SE_01_T_01_DF_01.fln
+                    transcriptnodename = filename.split('.')[0]
+
+                    self.add_node(transcriptnodename), {
+                        'repopath': transcriptcorp,
+                        'corpusroot': False,
+                        'type': 'transcript',
+                        'etreeobject': None,
+                        'filename': filename
+                    }
+
+                    # obtain event from filename
+                    transcriptevent = '_'.join(transcriptnodename.split('_')[:3])
+                    # define edge from event to transcript
+                    self.add_edge(transcriptevent, transcriptnodename)
+
     @staticmethod
     def contextpath(fname, startpath):
         # FIXME: method always returns None.
@@ -212,6 +252,20 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             # speakerlabels.extend([speaker.text + '_extern.xml' for speaker in session.xpath(speakerpath)])
         return speakerlabels
 
+    def find_transcripts(self, eventnode):
+        """
+        finds trancripts associated with given event
+        :param eventnode:
+        :return:
+        """
+        transcripts = list()
+        for nodename in eventnode.out_edges():
+            if self.node.get(nodename).get('type') == 'transcript':
+                transcripts.append(nodename)
+
+        return transcripts
+
+
     def define_resourceproxy(self, metafilenode):
         """
         defines the ResourceProxies for all Resources referred via edges
@@ -258,7 +312,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             resourcetype = etree.SubElement(resourceproxy, "ResourceType")
             resourceproxy.set("id", node)
 
-            resourcetype.set("mimetype", mimetypes.guess_type(node_fname)[0])
+            resourcetype.set("mimetype", str(mimetypes.guess_type(node_fname)[0]))
             landingpage = urllib.unquote(LANDINGPG)
             resourceref.text = node
             resourceref.set("href", landingpage + node)
