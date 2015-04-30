@@ -182,7 +182,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                         'repopath': transcriptcorp,
                         'corpusroot': False,
                         'type': 'transcript',
-                        'etreeobject': None,
+                        'etreeobject': False,
                         'filename': filename}
                     )
 
@@ -346,11 +346,10 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         for resource in self.nodes_iter():
 
             # pass the node name to define_resourceproxy
-            if resource != 'AGD_root':
+            if self.node.get(resource).get("etreeobject")\
+                    is not False and resource != 'AGD_root':
                 self.define_resourceproxy(resource)
-            # exclude transcript nodes since they have no metadata
-            elif self.node.get(resource).get('type') != 'transcript':
-                self.define_resourceproxy(resource)
+
 
     def get_cmdi(self, nodename):
         """
