@@ -1,4 +1,4 @@
-# test env for debugging of resource proxy generation
+__doc__ = "test env for debugging of resource proxy generation"
 
 # from pudb import set_trace
 from batchxslt import cmdiresource
@@ -13,9 +13,9 @@ resourcetree = cmdiresource.ResourceTreeCollection(corpus, event, speakers, tran
 
 resourcetree.build_resourceproxy()
 
-resourcetree.write_xml('FOLK_E_00020', '/tmp/folktest.xml')
+resourcetree.write_xml('FOLK', '/tmp/folktest.xml')
 
-
+# TODO: For corpus labels: every resource must be put into the resource proxy list
 
 
 
