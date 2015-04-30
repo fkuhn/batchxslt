@@ -348,6 +348,9 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             # pass the node name to define_resourceproxy
             if resource != 'AGD_root':
                 self.define_resourceproxy(resource)
+            # exclude transcript nodes since they have no metadata
+            elif self.node.get(resource).get('type') != 'transcript':
+                self.define_resourceproxy(resource)
 
     def get_cmdi(self, nodename):
         """
