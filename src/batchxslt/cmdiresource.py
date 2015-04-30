@@ -16,8 +16,10 @@ RESOURCEPATH = "dgd2_data/dgd2cmdi/cmdiOutput/"
 PREFIX = 'cmdi_'
 NAME = 'AGD'
 
+import urllib
+
 # this is the landing page prefix for the agd werbservice
-LANDINGPG = 'http://dgd.ids-mannheim.de/service/DGD2Web/ExternalAccessServlet?command=displayData&id='
+LANDINGPG = u"http://dgd.ids-mannheim.de/service/DGD2Web/ExternalAccessServlet?command=displayData&id="
 
 class ResourceTreeCollection(networkx.MultiDiGraph):
     """
@@ -229,12 +231,20 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         in_nodes = [i[0] for i in self.in_edges(metafilenode)]
         out_nodes = [i[1] for i in self.out_edges(metafilenode)]
 
+
+
         resource_nodes = out_nodes + in_nodes
+
+        # remove speaker references for now
+        for speaker in self.find_speakers(metafilenode):
+            if speaker in resource_nodes:
+                resource_nodes.remove(speaker)
 
         # remove the abstract node from the resource list
         if 'AGD_root' in resource_nodes:
             resource_nodes.remove('AGD_root')
-
+        if metafilenode in resource_nodes:
+            resource_nodes.remove(metafilenode)
         # make sure there are just unique references
         resource_nodes = set(resource_nodes)
 
@@ -243,23 +253,25 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             # access the filename
 
             node_fname = self.node.get(node).get("filename")
-            resourceproxy = etree.Element("ResourceProxy")
+            resourceproxy = etree.SubElement(resourceproxies, "ResourceProxy")
             resourceref = etree.SubElement(resourceproxy, "ResourceRef")
             resourcetype = etree.SubElement(resourceproxy, "ResourceType")
             resourceproxy.set("id", node)
 
             resourcetype.set("mimetype", mimetypes.guess_type(node_fname)[0])
-            resourceref.text = LANDINGPG + node  # add absolute path
+            landingpage = urllib.unquote(LANDINGPG)
+            resourceref.text = node
+            resourceref.set("href", landingpage + node)
 
-            resourceproxy = etree.SubElement(resourceproxy, "ResourceIsPart")
-            resourceproxy.set("href", node_fname)
+            # Generate an is PartRelationship for backreference
+            ispart = etree.SubElement(resourceproxy, "ResourceIsPart")
+
 
             # insert new resourceproxyelement in list
-            resourceproxies.append(resourceproxy)
+            # resourceproxies.append(resourceproxy)
 
         # version resource info
         # isVersionOf = etree.SubElement(resourceproxies, "isVersionOf")
-
 
     def write_xml(self, nodename, fname):
         """
@@ -280,7 +292,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         for resource in self.nodes_iter():
 
             # pass the node name to define_resourceproxy
-            if resource is not None:
+            if resource != 'AGD_root':
                 self.define_resourceproxy(resource)
 
     def get_cmdi(self, nodename):
