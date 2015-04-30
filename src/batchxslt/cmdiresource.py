@@ -168,7 +168,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             simple and safe.
             Each transcript is part of a recording session.
             """
-            # FIXME: dict stays empty file key of the node is defined.
+
             if self.has_node(transcriptcorp):
 
                 transcriptcorpusfilepath = transcriptspath + '/' + transcriptcorp
@@ -178,13 +178,13 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     # contruct node name. eg. from FOLK_E_00004_SE_01_T_01_DF_01.fln
                     transcriptnodename = filename.split('.')[0]
 
-                    self.add_node(transcriptnodename), {
+                    self.add_node(transcriptnodename, {
                         'repopath': transcriptcorp,
                         'corpusroot': False,
                         'type': 'transcript',
                         'etreeobject': None,
-                        'filename': filename
-                    }
+                        'filename': filename}
+                    )
 
                     # obtain event from filename
                     transcriptevent = '_'.join(transcriptnodename.split('_')[:3])
