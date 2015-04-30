@@ -313,6 +313,10 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             resourceproxy.set("id", node)
 
             resourcetype.set("mimetype", str(mimetypes.guess_type(node_fname)[0]))
+            # if mimetype is unknown set it to 'application/binary'
+            if resourcetype.get("mimetype") == 'None':
+                resourcetype.set("mimetype", 'application/binary')
+
             landingpage = urllib.unquote(LANDINGPG)
             resourceref.text = node
             resourceref.set("href", landingpage + node)
