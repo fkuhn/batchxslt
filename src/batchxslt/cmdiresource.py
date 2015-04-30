@@ -235,22 +235,33 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
     def find_speakers(self, eventnode):
         """
+        returns all speaker nodes connected to the eventnode.
+        note april: now using normal
         :param eventnode:
         :return: list of speaker labels fo/und in event
         """
-        session = "//Session"
-        speakerpath = "Speaker/Label"
-        sessionsofevent = self.node.get(eventnode).get("etreeobject").xpath(session)
-        speakerlabels = list()
 
-        # add all sessions of the event as attribute
-        self.node.get(eventnode).update({'sessions': sessionsofevent})
+        speakerlist = list()
 
-        for session in sessionsofevent:
-            # must add "_extern" label to find speaker in graphh
-            speakerlabels.extend([speaker.text for speaker in session.xpath(speakerpath)])
-            # speakerlabels.extend([speaker.text + '_extern.xml' for speaker in session.xpath(speakerpath)])
-        return speakerlabels
+        for outedge in self.out_edges_iter([eventnode]):
+
+            if outedge[1].split('_')[1] == 'S':
+                speakerlist.append(outedge[1])
+
+        # session = "//Session"
+        # speakerpath = "Speaker/Label"
+        # sessionsofevent = self.node.get(eventnode).get("etreeobject").xpath(session)
+        # speakerlabels = list()
+        #
+        # # add all sessions of the event as attribute
+        # self.node.get(eventnode).update({'sessions': sessionsofevent})
+        #
+        # for session in sessionsofevent:
+        #     # must add "_extern" label to find speaker in graphh
+        #     speakerlabels.extend([speaker.text for speaker in session.xpath(speakerpath)])
+        #     # speakerlabels.extend([speaker.text + '_extern.xml' for speaker in session.xpath(speakerpath)])
+
+        return speakerlist
 
     def find_transcripts(self, eventnode):
         """
@@ -264,7 +275,6 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                 transcripts.append(nodename)
 
         return transcripts
-
 
     def define_resourceproxy(self, metafilenode):
         """
@@ -315,7 +325,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             resourcetype.set("mimetype", str(mimetypes.guess_type(node_fname)[0]))
             # if mimetype is unknown set it to 'application/binary'
             if resourcetype.get("mimetype") == 'None':
-                resourcetype.set("mimetype", 'application/binary')
+                resourcetype.set("mimetype", 'application/xml')
 
             landingpage = urllib.unquote(LANDINGPG)
             resourceref.text = node
