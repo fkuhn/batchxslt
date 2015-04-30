@@ -16,6 +16,9 @@ RESOURCEPATH = "dgd2_data/dgd2cmdi/cmdiOutput/"
 PREFIX = 'cmdi_'
 NAME = 'AGD'
 
+# this is the landing page prefix for the agd werbservice
+LANDINGPG = 'http://dgd.ids-mannheim.de/service/DGD2Web/ExternalAccessServlet?command=displayData&id='
+
 class ResourceTreeCollection(networkx.MultiDiGraph):
     """
     represent resources in a tree structure. all involved paths
@@ -226,18 +229,27 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         in_nodes = [i[0] for i in self.in_edges(metafilenode)]
         out_nodes = [i[1] for i in self.out_edges(metafilenode)]
 
-        resource_nodes = set(out_nodes + in_nodes)
+        resource_nodes = out_nodes + in_nodes
+
+        # remove the abstract node from the resource list
+        if 'AGD_root' in resource_nodes:
+            resource_nodes.remove('AGD_root')
+
+        # make sure there are just unique references
+        resource_nodes = set(resource_nodes)
 
         for node in resource_nodes:
             # where is the edge pointed to?
             # access the filename
+
             node_fname = self.node.get(node).get("filename")
             resourceproxy = etree.Element("ResourceProxy")
             resourceref = etree.SubElement(resourceproxy, "ResourceRef")
             resourcetype = etree.SubElement(resourceproxy, "ResourceType")
             resourceproxy.set("id", node)
+
             resourcetype.set("mimetype", mimetypes.guess_type(node_fname)[0])
-            resourceref.text = os.path.abspath(node_fname)  # add absolute path
+            resourceref.text = LANDINGPG + node  # add absolute path
 
             resourceproxy = etree.SubElement(resourceproxy, "ResourceIsPart")
             resourceproxy.set("href", node_fname)
