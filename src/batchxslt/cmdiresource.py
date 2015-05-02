@@ -13,7 +13,7 @@ DGDROOT = "dgd2_data"
 RESOURCEPROXIES = "ResourceProxyList"
 SPEAKERXPATH = "//InEvent/Event"
 RESOURCEPATH = "dgd2_data/dgd2cmdi/cmdiOutput/"
-PREFIX = 'cmdi_'
+PREFIX = 'CMDI_'
 NAME = 'AGD'
 
 import urllib
@@ -156,7 +156,8 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
                     speakerevents = self.find_events(speakernodename)
                     for event in speakerevents:
-                        self.add_edge(event, speakernodename)
+                        if self.has_node(event):
+                            self.add_edge(event, speakernodename)
 
         # define transcriptnodes and add them to their corpusroot
 
@@ -190,10 +191,12 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     # obtain event from filename
                     transcriptevent = '_'.join(transcriptnodename.split('_')[:3])
                     # define edge from event to transcript
-                    self.add_edge(transcriptevent, transcriptnodename)
+                    if self.has_node(transcriptevent):
+                        self.add_edge(transcriptevent, transcriptnodename)
 
                     # define an edge to refer from the corpus catalogue to the transcript
-                    self.add_edge(transcriptcorp, transcriptnodename)
+                    if self.has_node(transcriptcorp):
+                        self.add_edge(transcriptcorp, transcriptnodename)
 
     @staticmethod
     def contextpath(fname, startpath):
@@ -204,6 +207,17 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                 return os.path.join(root, fname)
             else:
                 return None
+
+    def show_empty_etree(self):
+        """
+        returns all empty etree attributes for debugging
+        :return:
+        """
+        empties = list()
+        for nodename in self.nodes_iter():
+            if self.node.get(nodename).get('etreeobject') is None:
+                empties.append((nodename, self.node.get(nodename).get('filename')))
+        return empties
 
     def find_eventsessions(self, speakernode):
         """
