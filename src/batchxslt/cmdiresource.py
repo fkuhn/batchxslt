@@ -1,11 +1,11 @@
 __author__ = 'kuhn'
 
 import networkx
-import codecs
+# import codecs
 import logging
 import os
 from lxml import etree
-import sys
+# import sys
 import mimetypes
 
 # TODO: define paths in csv files
@@ -20,6 +20,7 @@ import urllib
 
 # this is the landing page prefix for the agd werbservice
 LANDINGPG = u"http://dgd.ids-mannheim.de/service/DGD2Web/ExternalAccessServlet?command=displayData&id="
+
 
 class ResourceTreeCollection(networkx.MultiDiGraph):
     """
@@ -191,6 +192,9 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     # define edge from event to transcript
                     self.add_edge(transcriptevent, transcriptnodename)
 
+                    # define an edge to refer from the corpus catalogue to the transcript
+                    self.add_edge(transcriptcorp, transcriptnodename)
+
     @staticmethod
     def contextpath(fname, startpath):
         # FIXME: method always returns None.
@@ -295,8 +299,6 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         in_nodes = [i[0] for i in self.in_edges(metafilenode)]
         out_nodes = [i[1] for i in self.out_edges(metafilenode)]
 
-
-
         resource_nodes = out_nodes + in_nodes
 
         # remove speaker references for now
@@ -332,8 +334,8 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             resourceref.set("href", landingpage + node)
 
             # Generate an is PartRelationship for backreference
+            # TODO: build ispart and isversion of relations
             ispart = etree.SubElement(resourceproxy, "ResourceIsPart")
-
 
             # insert new resourceproxyelement in list
             # resourceproxies.append(resourceproxy)
@@ -341,10 +343,10 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         # version resource info
         # isVersionOf = etree.SubElement(resourceproxies, "isVersionOf")
 
-    def write_xml(self, nodename, fname):
+    def write_cmdi(self, nodename, fname):
         """
-        write the xml of a node
-        :param node:
+        write the cmid-xml of a node to a specified file.
+        :param nodename, fname:
         :return:
         """
         self.node.get(nodename).get('etreeobject').write(fname, encoding='utf-8', method='xml')
@@ -353,7 +355,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         """
         inplace resourceproxy generation of the resource.
         modifies the stored etree object of each resource.
-        :param cmdifile:
+        :param :
         :return:
         """
 
@@ -364,29 +366,19 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     is not False and resource != 'AGD_root':
                 self.define_resourceproxy(resource)
 
-
-    def get_cmdi(self, nodename):
-        """
-        outputs the cmdi of the node as prettyprinted xml.
-        :param outputpath:
-        :return:
-        """
-
-        pass
-
-    def build_geolocation(self, nodename):
-        """
-        inplace computation of the geolocations
-        :return:
-        """
-        # TODO: find geolocation package to compute locations
-        # from the provided grid coordinates
-        
-        # if provided, obtain grid coordinates.
-
-        for node in self.nodes_iter():
-
-            pass
+    # def build_geolocation(self, nodename):
+    #     """
+    #     inplace computation of the geolocations
+    #     :return:
+    #     """
+    #     # find geolocation package to compute locations
+    #     # from the provided grid coordinates
+    #
+    #     # if provided, obtain grid coordinates.
+    #
+    #     for node in self.nodes_iter():
+    #
+    #         pass
 
 
 

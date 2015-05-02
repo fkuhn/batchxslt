@@ -13,7 +13,7 @@ resourcetree = cmdiresource.ResourceTreeCollection(corpus, event, speakers, tran
 
 resourcetree.build_resourceproxy()
 
-resourcetree.write_xml('FOLK', '/tmp/folktest.xml')
+resourcetree.write_cmdi('FOLK', '/tmp/folktest.xml')
 
 # TODO: For corpus labels: every resource must be put into the resource proxy list
 
