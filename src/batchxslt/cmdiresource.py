@@ -68,10 +68,10 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             # iterate over all corpus file names in corpus metadata dir
             # and define a node for each.
             try:
-                etr = etree.parse(corpuspath+'/'+corpus)
+                etr = etree.parse(corpuspath + '/' + corpus)
 
             except (etree.XMLSyntaxError, IOError):
-                logging.error("Warning. xml file was not parsed: "+corpus)
+                logging.error("Warning. xml file was not parsed: " + corpus)
                 continue
             self.add_node(
                 corpus.split('_')[1].rstrip('-'),
@@ -308,7 +308,11 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
         cmdi_etrobj = self.node.get(metafilenode).get("etreeobject")
         cmdiroot = cmdi_etrobj.getroot()
-        resourceproxies = cmdiroot.find("Resources").find("ResourceProxyList")
+        try:
+            resourceproxies = cmdiroot.find("Resources").find("ResourceProxyList")
+        except AttributeError:
+            logging.error("No Resource Element found! Check cmdi file consistency.")
+            return
 
         in_nodes = [i[0] for i in self.in_edges(metafilenode)]
         out_nodes = [i[1] for i in self.out_edges(metafilenode)]
