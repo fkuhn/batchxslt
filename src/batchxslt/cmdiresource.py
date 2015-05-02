@@ -311,7 +311,8 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         try:
             resourceproxies = cmdiroot.find("Resources").find("ResourceProxyList")
         except AttributeError:
-            logging.error("No Resource Element found! Check cmdi file consistency.")
+            logging.error("No Resource Element found in " + metafilenode + ". Check cmdi file consistency.")
+
             return
 
         in_nodes = [i[0] for i in self.in_edges(metafilenode)]
