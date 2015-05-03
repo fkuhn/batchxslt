@@ -1,12 +1,12 @@
 __author__ = 'kuhn'
 
-import networkx
-# import codecs
 import logging
 import os
 from lxml import etree
-# import sys
 import mimetypes
+
+import networkx
+
 
 # TODO: define paths in csv files
 DGDROOT = "dgd2_data"
@@ -113,7 +113,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                         'type': 'metadata',
                         'etreeobject': etr,
                         'filename': filename}
-                    )
+                                  )
                     self.add_edge(event, eventnodename)
             # finally connect an event to all speakers that take part in it.
             for speaker in self.find_speakers(event):
@@ -135,7 +135,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
                 for filename in os.listdir(speakercorpusfilepath):
                     try:
-                        etr = etree.parse(speakercorpusfilepath+'/' + filename)
+                        etr = etree.parse(speakercorpusfilepath + '/' + filename)
                     except (etree.XMLSyntaxError, IOError):
                         logging.error("Warning. xml file was not parsed: " +
                                       filename)
@@ -147,7 +147,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                         'type': 'metadata',
                         'etreeobject': etr,
                         'filename': filename}
-                    )
+                                  )
                     # define an edge from the parent corpus (speakercorp)
                     # to the current speakernode
                     # example: "PF" --> "PF--_S_00103.xml"
@@ -176,7 +176,6 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                 transcriptcorpusfilepath = transcriptspath + '/' + transcriptcorp
 
                 for filename in os.listdir(transcriptcorpusfilepath):
-
                     # contruct node name. eg. from FOLK_E_00004_SE_01_T_01_DF_01.fln
                     transcriptnodename = filename.split('.')[0]
 
@@ -186,7 +185,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                         'type': 'transcript',
                         'etreeobject': False,
                         'filename': filename}
-                    )
+                                  )
 
                     # obtain event from filename
                     transcriptevent = '_'.join(transcriptnodename.split('_')[:3])
@@ -241,8 +240,6 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         :return list of event labels
         searches for events a speaker takes part in by looking up the
         metadata itself.
-        Since there is no physical resource for sessions, they are not
-        filed as nodes.
         """
         sessions = self.find_eventsessions(speakernode)
         # take the session of event label and split it down to the event
@@ -275,7 +272,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         # self.node.get(eventnode).update({'sessions': sessionsofevent})
         #
         # for session in sessionsofevent:
-        #     # must add "_extern" label to find speaker in graphh
+        # # must add "_extern" label to find speaker in graphh
         #     speakerlabels.extend([speaker.text for speaker in session.xpath(speakerpath)])
         #     # speakerlabels.extend([speaker.text + '_extern.xml' for speaker in session.xpath(speakerpath)])
 
@@ -345,6 +342,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
             resourcetype.set("mimetype", str(mimetypes.guess_type(node_fname)[0]))
             # if mimetype is unknown set it to 'application/binary'
+            # TODO:
             if resourcetype.get("mimetype") == 'None':
                 resourcetype.set("mimetype", 'application/xml')
 
@@ -359,8 +357,8 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             # insert new resourceproxyelement in list
             # resourceproxies.append(resourceproxy)
 
-        # version resource info
-        # isVersionOf = etree.SubElement(resourceproxies, "isVersionOf")
+            # version resource info
+            # isVersionOf = etree.SubElement(resourceproxies, "isVersionOf")
 
     def write_cmdi(self, nodename, fname):
         """
@@ -381,23 +379,23 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         for resource in self.nodes_iter():
 
             # pass the node name to define_resourceproxy
-            if self.node.get(resource).get("etreeobject")\
+            if self.node.get(resource).get("etreeobject") \
                     is not False and resource != 'AGD_root':
                 self.define_resourceproxy(resource)
 
-    # def build_geolocation(self, nodename):
-    #     """
-    #     inplace computation of the geolocations
-    #     :return:
-    #     """
-    #     # find geolocation package to compute locations
-    #     # from the provided grid coordinates
-    #
-    #     # if provided, obtain grid coordinates.
-    #
-    #     for node in self.nodes_iter():
-    #
-    #         pass
+                # def build_geolocation(self, nodename):
+                # """
+                #     inplace computation of the geolocations
+                #     :return:
+                #     """
+                #     # find geolocation package to compute locations
+                #     # from the provided grid coordinates
+                #
+                #     # if provided, obtain grid coordinates.
+                #
+                #     for node in self.nodes_iter():
+                #
+                #         pass
 
 
 
