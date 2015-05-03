@@ -64,62 +64,98 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
         # define corpus nodes
 
-        for corpus in corpusnames:
-            # iterate over all corpus file names in corpus metadata dir
-            # and define a node for each.
-            try:
-                etr = etree.parse(corpuspath + '/' + corpus)
-
-            except (etree.XMLSyntaxError, IOError):
-                logging.error("Warning. xml file was not parsed: " + corpus)
-                continue
-            self.add_node(
-                corpus.split('_')[1].rstrip('-'),
-                {
-                    'repopath': self.contextpath(corpus, DGDROOT),
-                    'corpusroot': True,
-                    'type': 'metadata',
-                    'etreeobject': etr,
-                    'filename': corpus}
-
-            )
-            # add edge from root to current node
-            self.add_edge('AGD_root', corpus.split('_')[1].rstrip('-'))
+        # for corpus in corpusnames:
+        #     # iterate over all corpus file names in corpus metadata dir
+        #     # and define a node for each.
+        #     try:
+        #         etr = etree.parse(corpuspath + '/' + corpus)
+        #
+        #     except (etree.XMLSyntaxError, IOError):
+        #         logging.error("Warning. xml file was not parsed: " + corpus)
+        #         continue
+        #     self.add_node(
+        #         corpus.split('_')[1].rstrip('-'),
+        #         {
+        #             'repopath': self.contextpath(corpus, DGDROOT),
+        #             'corpusroot': True,
+        #             'type': 'metadata',
+        #             'etreeobject': etr,
+        #             'filename': corpus}
+        #
+        #     )
+        #     # add edge from root to current node
+        #     self.add_edge('AGD_root', corpus.split('_')[1].rstrip('-'))
 
         # define event nodes and add add them to their corpus root
 
-        for event in eventcorpusnames:
-
-            """
-            define eventnodes. note that each event has a number of sessions that
-            are not explicitly stored as nodes.
-            """
-
-            if self.has_node(event):
-                eventcorpusfilepath = eventspath + '/' + event
-
-                for filename in os.listdir(eventcorpusfilepath):
-                    try:
-                        etr = etree.parse(eventcorpusfilepath + '/' + filename)
-                    except (etree.XMLSyntaxError, IOError):
-                        logging.error("Warning. xml file was not parsed: " +
-                                      filename)
-                        continue
-
-                    eventnodename = filename.split('.')[0].lstrip(PREFIX).rstrip('_extern')
-                    self.add_node(eventnodename, {
-                        'repopath': self.contextpath(event, DGDROOT),
-                        'corpusroot': False,
-                        'type': 'metadata',
-                        'etreeobject': etr,
-                        'filename': filename}
-                                  )
-                    self.add_edge(event, eventnodename)
-            # finally connect an event to all speakers that take part in it.
-            for speaker in self.find_speakers(event):
-                self.add_edge(event, speaker)
+        # for event in eventcorpusnames:
+        #
+        #     """
+        #     define eventnodes. note that each event has a number of sessions that
+        #     are not explicitly stored as nodes.
+        #     """
+        #
+        #     if self.has_node(event):
+        #         eventcorpusfilepath = eventspath + '/' + event
+        #
+        #         for filename in os.listdir(eventcorpusfilepath):
+        #             try:
+        #                 etr = etree.parse(eventcorpusfilepath + '/' + filename)
+        #             except (etree.XMLSyntaxError, IOError):
+        #                 logging.error("Warning. xml file was not parsed: " +
+        #                               filename)
+        #                 continue
+        #
+        #             eventnodename = filename.split('.')[0].lstrip(PREFIX).rstrip('_extern')
+        #             self.add_node(eventnodename, {
+        #                 'repopath': self.contextpath(event, DGDROOT),
+        #                 'corpusroot': False,
+        #                 'type': 'metadata',
+        #                 'etreeobject': etr,
+        #                 'filename': filename}
+        #                           )
+        #             self.add_edge(event, eventnodename)
+        #     # finally connect an event to all speakers that take part in it.
+        #     for speaker in self.find_speakers(event):
+        #         self.add_edge(event, speaker)
 
         # define speaker nodes and add them to their corpus root
+
+        for transcriptcorp in transcriptscorpusnames:
+
+            """
+            define transcriptnodes for each corpus found in the primary source folders
+            the event that an trancript is counted to is simply derived by splitting the
+            string of the transcript filename. naming paradigm will not change so method is
+            simple and safe.
+            Each transcript is part of a recording session.
+            """
+
+            if self.has_node(transcriptcorp):
+
+                transcriptcorpusfilepath = transcriptspath + '/' + transcriptcorp
+
+                for filename in os.listdir(transcriptcorpusfilepath):
+                    # contruct node name. eg. from FOLK_E_00004_SE_01_T_01_DF_01.fln
+                    transcriptnodename = filename.split('.')[0]
+
+                    self.add_node(transcriptnodename, {
+                        'repopath': transcriptcorp,
+                        'corpusroot': False,
+                        'type': 'transcript',
+                        'etreeobject': False,
+                        'filename': filename}
+                                  )
+
+                    # obtain event from filename
+                    transcriptevent = '_'.join(transcriptnodename.split('_')[:3])
+                    # define edge from event to transcript
+                    if self.has_node(transcriptevent):
+                        self.add_edge(transcriptevent, transcriptnodename)
+
+                    # define an edge to refer from the corpus catalogue to the transcript
+                    if self.has_node(transcriptcorp):
+                        self.add_edge(transcriptcorp, transcriptnodename)
 
         for speakercorp in speakercorpusnames:
 
@@ -161,41 +197,102 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
         # define transcriptnodes and add them to their corpusroot
 
-        for transcriptcorp in transcriptscorpusnames:
+        # for transcriptcorp in transcriptscorpusnames:
+        #
+        #     """
+        #     define transcriptnodes for each corpus found in the primary source folders
+        #     the event that an trancript is counted to is simply derived by splitting the
+        #     string of the transcript filename. naming paradigm will not change so method is
+        #     simple and safe.
+        #     Each transcript is part of a recording session.
+        #     """
+        #
+        #     if self.has_node(transcriptcorp):
+        #
+        #         transcriptcorpusfilepath = transcriptspath + '/' + transcriptcorp
+        #
+        #         for filename in os.listdir(transcriptcorpusfilepath):
+        #             # contruct node name. eg. from FOLK_E_00004_SE_01_T_01_DF_01.fln
+        #             transcriptnodename = filename.split('.')[0]
+        #
+        #             self.add_node(transcriptnodename, {
+        #                 'repopath': transcriptcorp,
+        #                 'corpusroot': False,
+        #                 'type': 'transcript',
+        #                 'etreeobject': False,
+        #                 'filename': filename}
+        #                           )
+        #
+        #             # obtain event from filename
+        #             transcriptevent = '_'.join(transcriptnodename.split('_')[:3])
+        #             # define edge from event to transcript
+        #             if self.has_node(transcriptevent):
+        #                 self.add_edge(transcriptevent, transcriptnodename)
+        #
+        #             # define an edge to refer from the corpus catalogue to the transcript
+        #             if self.has_node(transcriptcorp):
+        #                 self.add_edge(transcriptcorp, transcriptnodename)
+
+        # define event nodes and add add them to their corpus root
+
+        for event in eventcorpusnames:
 
             """
-            define transcriptnodes for each corpus found in the primary source folders
-            the event that an trancript is counted to is simply derived by splitting the
-            string of the transcript filename. naming paradigm will not change so method is
-            simple and safe.
-            Each transcript is part of a recording session.
+            define eventnodes. note that each event has a number of sessions that
+            are not explicitly stored as nodes.
             """
 
-            if self.has_node(transcriptcorp):
+            if self.has_node(event):
+                eventcorpusfilepath = eventspath + '/' + event
 
-                transcriptcorpusfilepath = transcriptspath + '/' + transcriptcorp
+                for filename in os.listdir(eventcorpusfilepath):
+                    try:
+                        etr = etree.parse(eventcorpusfilepath + '/' + filename)
+                    except (etree.XMLSyntaxError, IOError):
+                        logging.error("Warning. xml file was not parsed: " +
+                                      filename)
+                        continue
 
-                for filename in os.listdir(transcriptcorpusfilepath):
-                    # contruct node name. eg. from FOLK_E_00004_SE_01_T_01_DF_01.fln
-                    transcriptnodename = filename.split('.')[0]
-
-                    self.add_node(transcriptnodename, {
-                        'repopath': transcriptcorp,
+                    eventnodename = filename.split('.')[0].lstrip(PREFIX).rstrip('_extern')
+                    self.add_node(eventnodename, {
+                        'repopath': self.contextpath(event, DGDROOT),
                         'corpusroot': False,
-                        'type': 'transcript',
-                        'etreeobject': False,
+                        'type': 'metadata',
+                        'etreeobject': etr,
                         'filename': filename}
                                   )
+                    self.add_edge(event, eventnodename)
+            # finally connect an event to all speakers that take part in it.
+            for speaker in self.find_speakers(event):
+                self.add_edge(event, speaker)
 
-                    # obtain event from filename
-                    transcriptevent = '_'.join(transcriptnodename.split('_')[:3])
-                    # define edge from event to transcript
-                    if self.has_node(transcriptevent):
-                        self.add_edge(transcriptevent, transcriptnodename)
+        # define corpora
 
-                    # define an edge to refer from the corpus catalogue to the transcript
-                    if self.has_node(transcriptcorp):
-                        self.add_edge(transcriptcorp, transcriptnodename)
+        for corpus in corpusnames:
+                    # iterate over all corpus file names in corpus metadata dir
+                    # and define a node for each.
+            try:
+                etr = etree.parse(corpuspath + '/' + corpus)
+
+            except (etree.XMLSyntaxError, IOError):
+                logging.error("Warning. xml file was not parsed: " + corpus)
+                continue
+            self.add_node(
+                corpus.split('_')[1].rstrip('-'),
+                {
+                    'repopath': self.contextpath(corpus, DGDROOT),
+                    'corpusroot': True,
+                    'type': 'metadata',
+                    'etreeobject': etr,
+                    'filename': corpus}
+
+                )
+            # add edge from root to current node
+            self.add_edge('AGD_root', corpus.split('_')[1].rstrip('-'))
+
+            # define event nodes and add add them to their corpus root
+
+
 
     @staticmethod
     def contextpath(fname, startpath):
@@ -258,23 +355,27 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
         speakerlist = list()
 
-        for outedge in self.out_edges_iter([eventnode]):
+        # simple split label solution
 
-            if outedge[1].split('_')[1] == 'S':
-                speakerlist.append(outedge[1])
+        # for outedge in self.out_edges_iter([eventnode]):
 
-        # session = "//Session"
-        # speakerpath = "Speaker/Label"
-        # sessionsofevent = self.node.get(eventnode).get("etreeobject").xpath(session)
-        # speakerlabels = list()
+        #    if outedge[1].split('_')[1] == 'S':
+        #        speakerlist.append(outedge[1])
+
+        # xpath solution
+
+        session = "//Session"
+        speakerpath = "Speaker/Label"
+        sessionsofevent = self.node.get(eventnode).get("etreeobject").xpath(session)
+        speakerlabels = list()
         #
-        # # add all sessions of the event as attribute
-        # self.node.get(eventnode).update({'sessions': sessionsofevent})
+        # add all sessions of the event as attribute
+        self.node.get(eventnode).update({'sessions': sessionsofevent})
         #
-        # for session in sessionsofevent:
-        # # must add "_extern" label to find speaker in graphh
-        #     speakerlabels.extend([speaker.text for speaker in session.xpath(speakerpath)])
-        #     # speakerlabels.extend([speaker.text + '_extern.xml' for speaker in session.xpath(speakerpath)])
+        for session in sessionsofevent:
+            # must add "_extern" label to find speaker in graphh
+            speakerlabels.extend([speaker.text for speaker in session.xpath(speakerpath)])
+            speakerlabels.extend([speaker.text + '_extern.xml' for speaker in session.xpath(speakerpath)])
 
         return speakerlist
 
