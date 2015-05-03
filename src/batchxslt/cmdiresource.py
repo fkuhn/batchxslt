@@ -142,8 +142,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                         'corpusroot': False,
                         'type': 'transcript',
                         'etreeobject': False,
-                        'filename': filename}
-                                  )
+                        'filename': filename})
 
                     # obtain event from filename
                     transcriptevent = '_'.join(transcriptnodename.split('_')[:3])
@@ -299,7 +298,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         :return:
         """
 
-        eventtree = self.etree.node.get(eventnode).get('etreeobject')
+        eventtree = self.node.get(eventnode).get('etreeobject')
 
         for speakernode in self.find_speakers(eventnode):
 
@@ -329,9 +328,6 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     etree.SubElement(event_speaker, speaker_nat)
                     etree.SubElement(event_speaker, speaker_loc)
                     etree.SubElement(event_speaker, speaker_lang)
-
-
-
 
     def define_resourceproxy(self, metafilenode):
         """
@@ -438,9 +434,3 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                 #     for node in self.nodes_iter():
                 #
                 #         pass
-
-
-
-
-
-
