@@ -291,6 +291,48 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
         return transcripts
 
+    def speaker2event(self, eventnode):
+        """
+        finds all speaker nodes for a given event node and integrates their metadata into
+        the event node
+        :param eventnode:
+        :return:
+        """
+
+        eventtree = self.etree.node.get(eventnode).get('etreeobject')
+
+        for speakernode in self.find_speakers(eventnode):
+
+            speaker_name = self.node.get(speakernode).get("etreeobject").find('Name')
+            speaker_alias = self.node.get(speakernode).get("etreeobject").find('Alias')
+            speaker_id = self.node.get(speakernode).get("etreeobject").find('TranscriptID')
+            speaker_sex = self.node.get(speakernode).get("etreeobject").find('Sex')
+            speaker_dob = self.node.get(speakernode).get("etreeobject").find('DateOfBirth')
+            speaker_edu = self.node.get(speakernode).get("etreeobject").find('Education')
+            speaker_occ = self.node.get(speakernode).get("etreeobject").find('Occupation')
+            speaker_ethn = self.node.get(speakernode).get("etreeobject").find('Ethnicity')
+            speaker_nat = self.node.get(speakernode).get("etreeobject").find('Nationality')
+            speaker_loc = self.node.get(speakernode).get("etreeobject").find('LocationData')
+            speaker_lang = self.node.get(speakernode).get("etreeobject").find('LanguageData')
+
+            for event_speaker in eventtree.iter('Speaker'):
+
+                if event_speaker.find('Label') == speakernode:
+
+                    etree.SubElement(event_speaker, speaker_name)
+                    etree.SubElement(event_speaker, speaker_id)
+                    # etree.SubElement(event_speaker, speaker_sex)
+                    etree.SubElement(event_speaker, speaker_dob)
+                    etree.SubElement(event_speaker, speaker_edu)
+                    etree.SubElement(event_speaker, speaker_occ)
+                    etree.SubElement(event_speaker, speaker_ethn)
+                    etree.SubElement(event_speaker, speaker_nat)
+                    etree.SubElement(event_speaker, speaker_loc)
+                    etree.SubElement(event_speaker, speaker_lang)
+
+
+
+
     def define_resourceproxy(self, metafilenode):
         """
         defines the ResourceProxies for all Resources referred via edges
