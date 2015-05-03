@@ -37,6 +37,8 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
     Speakers are not removed from resource proxy generation. Transcript nodes
     are added. their type is labelled "transcript" accordingly.
 
+    CMDI references only work with new transformed data (revision including
+    session to event metadata)
     """
 
     def __init__(self, corpuspath, eventspath, speakerspath, transcriptspath):
@@ -434,3 +436,78 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                 #     for node in self.nodes_iter():
                 #
                 #         pass
+
+    def define_hasparts(self, resource):
+        """
+        define hasParts for a given node.
+        :param resource:
+        :return:
+        """
+        cmdi_etrobj = self.node.get(resource).get("etreeobject")
+        cmdiroot = cmdi_etrobj.getroot('DGDEvent')
+
+        in_nodes = [i[0] for i in self.in_edges(resource)]
+        out_nodes = [i[1] for i in self.out_edges(resource)]
+
+        resource_nodes = out_nodes + in_nodes
+
+        # remove speaker references for now
+        for speaker in self.find_speakers(resource):
+            if speaker in resource_nodes:
+                resource_nodes.remove(speaker)
+
+        # remove the abstract node from the resource list
+        if 'AGD_root' in resource_nodes:
+            resource_nodes.remove('AGD_root')
+        if resource in resource_nodes:
+            resource_nodes.remove(resource)
+        # make sure there are just unique references
+        resource_nodes = set(resource_nodes)
+
+        # define the hasPart Elements
+        relations = etree.SubElement(cmdiroot, 'Relations')
+        for node in resource_nodes:
+
+            haspart = etree.SubElement(relations, 'hasPart')
+            haspart.set('href', LANDINGPG + node)
+            haspart.text = node
+
+
+
+
+            # where is the edge pointed to?
+            # access the filename
+
+            # node_fname = self.node.get(node).get("filename")
+            # resourceproxy = etree.SubElement(, "ResourceProxy")
+            # resourceref = etree.SubElement(resourceproxy, "ResourceRef")
+            # resourcetype = etree.SubElement(resourceproxy, "ResourceType")
+            # resourceproxy.set("id", node)
+            #
+            # resourcetype.set("mimetype", str(mimetypes.guess_type(node_fname)[0]))
+            # # if mimetype is unknown set it to 'application/binary'
+            # # TODO:
+            # if resourcetype.get("mimetype") == 'None':
+            #     resourcetype.set("mimetype", 'application/xml')
+            #
+            # landingpage = urllib.unquote(LANDINGPG)
+            # resourceref.text = node
+            # resourceref.set("href", landingpage + node)
+            #
+            # # Generate an is PartRelationship for backreference
+            # # TODO: build ispart and isversion of relations
+            # ispart = etree.SubElement(resourceproxy, "ResourceIsPart")
+
+
+    def build_hasparts(self):
+        """
+        build the hasPart Relations for all Nodes
+        :return:
+        """
+        for resource in self.nodes_iter():
+
+            # pass the node name to define_resourceproxy
+            if self.node.get(resource).get("etreeobject") \
+                    is not False and resource != 'AGD_root':
+                self.define_hasparts(resource)
+
