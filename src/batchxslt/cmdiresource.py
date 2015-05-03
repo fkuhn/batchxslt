@@ -440,6 +440,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
     def define_hasparts(self, resource):
         """
         define hasParts for a given node.
+
         :param resource:
         :return:
         """
@@ -449,7 +450,8 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         in_nodes = [i[0] for i in self.in_edges(resource)]
         out_nodes = [i[1] for i in self.out_edges(resource)]
 
-        resource_nodes = out_nodes + in_nodes
+        # hasPart Elements for out_nodes
+        # isPartOf Elements for in_nodes
 
         # remove speaker references for now
         for speaker in self.find_speakers(resource):
