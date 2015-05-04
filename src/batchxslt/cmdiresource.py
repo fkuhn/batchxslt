@@ -13,7 +13,7 @@ DGDROOT = "dgd2_data"
 RESOURCEPROXIES = "ResourceProxyList"
 SPEAKERXPATH = "//InEvent/Event"
 RESOURCEPATH = "dgd2_data/dgd2cmdi/cmdiOutput/"
-PREFIX = 'CMDI_'
+PREFIX = 'cmdi_'
 NAME = 'AGD'
 
 import urllib
@@ -257,27 +257,27 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
         # simple split label solution
 
-        # for outedge in self.out_edges_iter([eventnode]):
+        for outedge in self.out_edges_iter([eventnode]):
 
-        #    if outedge[1].split('_')[1] == 'S':
-        #        speakerlist.append(outedge[1])
+            if outedge[1].split('_')[1] == 'S':
+                speakerlist.append(outedge[1])
+
+        return speakerlist
 
         # xpath solution
 
-        session = "//Session"
-        speakerpath = "Speaker/Label"
-        sessionsofevent = self.node.get(eventnode).get("etreeobject").xpath(session)
-        speakerlabels = list()
-        #
-        # add all sessions of the event as attribute
-        self.node.get(eventnode).update({'sessions': sessionsofevent})
-        #
-        for session in sessionsofevent:
-            # must add "_extern" label to find speaker in graphh
-            speakerlabels.extend([speaker.text for speaker in session.xpath(speakerpath)])
-            speakerlabels.extend([speaker.text + '_extern.xml' for speaker in session.xpath(speakerpath)])
-
-        return speakerlist
+        # session = "//Session"
+        # speakerpath = "Speaker/Label"
+        # sessionsofevent = self.node.get(eventnode).get("etreeobject").xpath(session)
+        # speakerlabels = list()
+        # #
+        # # add all sessions of the event as attribute
+        # self.node.get(eventnode).update({'sessions': sessionsofevent})
+        # #
+        # for session in sessionsofevent:
+        #     # must add "_extern" label to find speaker in graphh
+        #     speakerlabels.extend([speaker.text for speaker in session.xpath(speakerpath)])
+        #     speakerlabels.extend([speaker.text + '_extern.xml' for speaker in session.xpath(speakerpath)])
 
     def find_transcripts(self, eventnode):
         """
