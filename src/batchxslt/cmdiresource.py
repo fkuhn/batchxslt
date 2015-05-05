@@ -437,10 +437,11 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                 #
                 #         pass
 
-    def define_hasparts(self, resource):
+    def define_parts(self, resource):
         """
-        define hasParts for a given node.
-
+        define Parts for a given node inside a Relation Element.
+        all outgoing edges refer to hasParts relations.
+        all ingoing edges refer to isPartOf relations.
         :param resource:
         :return:
         """
@@ -455,53 +456,46 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
         # remove speaker references for now
         for speaker in self.find_speakers(resource):
-            if speaker in resource_nodes:
-                resource_nodes.remove(speaker)
+            if speaker in out_nodes:
+                out_nodes.remove(speaker)
 
-        # remove the abstract node from the resource list
-        if 'AGD_root' in resource_nodes:
-            resource_nodes.remove('AGD_root')
-        if resource in resource_nodes:
-            resource_nodes.remove(resource)
+        for speaker in self.find_speakers(resource):
+            if speaker in in_nodes:
+                in_nodes.remove(speaker)
+
+        # remove the abstract node from the resource lists
+        if 'AGD_root' in in_nodes:
+            in_nodes.remove('AGD_root')
+        # remove the self-reference from the resource lists
+        if resource in in_nodes:
+            in_nodes.remove(resource)
+
         # make sure there are just unique references
-        resource_nodes = set(resource_nodes)
+        in_nodes = set(in_nodes)
+        out_nodes = set(out_nodes)
 
         # define the hasPart Elements
+        # define a Relation Element as parent for hasPart elements
         relations = etree.SubElement(cmdiroot, 'Relations')
-        for node in resource_nodes:
+        # find them in
+        for node in out_nodes:
 
             haspart = etree.SubElement(relations, 'hasPart')
             haspart.set('href', LANDINGPG + node)
             haspart.text = node
 
+        for node in in_nodes:
 
+            ispartof = etree.SubElement(relations, 'isPartOf')
+            ispartof.set('href', LANDINGPG + node)
+            ispartof.text = node
 
+        # finally, define a node that refers to the version of this metadata
+        isversionof = etree.SubElement(relations, 'isVersionOf')
+        isversionof.set('href', LANDINGPG + resource)
+        isversionof.text = 'Version 0'
 
-            # where is the edge pointed to?
-            # access the filename
-
-            # node_fname = self.node.get(node).get("filename")
-            # resourceproxy = etree.SubElement(, "ResourceProxy")
-            # resourceref = etree.SubElement(resourceproxy, "ResourceRef")
-            # resourcetype = etree.SubElement(resourceproxy, "ResourceType")
-            # resourceproxy.set("id", node)
-            #
-            # resourcetype.set("mimetype", str(mimetypes.guess_type(node_fname)[0]))
-            # # if mimetype is unknown set it to 'application/binary'
-            # # TODO:
-            # if resourcetype.get("mimetype") == 'None':
-            #     resourcetype.set("mimetype", 'application/xml')
-            #
-            # landingpage = urllib.unquote(LANDINGPG)
-            # resourceref.text = node
-            # resourceref.set("href", landingpage + node)
-            #
-            # # Generate an is PartRelationship for backreference
-            # # TODO: build ispart and isversion of relations
-            # ispart = etree.SubElement(resourceproxy, "ResourceIsPart")
-
-
-    def build_hasparts(self):
+    def build_parts(self):
         """
         build the hasPart Relations for all Nodes
         :return:
@@ -511,5 +505,5 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             # pass the node name to define_resourceproxy
             if self.node.get(resource).get("etreeobject") \
                     is not False and resource != 'AGD_root':
-                self.define_hasparts(resource)
+                self.define_parts(resource)
 
