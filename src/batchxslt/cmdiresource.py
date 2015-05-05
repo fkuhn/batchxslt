@@ -509,6 +509,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         build the hasPart Relations for all Nodes
         :return:
         """
+        # FIXME: not working
         for resource in self.nodes_iter():
 
             # pass the node name to define_resourceproxy
