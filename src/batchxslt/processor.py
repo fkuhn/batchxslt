@@ -84,7 +84,7 @@ class XSLBatchProcessor(object):
 
                 os.system(
                     "java -jar " + self.processorpath + " -s:" +
-                    xmldata + "-xsl:" + stylesheet
+                    xmldata + " -xsl:" + stylesheet
                     + " -o:" + output)
             except OSError:
                 print "cannot call processor"
@@ -92,7 +92,7 @@ class XSLBatchProcessor(object):
 
         elif os.path.isdir(xmldata):
 
-            for filename in xmldata:
+            for filename in os.listdir(xmldata):
 
                 try:
 
