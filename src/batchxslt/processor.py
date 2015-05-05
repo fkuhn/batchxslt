@@ -63,7 +63,7 @@ class XSLBatchProcessor(object):
         os.path.exists(processorpath)
         self.processorpath = processorpath
 
-    def tranform(self, stylesheet, xmldata, prefix, outputdir):
+    def transform(self, stylesheet, xmldata, prefix, outputdir):
         """
         this method iterates the xslt processor over all files in a given
         directory using a certain stylesheet and writes the output to a
@@ -79,7 +79,7 @@ class XSLBatchProcessor(object):
         if os.path.isfile(xmldata):
 
             try:
-                # print "processing " + metafile
+
                 output = os.path.join(outputdir, prefix + xmldata.split('/')[-1])
 
                 os.system(
@@ -95,12 +95,12 @@ class XSLBatchProcessor(object):
             for filename in xmldata:
 
                 try:
-                    # print "processing " + metafile
-                    output = os.path.join(prefix + xmldata.split('/')[-1])
+
+                    output = os.path.join(outputdir, prefix + xmldata.split('/')[-1])
 
                     os.system(
                         "java -jar " + self.processorpath + " -s:" +
-                        os.path.join(xmldata, filename) + "-xsl:" + stylesheet
+                        os.path.join(xmldata, filename) + " -xsl:" + stylesheet
                         + " -o:" + output)
                 except OSError:
                     print "cannot call processor"
