@@ -63,6 +63,52 @@ class XSLBatchProcessor(object):
         os.path.exists(processorpath)
         self.processorpath = processorpath
 
+    def tranform(self, stylesheet, xmldata, prefix, outputdir):
+        """
+        this method iterates the xslt processor over all files in a given
+        directory using a certain stylesheet and writes the output to a
+        defined and existing directory. transform dir is a more simple
+        alternative to the 'fully automated' but cumbersome start() method.
+        :param stylesheet:
+        :param xmldata: either directory or file
+        :param prefix:
+        :param outputdir:
+        :return:
+        """
+
+        if os.path.isfile(xmldata):
+
+            try:
+                # print "processing " + metafile
+                output = os.path.join(outputdir, prefix + xmldata.split('/')[-1])
+
+                os.system(
+                    "java -jar " + self.processorpath + " -s:" +
+                    xmldata + "-xsl:" + stylesheet
+                    + " -o:" + output)
+            except OSError:
+                print "cannot call processor"
+                sys.exit()
+
+        elif os.path.isdir(xmldata):
+
+            for filename in xmldata:
+
+                try:
+                    # print "processing " + metafile
+                    output = os.path.join(prefix + xmldata.split('/')[-1])
+
+                    os.system(
+                        "java -jar " + self.processorpath + " -s:" +
+                        os.path.join(xmldata, filename) + "-xsl:" + stylesheet
+                        + " -o:" + output)
+                except OSError:
+                    print "cannot call processor"
+                    sys.exit()
+
+
+
+
     def start(self, stylesheet, xmldatadirectory, prefix, outputdir):
         """starts the xslt transformation process and checks if
          directories are reachable"""
