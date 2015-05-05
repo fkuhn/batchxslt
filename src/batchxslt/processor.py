@@ -96,7 +96,7 @@ class XSLBatchProcessor(object):
 
                 try:
 
-                    output = os.path.join(outputdir, prefix + xmldata.split('/')[-1])
+                    output = os.path.join(outputdir, prefix + filename.split('/')[-1])
 
                     os.system(
                         "java -jar " + self.processorpath + " -s:" +
@@ -105,9 +105,6 @@ class XSLBatchProcessor(object):
                 except OSError:
                     print "cannot call processor"
                     sys.exit()
-
-
-
 
     def start(self, stylesheet, xmldatadirectory, prefix, outputdir):
         """starts the xslt transformation process and checks if
