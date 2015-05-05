@@ -10,9 +10,9 @@ dgd_corpus = "/home/kuhn/Data/IDS/svn_rev1233/dgd2_data/metadata/corpora"
 dgd_event = "/home/kuhn/Data/IDS/svn_rev1233/dgd2_data/metadata/events"
 dgd_speakers = "/home/kuhn/Data/IDS/svn_rev1233/dgd2_data/metadata/speakers"
 
-cmdi_corpus = "/home/kuhn/Data/IDS/svn_rev1233/dgd2_data/dgd2cmdi/cmdiOutput/corpus"
-cmdi_event = "/home/kuhn/Data/IDS/svn_rev1233/dgd2_data/dgd2cmdi/cmdiOutput/event"
-cmdi_speakers = "/home/kuhn/Data/IDS/svn_rev1233/dgd2_data/dgd2cmdi/cmdiOutput/speakers"
+cmdi_corpus = "/home/kuhn/Data/IDS/cmdi/corpus"
+cmdi_event = "/home/kuhn/Data/IDS/cmdi/event"
+cmdi_speakers = "/home/kuhn/Data/IDS/cmdi/speakers"
 
 transcripts = "/home/kuhn/Data/IDS/svn_rev1233/dgd2_data/transcripts/"
 
@@ -29,7 +29,9 @@ print resourcetree.node.get('FOLK').get('etreeobject').getroot()
 
 resourcetree.build_resourceproxy()
 
-resourcetree.write_cmdi('PF', '/tmp/pf_corpus.xml')
+resourcetree.speaker2event('PF--_E_00001')
+
+resourcetree.write_cmdi('PF--_E_00001', '/tmp/pf_event.xml')
 
 # TODO: For corpus labels: every resource must be put into the resource proxy list
 
