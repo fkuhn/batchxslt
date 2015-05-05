@@ -20,6 +20,7 @@ for nodename in resourcetree.nodes_iter():
     if '_E_' in nodename and (resourcetree.node.get(nodename).get('type') != 'transcript'):
         resourcetree.speaker2event(nodename)
 
+# FIXME: build_parts is not working
 resourcetree.build_parts()
 
 for nodename in resourcetree.nodes_iter():
