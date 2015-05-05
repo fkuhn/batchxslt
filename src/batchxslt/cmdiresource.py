@@ -305,28 +305,26 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
         for speakernode in self.find_speakers(eventnode):
 
-
-            print speakernode
-
-            speaker_name = self.node.get(speakernode).get("etreeobject").getroot().xpath('//Name')[0]
-            speaker_alias = self.node.get(speakernode).get("etreeobject").getroot().xpath('//Alias')[0]
-            speaker_id = self.node.get(speakernode).get("etreeobject").getroot().xpath('//TranscriptID')[0]
-            speaker_sex = self.node.get(speakernode).get("etreeobject").getroot().xpath('//Sex')[0]
-            speaker_dob = self.node.get(speakernode).get("etreeobject").getroot().xpath('//DateOfBirth')[0]
-            speaker_edu = self.node.get(speakernode).get("etreeobject").getroot().xpath('//Education')[0]
-            speaker_occ = self.node.get(speakernode).get("etreeobject").getroot().xpath('//Profession')[0]
-            speaker_ethn = self.node.get(speakernode).get("etreeobject").getroot().xpath('//Ethnicity')[0]
-            speaker_nat = self.node.get(speakernode).get("etreeobject").getroot().xpath('//Nationality')[0]
-            speaker_loc = self.node.get(speakernode).get("etreeobject").getroot().xpath('//LocationData')[0]
-            speaker_lang = self.node.get(speakernode).get("etreeobject").getroot().xpath('//LanguageData')[0]
-
+            try:
+                speaker_name = self.node.get(speakernode).get("etreeobject").getroot().xpath('//Name')[0]
+                speaker_alias = self.node.get(speakernode).get("etreeobject").getroot().xpath('//Alias')[0]
+                speaker_id = self.node.get(speakernode).get("etreeobject").getroot().xpath('//TranscriptID')[0]
+                speaker_sex = self.node.get(speakernode).get("etreeobject").getroot().xpath('//Sex')[0]
+                speaker_dob = self.node.get(speakernode).get("etreeobject").getroot().xpath('//DateOfBirth')[0]
+                speaker_edu = self.node.get(speakernode).get("etreeobject").getroot().xpath('//Education')[0]
+                speaker_occ = self.node.get(speakernode).get("etreeobject").getroot().xpath('//Profession')[0]
+                speaker_ethn = self.node.get(speakernode).get("etreeobject").getroot().xpath('//Ethnicity')[0]
+                speaker_nat = self.node.get(speakernode).get("etreeobject").getroot().xpath('//Nationality')[0]
+                speaker_loc = self.node.get(speakernode).get("etreeobject").getroot().xpath('//LocationData')[0]
+                speaker_lang = self.node.get(speakernode).get("etreeobject").getroot().xpath('//LanguageData')[0]
+            except:
+                print "speaker2event: error while accessing speaker etree: " + speakernode
+                continue
 
             for event_speaker in eventtree.xpath('//Speaker'):
-                print "node"
 
                 # FIXME: insert elements correctly
                 if event_speaker.find('Label').text == speakernode:
-                    print "speakernode"
                     # alternative append element as list element
                     event_speaker.insert(-1, speaker_name)
                     event_speaker.insert(-1, speaker_id)
