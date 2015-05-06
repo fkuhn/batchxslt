@@ -307,19 +307,63 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
             try:
                 speaker_name = self.node.get(speakernode).get("etreeobject").getroot().xpath('//Name')[0]
+            except:
+                logging.error("speaker2event: error while accessing speaker etree: " + speakernode)
+                speaker_name = etree.Element('Name')
+
+            try:
                 speaker_alias = self.node.get(speakernode).get("etreeobject").getroot().xpath('//Alias')[0]
+            except:
+                logging.error("speaker2event: error while accessing speaker etree: " + speakernode)
+                speaker_alias = etree.Element('Alias')
+
+            try:
                 speaker_id = self.node.get(speakernode).get("etreeobject").getroot().xpath('//TranscriptID')[0]
+            except:
+                logging.error("speaker2event: error while accessing speaker etree: " + speakernode)
+                speaker_id = etree.Element('TranscriptID')
+
+            try:
                 speaker_sex = self.node.get(speakernode).get("etreeobject").getroot().xpath('//Sex')[0]
+            except:
+                logging.error("speaker2event: error while accessing speaker etree: " + speakernode)
+                speaker_sex = etree.Element('Sex')
+
+            try:
                 speaker_dob = self.node.get(speakernode).get("etreeobject").getroot().xpath('//DateOfBirth')[0]
+            except:
+                logging.error("speaker2event: error while accessing speaker etree: " + speakernode)
+                speaker_dob = etree.Element('DateOfBirth')
+            try:
                 speaker_edu = self.node.get(speakernode).get("etreeobject").getroot().xpath('//Education')[0]
+            except:
+                logging.error("speaker2event: error while accessing speaker etree: " + speakernode)
+                speaker_edu = etree.Element('Education')
+            try:
                 speaker_occ = self.node.get(speakernode).get("etreeobject").getroot().xpath('//Profession')[0]
+            except:
+                logging.error("speaker2event: error while accessing speaker etree: " + speakernode)
+                speaker_occ = etree.Element('Profession')
+            try:
                 speaker_ethn = self.node.get(speakernode).get("etreeobject").getroot().xpath('//Ethnicity')[0]
+            except:
+                logging.error("speaker2event: error while accessing speaker etree: " + speakernode)
+                speaker_ethn = etree.Element('Ethnicity')
+            try:
                 speaker_nat = self.node.get(speakernode).get("etreeobject").getroot().xpath('//Nationality')[0]
+            except:
+                logging.error("speaker2event: error while accessing speaker etree: " + speakernode)
+                speaker_nat = etree.Element('Nationality')
+            try:
                 speaker_loc = self.node.get(speakernode).get("etreeobject").getroot().xpath('//LocationData')[0]
+            except:
+                logging.error("speaker2event: error while accessing speaker etree: " + speakernode)
+                speaker_loc = etree.Element('LocationData')
+            try:
                 speaker_lang = self.node.get(speakernode).get("etreeobject").getroot().xpath('//LanguageData')[0]
             except:
                 logging.error("speaker2event: error while accessing speaker etree: " + speakernode)
-                continue
+                speaker_lang = etree.Element('LanguageData')
 
             for event_speaker in eventtree.xpath('//Speaker'):
 
