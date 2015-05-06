@@ -80,7 +80,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                 {
                     'repopath': self.contextpath(corpus, DGDROOT),
                     'corpusroot': True,
-                    'type': 'metadata',
+                    'type': 'corpus',
                     'etreeobject': etr,
                     'filename': corpus})
 
@@ -110,7 +110,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     self.add_node(eventnodename, {
                         'repopath': self.contextpath(eventcorpusname, DGDROOT),
                         'corpusroot': False,
-                        'type': 'metadata',
+                        'type': 'event',
                         'etreeobject': etr,
                         'filename': filename})
 
@@ -179,7 +179,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     self.add_node(speakernodename, {
                         'repopath': self.contextpath(speakercorp, DGDROOT),
                         'corpusroot': False,
-                        'type': 'metadata',
+                        'type': 'speaker',
                         'etreeobject': etr,
                         'filename': filename})
 
@@ -368,6 +368,10 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             if speaker in resource_nodes:
                 resource_nodes.remove(speaker)
 
+        for nodename in resource_nodes:
+            if self.node.get(nodename).get('type') == 'corpus':
+                resource_nodes.remove(nodename)
+
         # remove the abstract node from the resource list
         if 'AGD_root' in resource_nodes:
             resource_nodes.remove('AGD_root')
@@ -396,9 +400,6 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             resourceref.text = node
             resourceref.set("href", landingpage + node)
 
-            # Generate an is PartRelationship for backreference
-            # TODO: build ispart and isversion of relations
-            ispart = etree.SubElement(resourceproxy, "ResourceIsPart")
 
             # insert new resourceproxyelement in list
             # resourceproxies.append(resourceproxy)
@@ -453,8 +454,9 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         """
         cmdi_etrobj = self.node.get(resource).get("etreeobject")
         try:
-            cmdiroot = cmdi_etrobj.getroot('DGDEvent')
+            cmdiroot = cmdi_etrobj.xpath('//DGDEvent')[0]
         except:
+            logging.error('cannot access DGDEvent as root: ' + resource)
             return
 
         in_nodes = [i[0] for i in self.in_edges(resource)]
@@ -513,7 +515,5 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         for resource in self.nodes_iter():
 
             # pass the node name to define_resourceproxy
-            if self.node.get(resource).get("etreeobject") \
-                    is not False and (resource != 'AGD_root' and '_E_' in resource):
+            if self.node.get(resource).get('type') == 'event':
                 self.define_parts(resource)
-
