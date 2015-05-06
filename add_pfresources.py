@@ -16,16 +16,22 @@ resourcetree = cmdiresource.ResourceTreeCollection(corpus, event, speakers, tran
 
 resourcetree.build_resourceproxy()
 
-for nodename in resourcetree.nodes_iter():
-    if '_E_' in nodename and (resourcetree.node.get(nodename).get('type') != 'transcript'):
-        resourcetree.speaker2event(nodename)
-
-# FIXME: build_parts is not working
 resourcetree.build_parts()
 
 for nodename in resourcetree.nodes_iter():
+    if resourcetree.node.get(nodename).get('type') != 'speaker':
+        resourcetree.define_parts(nodename)
 
-    if '_E_' in nodename and resourcetree.node.get(nodename).get('type') != 'transcript':
+for nodename in resourcetree.nodes_iter():
+    if resourcetree.node.get(nodename).get('type') == 'event':
+        resourcetree.speaker2event(nodename)
+
+# FIXME: build_parts is not working
+
+
+for nodename in resourcetree.nodes_iter():
+
+    if resourcetree.node.get(nodename).get('type') != 'event':
         resourcetree.write_cmdi(nodename, os.path.join(cmdi_final, nodename + '.cmdi'))
     if nodename is 'PF':
         resourcetree.write_cmdi(nodename, os.path.join(cmdi_final, nodename + '.cmdi'))
