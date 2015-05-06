@@ -115,6 +115,9 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                         'filename': filename})
 
                     self.add_edge(eventcorpusname, eventnodename)
+
+                    # find media file reference in the event
+                    self.find_media(eventnodename)
             # finally connect an event to all speakers that take part in it.
             for speaker in self.find_speakers(eventcorpusname):
                 self.add_edge(eventcorpusname, speaker)
@@ -193,6 +196,26 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     for eventcorpusname in speakerevents:
                         if self.has_node(eventcorpusname):
                             self.add_edge(eventcorpusname, speakernodename)
+
+    def find_media(self, resource):
+        """
+        adds a node and edge for all media found in a resource node.
+        :param resource:
+        :return:
+        """
+        audiolabels = self.node.get(resource).get('etreeobject').xpath('//AudioData/FileLabel/text()')
+
+        for audio in audiolabels:
+            self.add_node(audio, {
+                'repopath': self.contextpath(resource, DGDROOT),
+                'corpusroot': False,
+                'type': 'audio',
+                'etreeobject': False,
+                'filename': audio})
+            self.add_edge(resource, audio)
+            self.add_edge(resource.split('_')[0].rstrip('-'), audio)
+
+
 
     @staticmethod
     def contextpath(fname, startpath):
