@@ -453,11 +453,19 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         :return:
         """
         cmdi_etrobj = self.node.get(resource).get("etreeobject")
-        try:
-            cmdiroot = cmdi_etrobj.xpath('//DGDEvent')[0]
-        except:
-            logging.error('cannot access DGDEvent as root: ' + resource)
-            return
+
+        if self.node.get(resource).get('type') == 'event':
+            try:
+                cmdiroot = cmdi_etrobj.xpath('//DGDEvent')[0]
+            except:
+                logging.error('cannot access DGDEvent as root: ' + resource)
+                return
+        if self.node.get(resource).get('type') == 'corpus':
+            try:
+                cmdiroot = cmdi_etrobj.xpath('//DGDCorpus')[0]
+            except:
+                logging.error('cannot access DGDCorpus as root: ' + resource)
+                return
 
         in_nodes = [i[0] for i in self.in_edges(resource)]
         out_nodes = [i[1] for i in self.out_edges(resource)]
