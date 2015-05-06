@@ -16,10 +16,10 @@ resourcetree = cmdiresource.ResourceTreeCollection(corpus, event, speakers, tran
 
 resourcetree.build_resourceproxy()
 
-resourcetree.build_parts()
-
 for nodename in resourcetree.nodes_iter():
-    if resourcetree.node.get(nodename).get('type') != 'speaker':
+    if resourcetree.node.get(nodename).get('type') == 'event':
+        resourcetree.define_parts(nodename)
+    elif resourcetree.node.get(nodename).get('type') == 'corpus':
         resourcetree.define_parts(nodename)
 
 for nodename in resourcetree.nodes_iter():
@@ -31,7 +31,7 @@ for nodename in resourcetree.nodes_iter():
 
 for nodename in resourcetree.nodes_iter():
 
-    if resourcetree.node.get(nodename).get('type') != 'event':
+    if resourcetree.node.get(nodename).get('type') == 'event':
         resourcetree.write_cmdi(nodename, os.path.join(cmdi_final, nodename + '.cmdi'))
-    if nodename is 'PF':
+    elif resourcetree.node.get(nodename).get('type') == 'corpus':
         resourcetree.write_cmdi(nodename, os.path.join(cmdi_final, nodename + '.cmdi'))
