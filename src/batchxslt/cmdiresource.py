@@ -318,7 +318,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                 speaker_loc = self.node.get(speakernode).get("etreeobject").getroot().xpath('//LocationData')[0]
                 speaker_lang = self.node.get(speakernode).get("etreeobject").getroot().xpath('//LanguageData')[0]
             except:
-                print "speaker2event: error while accessing speaker etree: " + speakernode
+                logging.error("speaker2event: error while accessing speaker etree: " + speakernode)
                 continue
 
             for event_speaker in eventtree.xpath('//Speaker'):
@@ -501,13 +501,13 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
             haspart = etree.SubElement(relations, 'hasPart')
             haspart.set('href', LANDINGPG + node)
-            haspart.text = node
+            haspart.text = self.node.get(node).get('type').capitalize() + ': ' + node
 
         for node in in_nodes:
 
             ispartof = etree.SubElement(relations, 'isPartOf')
             ispartof.set('href', LANDINGPG + node)
-            ispartof.text = node
+            ispartof.text = self.node.get(node).get('type').capitalize() + ': ' + node
 
         # finally, define a node that refers to the version of this metadata
         isversionof = etree.SubElement(relations, 'isVersionOf')
