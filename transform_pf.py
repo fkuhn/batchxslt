@@ -21,18 +21,8 @@ pf_speakers = os.path.join(dgd_speakers, 'PF')
 
 xsl_processor = processor.XSLBatchProcessor(saxon_jar)
 
-xsl_processor.transform(corpus_xsl, pf_corpus, "cmdi_", '/tmp/cmdi/PF/corpus/')
+xsl_processor.transform(corpus_xsl, pf_corpus, "cmdi_", '/tmp/cmdi/corpus/')
 
-xsl_processor.transform(event_xsl, pf_events, "cmdi_", '/tmp/cmdi/PF/events/')
+xsl_processor.transform(event_xsl, pf_events, "cmdi_", '/tmp/cmdi/events/PF/')
 
-xsl_processor.transform(speaker_xsl, pf_speakers, "cmdi_", '/tmp/cmdi/PF/speakers/')
-
-from batchxslt import cmdiresource
-
-corpus = "/tmp/cmdi/PF/corpus/"
-event = "/tmp/cmdi/PF/events/"
-speakers = "//tmp/cmdi/PF/speakers/"
-transcripts = "/home/kuhn/Data/IDS/svn_rev1233/dgd2_data/transcripts/"
-
-resourcetree = cmdiresource.ResourceTreeCollection(corpus, event, speakers, transcripts)
-resourcetree.build_resourceproxy()
+xsl_processor.transform(speaker_xsl, pf_speakers, "cmdi_", '/tmp/cmdi/speakers/PF/')
