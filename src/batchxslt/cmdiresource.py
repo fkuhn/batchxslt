@@ -422,12 +422,9 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             resourcetype = etree.SubElement(resourceproxy, "ResourceType")
             resourceproxy.set("id", node)
 
+            # update the known mimetypes
+            mimetypes.add_type('application/xml', '.fln')
             resourcetype.set("mimetype", str(mimetypes.guess_type(node_fname)[0]))
-            # if mimetype is unknown set it to 'application/binary'
-            # TODO:
-            if resourcetype.get("mimetype") == 'None':
-                if node_fname.split('.')[-1] == 'fln':
-                    resourcetype.set("mimetype", 'application/xml')
 
             landingpage = urllib.unquote(LANDINGPG)
             resourceref.text = node
