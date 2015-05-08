@@ -156,8 +156,8 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                         self.add_edge(transcriptevent, transcriptnodename)
 
                     # define an edge to refer from the corpus catalogue to the transcript
-                    if self.has_node(transcriptcorp):
-                        self.add_edge(transcriptcorp, transcriptnodename)
+                    # if self.has_node(transcriptcorp):
+                    #     self.add_edge(transcriptcorp, transcriptnodename)
 
         for speakercorp in speakercorpusnames:
 
@@ -199,7 +199,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
     def find_media(self, resource):
         """
-        adds a node and edge for all media found in a resource node.
+        adds a node and edge from event to media. for all media found in a resource node.
         :param resource:
         :return:
         """
@@ -213,7 +213,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                 'etreeobject': False,
                 'filename': audio})
             self.add_edge(resource, audio)
-            self.add_edge(resource.split('_')[0].rstrip('-'), audio)
+
 
 
 
