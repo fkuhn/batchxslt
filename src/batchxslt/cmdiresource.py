@@ -203,16 +203,16 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         :param resource:
         :return:
         """
-        audiolabels = self.node.get(resource).get('etreeobject').xpath('//AudioData/FileLabel/text()')
+        audiolabels = self.node.get(resource).get('etreeobject').xpath('//AudioData/FileName/text()')
 
-        for audio in audiolabels:
-            self.add_node(audio, {
+        for audiofile in audiolabels:
+            self.add_node(audiofile.split('.')[0], {
                 'repopath': self.contextpath(resource, DGDROOT),
                 'corpusroot': False,
                 'type': 'audio',
                 'etreeobject': False,
-                'filename': audio})
-            self.add_edge(resource, audio)
+                'filename': audiofile})
+            self.add_edge(resource, audiofile.split('.')[0])
 
 
 
@@ -369,7 +369,6 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     event_speaker.insert(-1, etree.fromstring(sdata.get('LocationData')))
                     event_speaker.insert(-1, etree.fromstring(sdata.get('LanguageData')))
 
-
     def define_resourceproxy(self, metafilenode):
         """
         defines the ResourceProxies for all Resources referred via edges
@@ -427,7 +426,8 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             # if mimetype is unknown set it to 'application/binary'
             # TODO:
             if resourcetype.get("mimetype") == 'None':
-                resourcetype.set("mimetype", 'application/xml')
+                if node_fname.split('.')[-1] == 'fln':
+                    resourcetype.set("mimetype", 'application/xml')
 
             landingpage = urllib.unquote(LANDINGPG)
             resourceref.text = node
