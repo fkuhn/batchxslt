@@ -4,6 +4,7 @@ import os
 
 
 from batchxslt import cmdiresource
+from batchxslt import cmdiheader
 
 corpus = "/tmp/cmdi/corpus/"
 event = "/tmp/cmdi/events/"
@@ -22,19 +23,20 @@ for nodename in resourcetree.nodes_iter():
     elif resourcetree.node.get(nodename).get('type') == 'corpus':
         resourcetree.define_parts(nodename)
 
-# for nodename in resourcetree.nodes_iter():
-#     if resourcetree.node.get(nodename).get('type') == 'event':
-#         resourcetree.event2speaker(nodename)
-
 for nodename in resourcetree.nodes_iter():
     if resourcetree.node.get(nodename).get('type') == 'speaker':
         resourcetree.speaker2event(nodename)
 
-# FIXME: build_parts is not working
-
 for nodename in resourcetree.nodes_iter():
 
+
     if resourcetree.node.get(nodename).get('type') == 'event':
+
+        cmdiheader.define_header(nodename, resourcetree)
+
         resourcetree.write_cmdi(nodename, os.path.join(cmdi_final, nodename + '.cmdi'))
     elif resourcetree.node.get(nodename).get('type') == 'corpus':
+
+        cmdiheader.define_header(nodename, resourcetree)
+
         resourcetree.write_cmdi(nodename, os.path.join(cmdi_final, nodename + '.cmdi'))
