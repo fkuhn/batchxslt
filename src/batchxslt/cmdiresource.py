@@ -529,9 +529,14 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         # find them in
         for node in out_nodes:
 
-            haspart = etree.SubElement(relations, 'hasPart')
-            haspart.set('href', LANDINGPG + node)
-            haspart.text = self.node.get(node).get('type').capitalize() + ': ' + node
+            if mimetypes.guess_type(self.node.get(node).get('filename'))[0] == 'audio/x-wav':
+                source = etree.SubElement(relations, 'source')
+                source.set('href', LANDINGPG + node)
+                source.text = self.node.get(node).get('type').capitalize() + ': ' + node
+            else:
+                haspart = etree.SubElement(relations, 'hasPart')
+                haspart.set('href', LANDINGPG + node)
+                haspart.text = self.node.get(node).get('type').capitalize() + ': ' + node
 
         for node in in_nodes:
 
