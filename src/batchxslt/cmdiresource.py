@@ -281,11 +281,11 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
         for outedge in self.out_edges_iter([eventnode]):
             try:
-                if outedge[1].split('_')[1] == 'S' \
-                        and self.node.get(outedge[1]).get('type') != 'transcript':
+                if self.node.get(outedge[1]).get('type') == 'speaker':
                     speakerlist.append(outedge[1])
             except IndexError:
-                logging.error('Index Error while splitting filename: ' + outedge)
+                logging.error('Index Error while splitting filename: '
+                              + outedge[1] + ' while accessing outedges for: ' + eventnode)
         return speakerlist
 
         # xpath solution
