@@ -23,7 +23,7 @@ def define_header(cmdinode, resourcetree):
     :param cmdinode:
     :return:
     """
-    cmdifilename = resourcetree.node.get(cmdinode).get('filename')
+    cmdifilename = resourcetree.node.get(cmdinode).get('filename').split('.')[0] + '.cmdi'
     cmdiheader = resourcetree.node.get(cmdinode).get('etreeobject').getroot().find('Header')
 
     cmdimdselflink = cmdiheader.find('MdSelfLink')
