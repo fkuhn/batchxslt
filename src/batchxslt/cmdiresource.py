@@ -15,7 +15,7 @@ SPEAKERXPATH = "//InEvent/Event"
 RESOURCEPATH = "dgd2_data/dgd2cmdi/cmdiOutput/"
 PREFIX = 'cmdi_'
 NAME = 'AGD'
-
+SVNROOT = 'dgd2_data/dgd2cmdi/cmdi/'
 import urllib
 
 # this is the landing page prefix for the agd werbservice
@@ -278,7 +278,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         # events = ['_'.join(str(segment) for segment in session.split('_')[0:3])
         #           for session in sessions]
         # events = list(set(events))
-        return events
+        # return events
 
     def find_speakers(self, eventnode):
         """
@@ -419,7 +419,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         for node in resource_nodes:
             # where is the edge pointed to?
             # access the filename
-
+            # FIXME: refer to cmdi data in resource proxies as well
             node_fname = self.node.get(node).get("filename")
             resourceproxy = etree.SubElement(resourceproxies, "ResourceProxy")
             resourceref = etree.SubElement(resourceproxy, "ResourceRef")
@@ -428,11 +428,14 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
             # update the known mimetypes
             mimetypes.add_type('application/xml', '.fln')
+            mimetypes.add_type('application/x-cmdi+xml', '.cmdi')
+
             resourcetype.set("mimetype", str(mimetypes.guess_type(node_fname)[0]))
 
-            landingpage = urllib.unquote(LANDINGPG)
+
+            landingpage = urllib.unquote(SVNROOT)
             resourceref.text = node
-            resourceref.set("href", landingpage + node)
+            resourceref.set("href", landingpage + node + '.cmdi')
 
 
             # insert new resourceproxyelement in list
@@ -534,11 +537,17 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         for node in out_nodes:
 
             if mimetypes.guess_type(self.node.get(node).get('filename'))[0] == 'audio/x-wav':
-                source = etree.SubElement(relations, 'source')
+                # refer to audio as hasPart
+                source = etree.SubElement(relations, 'hasPart')
                 source.set('href', LANDINGPG + node)
                 source.text = self.node.get(node).get('type').capitalize() + ': ' + node
+            elif mimetypes.guess_type(self.node.get(node).get('filename'))[0] == 'application/x-cmdi+xml':
+                source = etree.SubElement(relations, 'hasPart')
+                source.set('href', SVNROOT + node)
+                source.text = self.node.get(node).get('type').capitalize() + ': ' + node
             else:
-                haspart = etree.SubElement(relations, 'hasPart')
+                # refer to original dgd metadata as source (via landing page)
+                haspart = etree.SubElement(relations, 'source')
                 haspart.set('href', LANDINGPG + node)
                 haspart.text = self.node.get(node).get('type').capitalize() + ': ' + node
 
@@ -558,7 +567,6 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         build the hasPart Relations for all Nodes
         :return:
         """
-        # FIXME: not working
         for resource in self.nodes_iter():
 
             # pass the node name to define_resourceproxy
