@@ -261,11 +261,23 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         searches for events a speaker takes part in by looking up the
         metadata itself.
         """
-        sessions = self.find_eventsessions(speakernode)
-        # take the session of event label and split it down to the event
-        events = ['_'.join(str(segment) for segment in session.split('_')[0:3])
-                  for session in sessions]
-        events = list(set(events))
+
+        eventlist = list()
+
+        for outedge in self.out_edges_iter([speakernode]):
+            try:
+                if self.node.get(outedge[1]).get('type') == 'event':
+                    eventlist.append(outedge[1])
+            except IndexError:
+                logging.error('Index Error while splitting filename: '
+                              + outedge[1] + ' while accessing outedges for: ' + speakernode)
+        return eventlist
+
+        # sessions = self.find_eventsessions(speakernode)
+        # # take the session of event label and split it down to the event
+        # events = ['_'.join(str(segment) for segment in session.split('_')[0:3])
+        #           for session in sessions]
+        # events = list(set(events))
         return events
 
     def find_speakers(self, eventnode):
@@ -341,22 +353,14 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         :param speakernode:
         :return:
         """
-
         sdata = self.get_speaker_data(speakernode)
-
-
         eventtreespeakers = list()
-
         for event in self.find_events(speakernode):
-
             eventtree = self.node.get(event).get('etreeobject')
-
             for event_speaker in eventtree.getroot().xpath('//Speaker'):
-
                 # write from xml string to the element (cannot pass an etree-element to another
                 # document scope
                 if event_speaker.find('Label').text == speakernode:
-
                     # alternative append element as list element
                     event_speaker.insert(-1, etree.fromstring(sdata.get('Name')))
                     event_speaker.insert(-1, etree.fromstring(sdata.get('TranscriptID')))
