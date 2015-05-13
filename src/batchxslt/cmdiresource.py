@@ -271,7 +271,6 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
     def find_speakers(self, eventnode):
         """
         returns all speaker nodes connected to the eventnode.
-        note april: now using normal
         :param eventnode:
         :return: list of speaker labels fo/und in event
         """
@@ -281,11 +280,12 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         # simple split label solution
 
         for outedge in self.out_edges_iter([eventnode]):
-
-            if outedge[1].split('_')[1] == 'S' \
-                    and self.node.get(outedge[1]).get('type') != 'transcript':
-                speakerlist.append(outedge[1])
-
+            try:
+                if outedge[1].split('_')[1] == 'S' \
+                        and self.node.get(outedge[1]).get('type') != 'transcript':
+                    speakerlist.append(outedge[1])
+            except IndexError:
+                logging.error('Index Error while splitting filename: ' + outedge)
         return speakerlist
 
         # xpath solution
