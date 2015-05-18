@@ -30,8 +30,4 @@ print resourcetree.node.get('FOLK').get('etreeobject').getroot()
 resourcetree.build_resourceproxy()
 
 resourcetree.write_cmdi('PF--_E_00001', '/tmp/pf_event.xml')
-
 # TODO: For corpus labels: every resource must be put into the resource proxy list
-
-
-
