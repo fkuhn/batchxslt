@@ -14,12 +14,14 @@ RESOURCEPROXIES = "ResourceProxyList"
 SPEAKERXPATH = "//InEvent/Event"
 RESOURCEPATH = "dgd2_data/dgd2cmdi/cmdiOutput/"
 PREFIX = 'cmdi_'
+PREF = 'agd_ids_'
+ID = 0
 NAME = 'AGD'
 SVNROOT = 'dgd2_data/dgd2cmdi/cmdi/'
 import urllib
 
 # this is the landing page prefix for the agd werbservice
-LANDINGPG = u"http://dgd.ids-mannheim.de/service/DGD2Web/ExternalAccessServlet?command=displayData&id="
+LANDINGPG = u'http://dgd.ids-mannheim.de/service/DGD2Web/ExternalAccessServlet?command=displayData&id='
 
 
 class ResourceTreeCollection(networkx.MultiDiGraph):
@@ -48,6 +50,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         speakercorpusnames = os.listdir(speakerspath)
         transcriptscorpusnames = os.listdir(transcriptspath)
         self.name = NAME
+        self.__idcount = 0
         # cwdstart = os.getcwd()
 
         # define a collection root that precedes all corpora
@@ -82,8 +85,9 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     'corpusroot': True,
                     'type': 'corpus',
                     'etreeobject': etr,
-                    'filename': corpus})
-
+                    'filename': corpus,
+                    'id':  PREF + corpus.split('_')[0].rstrip('-') + str(self.__idcount)})
+            self.__idcount += 1
             # add edge from root to current node
             self.add_edge('AGD_root', corpus.split('_')[1].rstrip('-'))
 
@@ -112,10 +116,10 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                         'corpusroot': False,
                         'type': 'event',
                         'etreeobject': etr,
-                        'filename': filename})
-
+                        'filename': filename,
+                        'id':  PREF + eventcorpusname.split('_')[0].rstrip('-') + str(self.__idcount)})
                     self.add_edge(eventcorpusname, eventnodename)
-
+                    self.__idcount += 1
                     # find media file reference in the event
                     self.find_media(eventnodename)
             # finally connect an event to all speakers that take part in it.
@@ -147,8 +151,9 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                         'corpusroot': False,
                         'type': 'transcript',
                         'etreeobject': False,
-                        'filename': filename})
-
+                        'filename': filename,
+                        'id':  PREF + transcriptcorp.split('_')[0].rstrip('-') + str(self.__idcount)})
+                    self.__idcount += 1
                     # obtain event from filename
                     transcriptevent = '_'.join(transcriptnodename.split('_')[:3])
                     # define edge from event to transcript
@@ -184,8 +189,9 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                         'corpusroot': False,
                         'type': 'speaker',
                         'etreeobject': etr,
-                        'filename': filename})
-
+                        'filename': filename,
+                        'id':  PREF + speakercorp.split('_')[0].rstrip('-') + str(self.__idcount)})
+                    self.__idcount += 1
                     # define an edge from the parent corpus (speakercorp)
                     # to the current speakernode
                     # example: "PF" --> "PF--_S_00103.xml"
@@ -211,11 +217,10 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                 'corpusroot': False,
                 'type': 'audio',
                 'etreeobject': False,
-                'filename': audiofile})
+                'filename': audiofile,
+                'id':  PREF + audiofile.split('_')[0].rstrip('-') + str(ID)})
+            self.__idcount += 1
             self.add_edge(resource, audiofile.split('.')[0])
-
-
-
 
     @staticmethod
     def contextpath(fname, startpath):
@@ -376,15 +381,23 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
     def define_resourceproxy(self, metafilenode):
         """
         defines the ResourceProxies for all Resources referred via edges
-               <Resources>
+
+        Resources element structure in a cmdi file.
+        <Resources>
         <ResourceProxyList> </ResourceProxyList>
         <JournalFileProxyList> </JournalFileProxyList>
         <ResourceRelationList> </ResourceRelationList>
         </Resources>
+
         :param metafilenode:
         :return:
         """
-
+        # define an id counter
+        ID = 0
+        PREF = 'agd_ids_'
+        # mimetypes
+        mimetypes.add_type('application/xml', '.fln')
+        mimetypes.add_type('application/x-cmdi+xml', '.cmdi')
         cmdi_etrobj = self.node.get(metafilenode).get("etreeobject")
         cmdiroot = cmdi_etrobj.getroot()
         try:
@@ -416,33 +429,32 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         # make sure there are just unique references
         resource_nodes = set(resource_nodes)
 
+        # build proxy for original metadata as "Resource"
         for node in resource_nodes:
             # where is the edge pointed to?
             # access the filename
-            # FIXME: refer to cmdi data in resource proxies as well
             node_fname = self.node.get(node).get("filename")
             resourceproxy = etree.SubElement(resourceproxies, "ResourceProxy")
-            resourceref = etree.SubElement(resourceproxy, "ResourceRef")
             resourcetype = etree.SubElement(resourceproxy, "ResourceType")
-            resourceproxy.set("id", node)
-
-            # update the known mimetypes
-            mimetypes.add_type('application/xml', '.fln')
-            mimetypes.add_type('application/x-cmdi+xml', '.cmdi')
-
+            resourceref = etree.SubElement(resourceproxy, "ResourceRef")
+            # set the label of the resource
+            # must remove hyphens to match id
+            resourceproxy.set("id", PREF + node.split('_')[0].rstrip('-') + str(ID))
+            ID += 1
             resourcetype.set("mimetype", str(mimetypes.guess_type(node_fname)[0]))
+            resourcetype.text = 'Resource'
+            resourceref.text = unicode(LANDINGPG + node)
 
-
-            landingpage = urllib.unquote(SVNROOT)
-            resourceref.text = node
-            resourceref.set("href", landingpage + node + '.cmdi')
-
-
-            # insert new resourceproxyelement in list
-            # resourceproxies.append(resourceproxy)
-
-            # version resource info
-            # isVersionOf = etree.SubElement(resourceproxies, "isVersionOf")
+            # define the cmdi metadate entry
+            if self.node.get(node).get('type') in ['corpus', 'speaker', 'event']:
+                # cmdi_fname = self.node.get(node).get("filename")
+                resourceproxy = etree.SubElement(resourceproxies, "ResourceProxy")
+                resourcetype = etree.SubElement(resourceproxy, "ResourceType")
+                resourceref = etree.SubElement(resourceproxy, "ResourceRef")
+                resourceproxy.set("id", PREF + node.split('_')[0].rstrip('-') + str(ID))
+                resourcetype.set("mimetype", 'application/x-cmdi+xml')
+                resourcetype.text = 'Metadata'
+                resourceref.text = SVNROOT + node + '.cmdi'
 
     def write_cmdi(self, nodename, fname):
         """
@@ -450,7 +462,9 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         :param nodename, fname:
         :return:
         """
-        self.node.get(nodename).get('etreeobject').write(fname, encoding='utf-8', method='xml')
+        self.node.get(nodename).get('etreeobject').write(fname, encoding='utf-8', method='xml',
+                                                         xml_declaration="<?xml version='1.0' encoding='UTF-8'?>",
+                                                         inclusive_ns_prefixes=['xsi', 'cmd'])
 
     def build_resourceproxy(self):
         """
@@ -466,20 +480,6 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             if self.node.get(resource).get("etreeobject") \
                     is not False and resource != 'AGD_root':
                 self.define_resourceproxy(resource)
-
-                # def build_geolocation(self, nodename):
-                # """
-                #     inplace computation of the geolocations
-                #     :return:
-                #     """
-                #     # find geolocation package to compute locations
-                #     # from the provided grid coordinates
-                #
-                #     # if provided, obtain grid coordinates.
-                #
-                #     for node in self.nodes_iter():
-                #
-                #         pass
 
     def define_parts(self, resource):
         """
@@ -547,7 +547,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                 source.text = self.node.get(node).get('type').capitalize() + ': ' + node
             else:
                 # refer to original dgd metadata as source (via landing page)
-                haspart = etree.SubElement(relations, 'source')
+                haspart = etree.SubElement(relations, 'hasPart')
                 haspart.set('href', LANDINGPG + node)
                 haspart.text = self.node.get(node).get('type').capitalize() + ': ' + node
 
