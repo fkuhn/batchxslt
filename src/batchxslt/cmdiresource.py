@@ -15,7 +15,7 @@ SPEAKERXPATH = "//InEvent/Event"
 RESOURCEPATH = "dgd2_data/dgd2cmdi/cmdiOutput/"
 PREFIX = 'cmdi_'
 PREF = 'agd_ids_'
-ID = 0
+
 NAME = 'AGD'
 SVNROOT = 'dgd2_data/dgd2cmdi/cmdi/'
 import urllib
@@ -86,7 +86,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     'type': 'corpus',
                     'etreeobject': etr,
                     'filename': corpus,
-                    'id':  PREF + corpus.split('_')[0].rstrip('-') + str(self.__idcount)})
+                    'id':  PREF + corpus.split('_')[0].rstrip('-')})
             self.__idcount += 1
             # add edge from root to current node
             self.add_edge('AGD_root', corpus.split('_')[1].rstrip('-'))
@@ -117,7 +117,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                         'type': 'event',
                         'etreeobject': etr,
                         'filename': filename,
-                        'id':  PREF + eventcorpusname.split('_')[0].rstrip('-') + str(self.__idcount)})
+                        'id':  PREF + eventcorpusname.split('_')[0].rstrip('-')})
                     self.add_edge(eventcorpusname, eventnodename)
                     self.__idcount += 1
                     # find media file reference in the event
@@ -152,7 +152,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                         'type': 'transcript',
                         'etreeobject': False,
                         'filename': filename,
-                        'id':  PREF + transcriptcorp.split('_')[0].rstrip('-') + str(self.__idcount)})
+                        'id':  PREF + transcriptcorp.split('_')[0].rstrip('-')})
                     self.__idcount += 1
                     # obtain event from filename
                     transcriptevent = '_'.join(transcriptnodename.split('_')[:3])
@@ -190,7 +190,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                         'type': 'speaker',
                         'etreeobject': etr,
                         'filename': filename,
-                        'id':  PREF + speakercorp.split('_')[0].rstrip('-') + str(self.__idcount)})
+                        'id':  PREF + speakercorp.split('_')[0].rstrip('-')})
                     self.__idcount += 1
                     # define an edge from the parent corpus (speakercorp)
                     # to the current speakernode
@@ -202,6 +202,15 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     for eventcorpusname in speakerevents:
                         if self.has_node(eventcorpusname):
                             self.add_edge(eventcorpusname, speakernodename)
+
+        # finally set all ids
+        # id_counter = 0
+        # for nodeitem in self.nodes_iter():
+        #     attr = networkx.get_node_attributes(self, nodeitem)
+        #     attr_id = str(attr.get('id')) + str(id_counter)
+        #     attr.update({'id': attr_id})
+        #     networkx.set_node_attributes(self, nodeitem, {'id': attr_id})
+        #     id_counter += 1
 
     def find_media(self, resource):
         """
@@ -218,8 +227,8 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                 'type': 'audio',
                 'etreeobject': False,
                 'filename': audiofile,
-                'id':  PREF + audiofile.split('_')[0].rstrip('-') + str(ID)})
-            self.__idcount += 1
+                'id':  PREF + audiofile.split('_')[0].rstrip('-')})
+
             self.add_edge(resource, audiofile.split('.')[0])
 
     @staticmethod
@@ -431,6 +440,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
         # build proxy for original metadata as "Resource"
         for node in resource_nodes:
+
             # where is the edge pointed to?
             # access the filename
             node_fname = self.node.get(node).get("filename")
@@ -439,8 +449,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             resourceref = etree.SubElement(resourceproxy, "ResourceRef")
             # set the label of the resource
             # must remove hyphens to match id
-            resourceproxy.set("id", PREF + node.split('_')[0].rstrip('-') + str(ID))
-            ID += 1
+            resourceproxy.set("id", self.node.get(node).get('id'))
             resourcetype.set("mimetype", str(mimetypes.guess_type(node_fname)[0]))
             resourcetype.text = 'Resource'
             resourceref.text = unicode(LANDINGPG + node)
@@ -451,7 +460,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                 resourceproxy = etree.SubElement(resourceproxies, "ResourceProxy")
                 resourcetype = etree.SubElement(resourceproxy, "ResourceType")
                 resourceref = etree.SubElement(resourceproxy, "ResourceRef")
-                resourceproxy.set("id", PREF + node.split('_')[0].rstrip('-') + str(ID))
+                resourceproxy.set("id", 'cmdi_' + self.node.get(node).get('id'))
                 resourcetype.set("mimetype", 'application/x-cmdi+xml')
                 resourcetype.text = 'Metadata'
                 resourceref.text = SVNROOT + node + '.cmdi'
