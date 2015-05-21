@@ -23,22 +23,20 @@ for node in resourcetree.nodes_iter():
     counter += 1
 resourcetree.build_resourceproxy()
 
-
-
 for nodename in resourcetree.nodes_iter():
     if resourcetree.node.get(nodename).get('type') == 'event':
         resourcetree.define_parts(nodename)
     elif resourcetree.node.get(nodename).get('type') == 'corpus':
         resourcetree.define_parts(nodename)
 
-for nodename in resourcetree.nodes_iter():
-    if resourcetree.node.get(nodename).get('type') == 'speaker':
+for nodename, ndata in resourcetree.nodes_iter(data=True):
+    if ndata.get('type') == 'speaker':
         resourcetree.speaker2event(nodename)
 
-for nodename in resourcetree.nodes_iter():
-    if resourcetree.node.get(nodename).get('type') == 'event':
+for nodename, ndata in resourcetree.nodes_iter(data=True):
+    if ndata.get('type') == 'event':
         cmdiheader.define_header(nodename, resourcetree)
         resourcetree.write_cmdi(nodename, os.path.join(cmdi_final, nodename + '.cmdi'))
-    elif resourcetree.node.get(nodename).get('type') == 'corpus':
+    elif ndata.get('type') == 'corpus':
         cmdiheader.define_header(nodename, resourcetree)
         resourcetree.write_cmdi(nodename, os.path.join(cmdi_final, nodename + '.cmdi'))
