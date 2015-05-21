@@ -17,7 +17,7 @@ PREFIX = 'cmdi_'
 PREF = 'agd_ids_'
 
 NAME = 'AGD'
-SVNROOT = 'dgd2_data/dgd2cmdi/cmdi/'
+SVNROOT = u'dgd2_data/dgd2cmdi/cmdi/'
 import urllib
 
 # this is the landing page prefix for the agd werbservice
@@ -371,6 +371,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         <ResourceRelationList> </ResourceRelationList>
         </Resources>
 
+
         :param metafilenode:
         :return:
         """
@@ -394,11 +395,11 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
         resource_nodes = out_nodes + in_nodes
 
-        # remove speaker references for now
-        for speaker in self.find_speakers(metafilenode):
-            if speaker in resource_nodes:
+        # remove speaker references
+        for speaker in resource_nodes:
+            if self.node.get(speaker).get('type') == 'speaker':
                 resource_nodes.remove(speaker)
-
+        # remove corpus reference
         for nodename in resource_nodes:
             if self.node.get(nodename).get('type') == 'corpus':
                 resource_nodes.remove(nodename)
@@ -413,30 +414,38 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
         # build proxy for original metadata as "Resource"
         for node in resource_nodes:
-
-            # where is the edge pointed to?
-            # access the filename
-            node_fname = self.node.get(node).get("filename")
-            resourceproxy = etree.SubElement(resourceproxies, "ResourceProxy")
-            resourcetype = etree.SubElement(resourceproxy, "ResourceType")
-            resourceref = etree.SubElement(resourceproxy, "ResourceRef")
-            # set the label of the resource
-            # must remove hyphens to match id
-            resourceproxy.set("id", self.node.get(node).get('id'))
-            resourcetype.set("mimetype", str(mimetypes.guess_type(node_fname)[0]))
-            resourcetype.text = 'Resource'
-            resourceref.text = unicode(LANDINGPG + node)
-
+            # define the transcripts and audio resources
+            if self.node.get(node).get('type') in ['transcript', 'audio']:
+                self.set_resourceproxy(node, resourceproxies,
+                                       rtype='Resource')
             # define the cmdi metadate entry: just events are listed
-            if self.node.get(node).get('type') in ['event']:
-                # cmdi_fname = self.node.get(node).get("filename")
-                resourceproxy = etree.SubElement(resourceproxies, "ResourceProxy")
-                resourcetype = etree.SubElement(resourceproxy, "ResourceType")
-                resourceref = etree.SubElement(resourceproxy, "ResourceRef")
-                resourceproxy.set("id", 'cmdi_' + self.node.get(node).get('id'))
-                resourcetype.set("mimetype", 'application/x-cmdi+xml')
-                resourcetype.text = 'Metadata'
-                resourceref.text = SVNROOT + node + '.cmdi'
+            elif self.node.get(node).get('type') in ['event']:
+                self.set_resourceproxy(node, resourceproxies,
+                                       rtype='Metadata', mtype='application/x-cmdi+xml',
+                                       refprefix=SVNROOT, refpostfix='.cmdi')
+        # finally. define a node to the original metadata of the current cmdi record
+        self.set_resourceproxy(metafilenode, resourceproxies, rtype='Resource')
+
+    def set_resourceproxy(self, nodename, resourceproxies,
+                          rtype='Metadata', mtype=None,
+                          refprefix=LANDINGPG, refpostfix=''):
+        """
+        sets a resourceproxy entry and its subelements.
+        :param nodename:
+        :param resourceproxies:
+        :return:
+        """
+        if mtype is None:
+            node_fname = self.node.get(nodename).get("filename")
+            mtype = str(mimetypes.guess_type(node_fname)[0])
+
+        resource_proxy = etree.SubElement(resourceproxies, "ResourceProxy")
+        resource_type = etree.SubElement(resource_proxy, "ResourceType")
+        resource_ref = etree.SubElement(resource_proxy, "ResourceRef")
+        resource_proxy.set("id", 'cmdi_' + self.node.get(nodename).get('id'))
+        resource_type.set("mimetype", mtype)
+        resource_type.text = rtype
+        resource_ref.text = unicode(refprefix + nodename + refpostfix)
 
     def write_cmdi(self, nodename, fname):
         """
@@ -493,12 +502,12 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         # isPartOf Elements for in_nodes
 
         # remove speaker references for now
-        for speaker in self.find_speakers(resource):
-            if speaker in out_nodes:
+        for speaker in out_nodes:
+            if speaker == self.node.get(speaker).get('type') == 'speaker':
                 out_nodes.remove(speaker)
 
-        for speaker in self.find_speakers(resource):
-            if speaker in in_nodes:
+        for speaker in in_nodes:
+            if speaker == self.node.get(speaker).get('type') == 'speaker':
                 in_nodes.remove(speaker)
 
         # remove the abstract node from the resource lists
@@ -527,7 +536,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                 source = etree.SubElement(relations, 'hasPart')
                 source.set('href', SVNROOT + node)
                 source.text = self.node.get(node).get('type').capitalize() + ': ' + node
-            else:
+            elif self.node.get(node).get('type') == 'event':
                 # refer to original dgd metadata as source (via landing page)
                 haspart = etree.SubElement(relations, 'hasPart')
                 haspart.set('href', LANDINGPG + node)
