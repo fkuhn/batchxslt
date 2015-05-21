@@ -347,6 +347,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     event_speaker.insert(-1, etree.fromstring(sdata.get('LanguageData')))
 
                     # deal with language data dublicates
+                    # put a copy into <LanguageData> and remove it
                     language_data = event_speaker.find('LanguageData')
                     languages = event_speaker.xpath('//Language')
                     for lang in languages:
@@ -426,8 +427,8 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             resourcetype.text = 'Resource'
             resourceref.text = unicode(LANDINGPG + node)
 
-            # define the cmdi metadate entry
-            if self.node.get(node).get('type') in ['corpus', 'speaker', 'event']:
+            # define the cmdi metadate entry: just events are listed
+            if self.node.get(node).get('type') in ['event']:
                 # cmdi_fname = self.node.get(node).get("filename")
                 resourceproxy = etree.SubElement(resourceproxies, "ResourceProxy")
                 resourcetype = etree.SubElement(resourceproxy, "ResourceType")
@@ -538,10 +539,14 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             ispartof.set('href', LANDINGPG + node)
             ispartof.text = self.node.get(node).get('type').capitalize() + ': ' + node
 
-        # finally, define a node that refers to the version of this metadata
+        # define a node that refers to the version of this metadata
         isversionof = etree.SubElement(relations, 'isVersionOf')
         isversionof.set('href', LANDINGPG + resource)
         isversionof.text = 'Version 0'
+        # finally define an "source" element that refers to the original agd metadata
+        agd_source = etree.SubElement(relations, 'source')
+        agd_source.set('href', LANDINGPG + resource)
+        agd_source.text = resource
 
     def build_parts(self):
         """
