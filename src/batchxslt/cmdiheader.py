@@ -13,11 +13,11 @@ from lxml import etree
 import mimetypes
 
 MDCREATOR = 'batchxslt.py'
-VALIDIDS = {'event': 'clarin.eu:cr1:p_1430905751604', 'corpus': 'clarin.eu:cr1:p_1430905751603'}
+VALIDIDS = {'event': 'clarin.eu:cr1:p_1430905751615', 'corpus': 'clarin.eu:cr1:p_1430905751614'}
 SVNROOT = 'dgd2_data/dgd2cmdi/cmdi/PF/'
 
 
-def define_header(cmdinode, resourcetree):
+def define_header(cmdinode, resourcetree, override_profile=False):
     """
     sets MdSelfLink and tests if MdProfile ID is valid
     :param cmdinode:
@@ -34,7 +34,8 @@ def define_header(cmdinode, resourcetree):
     cmdimdselflink = cmdiheader.find('MdSelfLink')
     cmdiprofile = cmdiheader.find('MdProfile')
 
-    if cmdiprofile.text not in VALIDIDS.itervalues():
+    # TODO: profile validation via clarin component registry.
+    if cmdiprofile.text not in VALIDIDS.itervalues() and override_profile is False:
         logging.error('The profile id of MdProfile is not valid: ' + cmdifilename.split('/')[-1])
 
     # get the path
