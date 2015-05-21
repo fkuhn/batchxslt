@@ -555,7 +555,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         # finally define an "source" element that refers to the original agd metadata
         agd_source = etree.SubElement(relations, 'source')
         agd_source.set('href', LANDINGPG + resource)
-        agd_source.text = resource
+        agd_source.text = 'AGD: ' + resource
 
     def build_parts(self):
         """
