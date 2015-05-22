@@ -423,6 +423,10 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                 self.set_resourceproxy(node, resourceproxies,
                                        rtype='Metadata', mtype='application/x-cmdi+xml',
                                        refprefix=SVNROOT, refpostfix='.cmdi')
+                self.set_resourceproxy(node, resourceproxies,
+                                       rtype='Resource',
+                                       refprefix=LANDINGPG, refpostfix='')
+
         # finally. define a node to the original metadata of the current cmdi record
         self.set_resourceproxy(metafilenode, resourceproxies, rtype='Resource')
 
@@ -538,6 +542,10 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                 source.text = self.node.get(node).get('type').capitalize() + ': ' + node
             elif self.node.get(node).get('type') == 'event':
                 # refer to original dgd metadata as source (via landing page)
+                haspart = etree.SubElement(relations, 'hasPart')
+                haspart.set('href', LANDINGPG + node)
+                haspart.text = self.node.get(node).get('type').capitalize() + ': ' + node
+            elif self.node.get(node).get('type') == 'transcript':
                 haspart = etree.SubElement(relations, 'hasPart')
                 haspart.set('href', LANDINGPG + node)
                 haspart.text = self.node.get(node).get('type').capitalize() + ': ' + node
