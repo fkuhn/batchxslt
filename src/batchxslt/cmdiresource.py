@@ -421,7 +421,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             # define the cmdi metadate entry: just events are listed
             elif self.node.get(node).get('type') in ['event']:
                 self.set_resourceproxy(node, resourceproxies,
-                                       rtype='Metadata', mtype='application/x-cmdi+xml',
+                                       rtype='Metadata', mtype='application/x-cmdi+xml', idprefix='cmdi_',
                                        refprefix=SVNROOT, refpostfix='.cmdi')
                 self.set_resourceproxy(node, resourceproxies,
                                        rtype='Resource',
@@ -431,7 +431,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         self.set_resourceproxy(metafilenode, resourceproxies, rtype='Resource')
 
     def set_resourceproxy(self, nodename, resourceproxies,
-                          rtype='Metadata', mtype=None,
+                          rtype='Metadata', mtype=None, idprefix='',
                           refprefix=LANDINGPG, refpostfix=''):
         """
         sets a resourceproxy entry and its subelements.
@@ -446,7 +446,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         resource_proxy = etree.SubElement(resourceproxies, "ResourceProxy")
         resource_type = etree.SubElement(resource_proxy, "ResourceType")
         resource_ref = etree.SubElement(resource_proxy, "ResourceRef")
-        resource_proxy.set("id", 'cmdi_' + self.node.get(nodename).get('id'))
+        resource_proxy.set("id", idprefix + self.node.get(nodename).get('id'))
         resource_type.set("mimetype", mtype)
         resource_type.text = rtype
         resource_ref.text = unicode(refprefix + nodename + refpostfix)
