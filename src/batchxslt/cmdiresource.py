@@ -4,7 +4,7 @@ import logging
 import os
 from lxml import etree
 import mimetypes
-
+import re
 import networkx
 
 
@@ -15,10 +15,8 @@ SPEAKERXPATH = "//InEvent/Event"
 RESOURCEPATH = "dgd2_data/dgd2cmdi/cmdiOutput/"
 PREFIX = 'cmdi_'
 PREF = 'agd_ids_'
-
 NAME = 'AGD'
 SVNROOT = u'dgd2_data/dgd2cmdi/cmdi/'
-import urllib
 
 # this is the landing page prefix for the agd werbservice
 LANDINGPG = u'http://dgd.ids-mannheim.de/service/DGD2Web/ExternalAccessServlet?command=displayData&id='
@@ -50,7 +48,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         speakercorpusnames = os.listdir(speakerspath)
         transcriptscorpusnames = os.listdir(transcriptspath)
         self.name = NAME
-        self.__idcount = 0
+
         # cwdstart = os.getcwd()
         # define a collection root that precedes all corpora
         self.add_node("AGD_root")
@@ -71,7 +69,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     'etreeobject': etr,
                     'filename': corpus,
                     'id':  PREF + corpus.split('_')[0].rstrip('-')})
-            self.__idcount += 1
+
             # add edge from root to current node
             self.add_edge('AGD_root', corpus.split('_')[1].rstrip('-'))
         # define event nodes and add add them to their corpus root
@@ -124,7 +122,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                         'etreeobject': False,
                         'filename': filename,
                         'id':  PREF + transcriptcorp.split('_')[0].rstrip('-')})
-                    self.__idcount += 1
+
                     # obtain event from filename
                     transcriptevent = '_'.join(transcriptnodename.split('_')[:3])
                     # define edge from event to transcript
@@ -451,7 +449,17 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         resource_proxy.set("id", idprefix + self.node.get(nodename).get('id'))
         resource_type.set("mimetype", mtype)
         resource_type.text = rtype
-        resource_ref.text = unicode(refprefix + nodename + refpostfix)
+
+        # cut of last part of transcriptfilename for reference
+        if self.node.get(nodename).get('type') == 'transcript':
+            transnlist = nodename.split('_')
+            transnlist.pop()
+            transnlist.pop()
+            transcriptref = '_'.join(transnlist)
+
+            resource_ref.text = unicode(refprefix + transcriptref + refpostfix)
+        else:
+            resource_ref.text = unicode(refprefix + nodename + refpostfix)
 
     def write_cmdi(self, nodename, fname):
         """
@@ -549,7 +557,11 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                 haspart.text = self.node.get(node).get('type').capitalize() + ': ' + node
             elif self.node.get(node).get('type') == 'transcript':
                 haspart = etree.SubElement(relations, 'hasPart')
-                haspart.set('href', LANDINGPG + node)
+                transnlist = node.split('_')
+                transnlist.pop()
+                transnlist.pop()
+                transcriptref = '_'.join(transnlist)
+                haspart.set('href', LANDINGPG + transcriptref)
                 haspart.text = self.node.get(node).get('type').capitalize() + ': ' + node
 
         for node in in_nodes:
@@ -564,7 +576,11 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         isversionof.text = 'Version 0'
         # finally define an "source" element that refers to the original agd metadata
         agd_source = etree.SubElement(relations, 'source')
-        agd_source.set('href', LANDINGPG + resource)
+        if self.node.get(resource).get('type') == 'corpus':
+            agd_source.set('href', LANDINGPG + self.node.get(resource).get('filename').split('_')[1])
+
+        else:
+            agd_source.set('href', LANDINGPG + resource)
         agd_source.text = 'AGD: ' + resource
 
     def build_parts(self):
