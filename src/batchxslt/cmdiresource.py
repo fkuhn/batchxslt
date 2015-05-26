@@ -458,6 +458,10 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             transcriptref = '_'.join(transnlist)
 
             resource_ref.text = unicode(refprefix + transcriptref + refpostfix)
+        elif self.node.get(nodename).get('type') == 'corpus':
+            # need to refer to the original filenam label of the corpus.
+            corpusref = self.node.get(nodename).get('filename').split('_')[1]
+            resource_ref.text = unicode(refprefix + corpusref + refpostfix)
         else:
             resource_ref.text = unicode(refprefix + nodename + refpostfix)
 
