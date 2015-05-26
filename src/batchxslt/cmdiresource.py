@@ -399,7 +399,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         for speaker in resource_nodes:
             if self.node.get(speaker).get('type') == 'speaker':
                 resource_nodes.remove(speaker)
-        # remove corpus reference
+        # remove corpus reference in edges
         for nodename in resource_nodes:
             if self.node.get(nodename).get('type') == 'corpus':
                 resource_nodes.remove(nodename)
@@ -407,6 +407,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         # remove the abstract node from the resource list
         if 'AGD_root' in resource_nodes:
             resource_nodes.remove('AGD_root')
+        # remove self reference
         if metafilenode in resource_nodes:
             resource_nodes.remove(metafilenode)
         # make sure there are just unique references
@@ -423,11 +424,12 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                 self.set_resourceproxy(node, resourceproxies,
                                        rtype='Metadata', mtype='application/x-cmdi+xml', idprefix='cmdi_',
                                        refprefix=SVNROOT, refpostfix='.cmdi')
-                self.set_resourceproxy(node, resourceproxies,
-                                       rtype='Resource',
-                                       refprefix=LANDINGPG, refpostfix='')
+                # self.set_resourceproxy(node, resourceproxies,
+                #                       rtype='Resource',
+                #                       refprefix=LANDINGPG, refpostfix='')
 
-        # finally. define a node to the original metadata of the current cmdi record
+        # finally. define a proxy referring to the original metadata of the current cmdi record
+        # example: for PF.cmdi this is PF--_extern.xml.
         self.set_resourceproxy(metafilenode, resourceproxies, rtype='Resource')
 
     def set_resourceproxy(self, nodename, resourceproxies,
@@ -536,14 +538,14 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                 source = etree.SubElement(relations, 'hasPart')
                 source.set('href', LANDINGPG + node)
                 source.text = self.node.get(node).get('type').capitalize() + ': ' + node
-            elif mimetypes.guess_type(self.node.get(node).get('filename'))[0] == 'application/x-cmdi+xml':
-                source = etree.SubElement(relations, 'hasPart')
-                source.set('href', SVNROOT + node)
-                source.text = self.node.get(node).get('type').capitalize() + ': ' + node
+            # elif mimetypes.guess_type(self.node.get(node).get('filename'))[0] == 'application/x-cmdi+xml':
+            #     source = etree.SubElement(relations, 'hasPart')
+            #     source.set('href', SVNROOT + node)
+            #     source.text = self.node.get(node).get('type').capitalize() + ': ' + node
             elif self.node.get(node).get('type') == 'event':
                 # refer to original dgd metadata as source (via landing page)
                 haspart = etree.SubElement(relations, 'hasPart')
-                haspart.set('href', LANDINGPG + node)
+                haspart.set('href', SVNROOT + node + '.cmdi')
                 haspart.text = self.node.get(node).get('type').capitalize() + ': ' + node
             elif self.node.get(node).get('type') == 'transcript':
                 haspart = etree.SubElement(relations, 'hasPart')
@@ -553,12 +555,12 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         for node in in_nodes:
 
             ispartof = etree.SubElement(relations, 'isPartOf')
-            ispartof.set('href', LANDINGPG + node)
+            ispartof.set('href', SVNROOT + node + '.cmdi')
             ispartof.text = self.node.get(node).get('type').capitalize() + ': ' + node
 
         # define a node that refers to the version of this metadata
         isversionof = etree.SubElement(relations, 'isVersionOf')
-        isversionof.set('href', LANDINGPG + resource)
+        isversionof.set('href', SVNROOT + resource + '.cmdi')
         isversionof.text = 'Version 0'
         # finally define an "source" element that refers to the original agd metadata
         agd_source = etree.SubElement(relations, 'source')
