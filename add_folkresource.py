@@ -6,9 +6,9 @@ import os
 from batchxslt import cmdiresource
 from batchxslt import cmdiheader
 
-corpus = "/tmp/cmdi/corpus/FOLK/"
-event = "/tmp/cmdi/events/FOLK"
-speakers = "//tmp/cmdi/speakers/FOLK"
+corpus = "/tmp/cmdi/corpus/"
+event = "/tmp/cmdi/events/"
+speakers = "/tmp/cmdi/speakers/"
 transcripts = "/home/kuhn/Data/IDS/svn_rev1233/dgd2_data/transcripts/"
 
 cmdi_final = '/tmp/cmdi/cmdiFOLK/'
@@ -18,9 +18,10 @@ resourcetree = cmdiresource.ResourceTreeCollection(corpus, event, speakers, tran
 # give ids to nodes
 counter = 0
 for node in resourcetree.nodes_iter():
-    corpuslabel = node.split('_')[0].rstrip('-')
+    corpuslabel = node.split('_')[0]
     resourcetree.node.get(node).update({'id': corpuslabel + '_' + str(counter)})
     counter += 1
+
 resourcetree.build_resourceproxy()
 
 for nodename in resourcetree.nodes_iter():
