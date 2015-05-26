@@ -21,6 +21,8 @@ pf_speakers = os.path.join(dgd_speakers, 'PF')
 
 xsl_processor = processor.XSLBatchProcessor(saxon_jar)
 
+
+# use the transform method for single corpus resource transformation
 xsl_processor.transform(corpus_xsl, pf_corpus, "cmdi_", '/tmp/cmdi/corpus/')
 
 xsl_processor.transform(event_xsl, pf_events, "cmdi_", '/tmp/cmdi/events/PF/')
