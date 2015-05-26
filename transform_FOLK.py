@@ -21,7 +21,7 @@ pf_speakers = os.path.join(dgd_speakers, 'FOLK')
 
 xsl_processor = processor.XSLBatchProcessor(saxon_jar)
 
-xsl_processor.transform(corpus_xsl, pf_corpus, "cmdi_", '/tmp/cmdi/corpus/FOLK/')
+xsl_processor.transform(corpus_xsl, pf_corpus, "cmdi_", '/tmp/cmdi/corpus/')
 
 xsl_processor.transform(event_xsl, pf_events, "cmdi_", '/tmp/cmdi/events/FOLK/')
 
