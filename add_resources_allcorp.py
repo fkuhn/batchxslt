@@ -8,22 +8,49 @@ from batchxslt import cmdiheader
 
 corpus = "/tmp/cmdi/corpus/"
 event = "/tmp/cmdi/events/"
-speakers = "//tmp/cmdi/speakers/"
+speakers = "/tmp/cmdi/speakers/"
 transcripts = "/home/kuhn/Data/IDS/svn_rev1233/dgd2_data/transcripts/"
 
-cmdi_final = '/tmp/cmdi/cmdiPF/'
+cmdi_final = '/tmp/cmdi_resources/'
+
+def make_directory(pathname):
+        try:
+            os.mkdir(os.path.abspath(pathname))
+        except OSError:
+            print "cannot create directory " + pathname
+            print "Maybe it already exists..."
+
+def write_corpus(cname, directory):
+    """
+    define and write final cmdi version for a certain corpus
+    :param cname:
+    :param directory:
+    :return:
+    """
+    resourcetree = cmdiresource.ResourceTreeCollection(corpus, event)
+
+
+
 
 resourcetree = cmdiresource.ResourceTreeCollection(corpus, event, speakers, transcripts)
 
-resourcetree.build_resourceproxy()
+counter = 0
+for node in resourcetree.nodes_iter():
+    corpuslabel = node.split('_')[0]
+    resourcetree.node.get(node).update({'id': corpuslabel + '_' + str(counter)})
+    counter += 1
+
+
+
+
+
 
 # give ids to nodes
 counter = 0
 for node in resourcetree.nodes_iter():
-    corpuslabel = node.split('_')[0].rstrip('-')
+    corpuslabel = node.split('_')[0]
     resourcetree.node.get(node).update({'id': corpuslabel + '_' + str(counter)})
     counter += 1
-
 
 resourcetree.build_resourceproxy()
 
