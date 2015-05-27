@@ -382,7 +382,10 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         mimetypes.add_type('application/xml', '.fln')
         mimetypes.add_type('application/x-cmdi+xml', '.cmdi')
         cmdi_etrobj = self.node.get(metafilenode).get("etreeobject")
-        cmdiroot = cmdi_etrobj.getroot()
+        try:
+            cmdiroot = cmdi_etrobj.getroot()
+        except AttributeError:
+            logging.error('no root found for: ' + metafilenode)
         try:
             resourceproxies = cmdiroot.find("Resources").find("ResourceProxyList")
         except AttributeError:
@@ -599,3 +602,5 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             # pass the node name to define_resourceproxy
             if self.node.get(resource).get('type') == 'event':
                 self.define_parts(resource)
+
+
