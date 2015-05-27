@@ -332,22 +332,25 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                 # document scope
                 # print event_speaker.find('Label').text + ' vs ' + speakernode
                 if event_speaker.find('Label').text == speakernode:
-                    # alternative append element as list element
-                    event_speaker.insert(-1, etree.fromstring(sdata.get('Name')))
-                    event_speaker.insert(-1, etree.fromstring(sdata.get('Alias')))
-                    # etree.SubElement(event_speaker, speaker_sex)
-                    event_speaker.insert(-1, etree.fromstring(sdata.get('DateOfBirth')))
-                    event_speaker.insert(-1, etree.fromstring(sdata.get('Education')))
-                    event_speaker.insert(-1, etree.fromstring(sdata.get('Profession')))
-                    event_speaker.insert(-1, etree.fromstring(sdata.get('Ethnicity')))
-                    event_speaker.insert(-1, etree.fromstring(sdata.get('Nationality')))
-                    event_speaker.insert(-1, etree.fromstring(sdata.get('LocationData')))
-                    event_speaker.insert(-1, etree.fromstring(sdata.get('LanguageData')))
 
+                    # get a copy of the 'Language' to insert it to 'LanguageData' below
+                    languages = event_speaker.xpath('//Language')
+                    for language in event_speaker.xpath('//Language'):
+                        language.getparent().remove(language)
+
+                    event_speaker.append(etree.fromstring(sdata.get('Name')))
+                    event_speaker.append(etree.fromstring(sdata.get('Alias')))
+                    # etree.SubElement(event_speaker, speaker_sex)
+                    event_speaker.append(etree.fromstring(sdata.get('DateOfBirth')))
+                    event_speaker.append(etree.fromstring(sdata.get('Education')))
+                    event_speaker.append(etree.fromstring(sdata.get('Profession')))
+                    event_speaker.append(etree.fromstring(sdata.get('Ethnicity')))
+                    event_speaker.append(etree.fromstring(sdata.get('Nationality')))
+                    event_speaker.append(etree.fromstring(sdata.get('LocationData')))
+                    event_speaker.append(etree.fromstring(sdata.get('LanguageData')))
                     # deal with language data dublicates
                     # put a copy into <LanguageData> and remove it
                     language_data = event_speaker.find('LanguageData')
-                    languages = event_speaker.xpath('//Language')
                     for lang in languages:
                         if lang.text in [l.text for l in language_data.xpath('Language')]:
                             # extra_lang = etree.SubElement(language_data, 'Language')
@@ -356,7 +359,6 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                         else:
                             extra_lang = etree.SubElement(language_data, 'Language')
                             extra_lang.text = lang.text
-                        lang.getparent().remove(lang)
 
     def define_resourceproxy(self, metafilenode):
         """
