@@ -17,14 +17,6 @@ SVNROOT = 'dgd2_data/dgd2cmdi/cmdi/PF/'
 EVENTXSDURI = "http://www.clarin.eu/cmd/ http://catalog.clarin.eu/ds/ComponentRegistry/rest/registry/profiles/clarin.eu:cr1:p_1430905751615/xsd"
 CORPUSXSDURI = "http://www.clarin.eu/cmd/ http://catalog.clarin.eu/ds/ComponentRegistry/rest/registry/profiles/clarin.eu:cr1:p_1430905751614/xsd"
 
-def check_cmdi_xsd(nodename):
-    """
-    checks if the cmdi record file of a node is valid
-    :param nodename:
-    :return:
-    """
-    # optain the current schema of both cmdi profiles
-    event_s = requests.get(EVENTXSDURI)
 
 
 
