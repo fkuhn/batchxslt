@@ -603,4 +603,18 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             if self.node.get(resource).get('type') == 'event':
                 self.define_parts(resource)
 
-
+    def check_cmdi_xsd(self, nodename):
+        """
+        checks if the cmdi record file of a node is valid
+        :param nodename:
+        :return:
+        """
+        # optain the current schema of both cmdi profiles
+        event_s = etree.XMLSchema(etree.parse('../../data/DGDEvent.xsd'))
+        corpus_s = etree.XMLSchema(etree.parse('../../data/DGDCorpus.xsd'))
+        if self.node.get(nodename).get('type') == 'corpus':
+            return corpus_s.validate(self.node.get(nodename).get('etreeobject'))
+        elif self.node.get(nodename).get('type') == 'event':
+            return event_s.validate(self.node.get(nodename).get('etreeobject'))
+        else:
+            return False
