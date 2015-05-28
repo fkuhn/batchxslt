@@ -618,3 +618,26 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             return event_s.validate(self.node.get(nodename).get('etreeobject'))
         else:
             return False
+
+    def validate_corpus(self, corpusnode):
+        """
+        takes a node of a corpus (e.g. 'PF') and checks if it and
+        all its successors are valid according to the cmdi profile.
+        Online access to profiles not yet implemented.
+        :param corpusnode:
+        :return: errorlist if exception
+        """
+        errorlist = list
+        if not self.check_cmdi_xsd(corpusnode):
+
+            errorlist.append(corpusnode)
+        for subnode in self.successors_iter(corpusnode):
+            if self.node.get(subnode).get('type') == 'event':
+                if not self.check_cmdi_xsd(subnode):
+                    errorlist.append(subnode)
+
+        if len(errorlist) > 0:
+            print "there where errors:"
+            return errorlist
+        else:
+            return True
