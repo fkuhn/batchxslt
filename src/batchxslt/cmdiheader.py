@@ -8,13 +8,24 @@ __doc__ = """<Header>
         </Header>"""
 
 import logging
-import os
+import requests
 from lxml import etree
-import mimetypes
 
 MDCREATOR = 'batchxslt.py'
 VALIDIDS = {'event': 'clarin.eu:cr1:p_1430905751615', 'corpus': 'clarin.eu:cr1:p_1430905751614'}
 SVNROOT = 'dgd2_data/dgd2cmdi/cmdi/PF/'
+EVENTXSDURI = "http://www.clarin.eu/cmd/ http://catalog.clarin.eu/ds/ComponentRegistry/rest/registry/profiles/clarin.eu:cr1:p_1430905751615/xsd"
+CORPUSXSDURI = "http://www.clarin.eu/cmd/ http://catalog.clarin.eu/ds/ComponentRegistry/rest/registry/profiles/clarin.eu:cr1:p_1430905751614/xsd"
+
+def check_cmdi_xsd(nodename):
+    """
+    checks if the cmdi record file of a node is valid
+    :param nodename:
+    :return:
+    """
+    # optain the current schema of both cmdi profiles
+    event_s = requests.get(EVENTXSDURI)
+
 
 
 def define_header(cmdinode, resourcetree, override_profile=False):
