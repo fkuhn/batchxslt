@@ -386,11 +386,12 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             cmdiroot = cmdi_etrobj.getroot()
         except AttributeError:
             logging.error('no root found for: ' + metafilenode)
+            return
+
         try:
             resourceproxies = cmdiroot.find("Resources").find("ResourceProxyList")
         except AttributeError:
             logging.error("No Resource Element found in " + metafilenode + ". Check cmdi file consistency.")
-
             return
 
         in_nodes = [i[0] for i in self.in_edges(metafilenode)]
@@ -503,7 +504,12 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         :param resource:
         :return:
         """
-        cmdi_etrobj = self.node.get(resource).get("etreeobject")
+        cmdiroot = None
+        try:
+            cmdi_etrobj = self.node.get(resource).get("etreeobject")
+        except AttributeError:
+            logging.error("referenced resource node has no attribute 'etreeobject'")
+            return
 
         if self.node.get(resource).get('type') == 'event':
             try:
@@ -546,51 +552,56 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
         # define the hasPart Elements
         # define a Relation Element as parent for hasPart elements
-        relations = etree.SubElement(cmdiroot, 'dc-inter-relations')
+        if cmdiroot is not None:
+            relations = etree.SubElement(cmdiroot, 'dc-inter-relations')
         # find them in
-        for node in out_nodes:
+            for node in out_nodes:
+                try:
+                    if mimetypes.guess_type(self.node.get(node).get('filename'))[0] == 'audio/x-wav':
+                        # refer to audio as hasPart
+                        source = etree.SubElement(relations, 'hasPart')
+                        source.set('href', LANDINGPG + node)
+                        source.text = self.node.get(node).get('type').capitalize() + ': ' + node
+                    # elif mimetypes.guess_type(self.node.get(node).get('filename'))[0] == 'application/x-cmdi+xml':
+                    #     source = etree.SubElement(relations, 'hasPart')
+                    #     source.set('href', SVNROOT + node)
+                    #     source.text = self.node.get(node).get('type').capitalize() + ': ' + node
+                    elif self.node.get(node).get('type') == 'event':
+                        # refer to original dgd metadata as source (via landing page)
+                        haspart = etree.SubElement(relations, 'hasPart')
+                        haspart.set('href', SVNROOT + node + '.cmdi')
+                        haspart.text = self.node.get(node).get('type').capitalize() + ': ' + node
+                    elif self.node.get(node).get('type') == 'transcript':
+                        haspart = etree.SubElement(relations, 'hasPart')
+                        transnlist = node.split('_')
+                        transnlist.pop()
+                        transnlist.pop()
+                        transcriptref = '_'.join(transnlist)
+                        haspart.set('href', LANDINGPG + transcriptref)
+                        haspart.text = self.node.get(node).get('type').capitalize() + ': ' + node
+                except TypeError:
+                    logging.error("check data integrity of node " + node)
+                    return
+            for node in in_nodes:
+                try:
+                    ispartof = etree.SubElement(relations, 'isPartOf')
+                    ispartof.set('href', SVNROOT + node + '.cmdi')
+                    ispartof.text = self.node.get(node).get('type').capitalize() + ': ' + node
+                except TypeError:
+                    logging.error("check data integrity of node " + node)
 
-            if mimetypes.guess_type(self.node.get(node).get('filename'))[0] == 'audio/x-wav':
-                # refer to audio as hasPart
-                source = etree.SubElement(relations, 'hasPart')
-                source.set('href', LANDINGPG + node)
-                source.text = self.node.get(node).get('type').capitalize() + ': ' + node
-            # elif mimetypes.guess_type(self.node.get(node).get('filename'))[0] == 'application/x-cmdi+xml':
-            #     source = etree.SubElement(relations, 'hasPart')
-            #     source.set('href', SVNROOT + node)
-            #     source.text = self.node.get(node).get('type').capitalize() + ': ' + node
-            elif self.node.get(node).get('type') == 'event':
-                # refer to original dgd metadata as source (via landing page)
-                haspart = etree.SubElement(relations, 'hasPart')
-                haspart.set('href', SVNROOT + node + '.cmdi')
-                haspart.text = self.node.get(node).get('type').capitalize() + ': ' + node
-            elif self.node.get(node).get('type') == 'transcript':
-                haspart = etree.SubElement(relations, 'hasPart')
-                transnlist = node.split('_')
-                transnlist.pop()
-                transnlist.pop()
-                transcriptref = '_'.join(transnlist)
-                haspart.set('href', LANDINGPG + transcriptref)
-                haspart.text = self.node.get(node).get('type').capitalize() + ': ' + node
+            # define a node that refers to the version of this metadata
+            isversionof = etree.SubElement(relations, 'isVersionOf')
+            isversionof.set('href', SVNROOT + resource + '.cmdi')
+            isversionof.text = 'Version 0'
+            # finally define an "source" element that refers to the original agd metadata
+            agd_source = etree.SubElement(relations, 'source')
+            if self.node.get(resource).get('type') == 'corpus':
+                agd_source.set('href', LANDINGPG + self.node.get(resource).get('filename').split('_')[1])
 
-        for node in in_nodes:
-
-            ispartof = etree.SubElement(relations, 'isPartOf')
-            ispartof.set('href', SVNROOT + node + '.cmdi')
-            ispartof.text = self.node.get(node).get('type').capitalize() + ': ' + node
-
-        # define a node that refers to the version of this metadata
-        isversionof = etree.SubElement(relations, 'isVersionOf')
-        isversionof.set('href', SVNROOT + resource + '.cmdi')
-        isversionof.text = 'Version 0'
-        # finally define an "source" element that refers to the original agd metadata
-        agd_source = etree.SubElement(relations, 'source')
-        if self.node.get(resource).get('type') == 'corpus':
-            agd_source.set('href', LANDINGPG + self.node.get(resource).get('filename').split('_')[1])
-
-        else:
-            agd_source.set('href', LANDINGPG + resource)
-        agd_source.text = 'AGD: ' + resource
+            else:
+                agd_source.set('href', LANDINGPG + resource)
+            agd_source.text = 'AGD: ' + resource
 
     def build_parts(self):
         """
