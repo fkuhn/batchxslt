@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Configuration File for XSLT Batch processing script batchxslt
+<!-- Configuration File for XSLT Batch processing script dgd2cmdi
 Documentation of attribute value:
 processor - defines a xslt processor
 stylesheet - a stylesheet that is used to transform the referred data
