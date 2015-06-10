@@ -15,8 +15,7 @@ install_requires = [
     'lxml', 'networkx', 'numpy'
     ]
 
-
-setup(name='batchxslt',
+setup(name='dgd2cmdi',
     version=version,
     description="batch transformation for xsl stylesheets",
     long_description=README + '\n\n' + NEWS,
@@ -34,6 +33,6 @@ setup(name='batchxslt',
     install_requires=install_requires,
     entry_points={
         'console_scripts':
-            ['batchxslt=batchxslt:main']
+            ['dgd2cmdi=dgd2cmdi:main']
     }
 )
