@@ -1,6 +1,6 @@
 # Example package with a console entry point
 __author__ = "fkuhn"
-__doc__ = "batchxslt 0.1 Refer to /doc for a tutorial."
+__doc__ = "dgd2cmdi 0.1 Refer to /doc for a tutorial."
 
 import processor
 import logging
@@ -11,7 +11,7 @@ def main():
     """
     console entry point
     """
-    print "batchxslt 0.2"
+    print "dgd2cmdi 0.2"
 
     try:
         configuration = processor.Configurator(sys.argv[1])
