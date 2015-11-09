@@ -1,9 +1,31 @@
-import click
+from __future__ import unicode_literals
+
+import argparse
+import os
+import sys
+
+from prompt_toolkit import prompt
+from pygments.token import Token
+from prompt_toolkit.application import Application
+from prompt_toolkit.interface import CommandLineInterface
 
 
-@click.command()
-@click.option('--single', '-s', )
-def transform(dgdmetafile, corpusname, resourcetype):
+# path to cmdi schema files
+CMDIR = "/data/cmdi"
+
+
+#defapplication = Application(
+#    layout=layout,
+#    key_bindings_registry=registry,
+
+    # Let's add mouse support as well.
+ #   mouse_support=True,
+
+    # For fullscreen:
+ #   use_alternate_screen=True)
+
+
+def transform(dgdmetafile=None, corpusname=None, resourcetype=None):
     """
 
     :param dgdmetafile:
@@ -11,12 +33,25 @@ def transform(dgdmetafile, corpusname, resourcetype):
     :param resourcetype:
     :return:
     """
+    print "testing2"
 
 
-# make the module name a main function for cli call
-if __name__ == '__main__':
+def interactive():
     """
-    batchxslt processes via command line interface
-    :return:
+    interactive mode
     """
-    transform()
+    #reading available schemes
+
+    dgdfolder = prompt("Enter a ressource folder path: ")
+    cmdifolder = prompt("Choose a cmdi schema")
+
+def main():
+    """
+    This is the main function used for cli functionability.
+    """
+    interactive()
+
+    # transform()
+
+    # b) define a config file based transformation
+    # default case w/o parameters

@@ -33,6 +33,6 @@ setup(name='dgd2cmdi',
     install_requires=install_requires,
     entry_points={
         'console_scripts':
-            ['dgd2cmdi=dgd2cmdi:main']
+            ['dgd2cmdi=batchxslt.dgd2cmdi:main']
     }
 )
