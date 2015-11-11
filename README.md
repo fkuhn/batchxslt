@@ -1,5 +1,5 @@
 ## About
-This small python package batch processes "Database for Spoken German"-specific xslt
+This python package batch processes "Database for Spoken German"-specific xslt
 stylesheets to transform the original dgd metadata to cmdi metadata.
 
 ## Installation
