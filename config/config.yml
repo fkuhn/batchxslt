@@ -9,7 +9,7 @@ corpora: /home/kuhn/dgd2_data_rev1233/metadata/corpora/extern
 events: /home/kuhn/dgd2_data_rev1233/metadata/events/extern
 speakers: /home/kuhn/dgd2_data_rev1233/metadata/speakers/extern
 
-cmdischemas: /data/cmdi
+cmdi_schemas: /data/cmdi
 
 
 ################## CMDI HEADERS ##############################################
