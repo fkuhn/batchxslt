@@ -6,7 +6,6 @@ stylesheets to transform the original dgd metadata to cmdi metadata.
 
  Use ```python setupy.py install ``` to install the package.
 
-
 ## Usage
 
 **April 2015** Notebooks are now updated and can be used for complete orchestration
@@ -32,3 +31,13 @@ Each element uses the attributes "type" and "corpus"
 ### Starting Transformation
 Once all parameters are set, call the python script dgdstart.py
 
+### Referenced CMDI Profiles
+
+#### Corpora
+http://catalog.clarin.eu/ds/ComponentRegistry/rest/registry/profiles/clarin.eu:cr1:p_1430905751614
+
+#### Events
+http://catalog.clarin.eu/ds/ComponentRegistry/rest/registry/profiles/clarin.eu:cr1:p_1430905751615
+
+Speakers do not use a seperate profile. Every relevant information is extracted from the original 
+dgd data and inserted into the matching event cmdi files.
