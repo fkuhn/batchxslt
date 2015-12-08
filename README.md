@@ -24,12 +24,19 @@ following subelements:
 Each element uses the attributes "type" and "corpus"
 *	"type" defines the type of resource that is refered to in the element
 	each  metadata-specific element uses the type values "stylesheet", "indirectory", "prefix", "outdirectory" to
-	define the type of reference denoted via the metadata-element. 
+	define the type of reference denoted via the metadata-element.
 *	"corpus" defines the alias of the corpus refered to. The alias is the official one of the archive of spoken german.
-	(e.g. "AD", "BB", "FOLK" etc.) 
+	(e.g. "AD", "BB", "FOLK" etc.)
 
 ### Starting Transformation
-Once all parameters are set, call the python script dgdstart.py
+Once all parameters are set, call the python script dgdstart.py with the Configuration
+file parameter e.g. data/config.xml
+
+### Adding Resources
+Resource Proxies, part-of relations and header information to finalize all
+cmdi files are added in scripts/add_resources_allcorp.py
+
+
 
 ### Referenced CMDI Profiles
 
@@ -39,5 +46,5 @@ http://catalog.clarin.eu/ds/ComponentRegistry/rest/registry/profiles/clarin.eu:c
 #### Events
 http://catalog.clarin.eu/ds/ComponentRegistry/rest/registry/profiles/clarin.eu:cr1:p_1430905751615
 
-Speakers do not use a seperate profile. Every relevant information is extracted from the original 
+Speakers do not use a seperate profile. Every relevant information is extracted from the original
 dgd data and inserted into the matching event cmdi files.
