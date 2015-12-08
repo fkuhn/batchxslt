@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 import argparse
 import os
 import sys
+import config
 
 from prompt_toolkit import prompt
 from pygments.token import Token
@@ -10,8 +11,8 @@ from prompt_toolkit.application import Application
 from prompt_toolkit.interface import CommandLineInterface
 
 
-# path to cmdi schema files
-CMDIR = "/data/cmdi"
+#default config path
+CONF = os.path.abspath('/data/config/')+'config.yml'
 
 
 #defapplication = Application(
@@ -25,31 +26,14 @@ CMDIR = "/data/cmdi"
  #   use_alternate_screen=True)
 
 
-def transform(dgdmetafile=None, corpusname=None, resourcetype=None):
-    """
-
-    :param dgdmetafile:
-    :param corpusname:
-    :param resourcetype:
-    :return:
-    """
-    print "testing2"
-
-
-def interactive():
-    """
-    interactive mode
-    """
-    #reading available schemes
-
-    dgdfolder = prompt("Enter a ressource folder path: ")
-    cmdifolder = prompt("Choose a cmdi schema")
-
 def main():
     """
     This is the main function used for cli functionability.
     """
-    interactive()
+
+    # configuration = config.load_configuration()
+
+    parser = argparse.ArgumentParser()
 
     # transform()
 
