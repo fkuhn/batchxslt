@@ -5,13 +5,13 @@ from batchxslt import cmdiresource
 import codecs
 import os
 
-dgd_corpus = "/home/kuhn/Data/IDS/svn_rev1233/dgd2_data/metadata/corpora/extern"
-dgd_events = "/home/kuhn/Data/IDS/svn_rev1233/dgd2_data/metadata/events/extern"
-dgd_speakers = "/home/kuhn/Data/IDS/svn_rev1233/dgd2_data/metadata/speakers/extern"
+dgd_corpus = "/home/kuhn/IDS/Repos/svn/dgd2_data_rev1233/dgd2_data/metadata/corpora/extern"
+dgd_events = "/home/kuhn/IDS/Repos/svn/dgd2_data_rev1233/dgd2_data/metadata/events/extern"
+dgd_speakers = "/home/kuhn/IDS/Repos/svn/dgd2_data_rev1233/dgd2_data/metadata/speakers/extern"
 
-corpus_xsl = "/home/kuhn/Data/IDS/svn/dgd2_data/dgd2cmdi/xslt/dgdCorpus2cmdi.xsl"
-event_xsl = "/home/kuhn/Data/IDS/svn/dgd2_data/dgd2cmdi/xslt/dgdEvent2cmdi.xsl"
-speaker_xsl = "/home/kuhn/Data/IDS/svn/dgd2_data/dgd2cmdi/xslt/dgdSpeaker2cmdi.xsl"
+corpus_xsl = "/home/kuhn/IDS/svn/Repos/dgd2_data/dgd2cmdi/xslt/dgdCorpus2cmdi.xsl"
+event_xsl = "/home/kuhn/IDS/svn/Repos/dgd2_data/dgd2cmdi/xslt/dgdEvent2cmdi.xsl"
+speaker_xsl = "/home/kuhn/IDS/Repos/svn/dgd2_data/dgd2cmdi/xslt/dgdSpeaker2cmdi.xsl"
 
 saxon_jar = "/home/kuhn/Data/IDS/svn/dgd2_data/dgd2cmdi/dgd2cmdi/saxon/saxon9he.jar"
 

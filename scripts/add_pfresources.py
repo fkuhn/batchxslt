@@ -6,12 +6,12 @@ import os
 from batchxslt import cmdiresource
 from batchxslt import cmdiheader
 
-corpus = "/tmp/cmdi/corpus/"
-event = "/tmp/cmdi/events/"
-speakers = "/tmp/cmdi/speakers/"
-transcripts = "/home/kuhn/Data/IDS/svn_rev1233/dgd2_data/transcripts/"
+corpus = "../cmdiOutput/corpus/"
+event = "../cmdiOutput/event/"
+speakers = "../cmdiOutput/speakers/"
+transcripts = "/home/kuhn/IDS/Repos/svn/dgd2_data_rev1233/dgd2_data"
 
-cmdi_final = '/tmp/cmdi/cmdiPF/'
+cmdi_final = '../cmdiPF/'
 
 resourcetree = cmdiresource.ResourceTreeCollection(corpus, event, speakers, transcripts)
 
