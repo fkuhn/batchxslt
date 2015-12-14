@@ -308,7 +308,8 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         speakerdata = dict()
 
         speakerelements = self.node.get(speakernode).\
-            get('etreeobject').getroot().find('Components')
+            get('etreeobject').getroot().find('Components[1]')
+
 
         for element in speakerelements.iter():
 
@@ -324,12 +325,12 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         :return:
         """
         sdata = self.get_speaker_data(speakernode)
-        if len(sdata) == 0:
-            print  "sdata is empty"
 
+        if len(sdata) == 0:
+            print "sdata is empty"
 
         for event in self.find_events(speakernode):
-
+            print event
             eventtree = self.node.get(event).get('etreeobject')
 
             for event_speaker in eventtree.getroot().xpath('//Speaker'):
