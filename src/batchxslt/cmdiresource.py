@@ -242,9 +242,9 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         """
 
         eventlist = list()
-
+        print "events for "+speakernode+": "
         for outedge in self.in_edges_iter([speakernode]):
-
+            print outedge
             try:
                 if self.node.get(outedge[0]).get('type') == 'event':
                     eventlist.append(outedge[0])
@@ -308,7 +308,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         speakerdata = dict()
 
         speakerelements = self.node.get(speakernode).\
-            get('etreeobject').getroot().find('Components[1]')
+            get('etreeobject').getroot().find('Components')
 
 
         for element in speakerelements.iter():
@@ -330,7 +330,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             print "sdata is empty"
 
         for event in self.find_events(speakernode):
-            print event
+
             eventtree = self.node.get(event).get('etreeobject')
 
             for event_speaker in eventtree.getroot().xpath('//Speaker'):
