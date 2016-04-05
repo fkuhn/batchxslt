@@ -1,13 +1,14 @@
+#!usr/bin/python
 __author__ = 'kuhn'
 __doc__ = 'link the cmdi resources by writing resource proxy elements and href attributes'
 
 from collections import OrderedDict
-from lxml import etree
 import logging
 import numpy
 import os
 
 
+#todo: remember about this method
 class PrimaryDataPath(dict):
     """
 
@@ -21,7 +22,7 @@ class PrimaryDataPath(dict):
 class TranscriptLinker(OrderedDict):
     """
     Transcript Linker takes a path that acts as root and writes their
-    associated Transcript file paths to orresponding href
+    associated Transcript file paths to corresponding href
     element attributes.
     """
 

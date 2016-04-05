@@ -1,10 +1,10 @@
 import logging
-import os
-from lxml import etree
 import mimetypes
+import os
 import re
-import networkx
 
+import networkx
+from lxml import etree
 
 # TODO: define paths in csv files
 DGDROOT = "dgd2_data"
@@ -195,7 +195,8 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         :param resource:
         :return:
         """
-        audiolabels = self.node.get(resource).get('etreeobject').xpath('//AudioData/FileName/text()')
+        audiolabels = self.node.get(resource).get(
+            'etreeobject').xpath('//AudioData/FileName/text()')
 
         for audiofile in audiolabels:
             self.add_node(audiofile.split('.')[0], {
@@ -253,9 +254,9 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         """
 
         eventlist = list()
-
+        print "events for "+speakernode+": "
         for outedge in self.in_edges_iter([speakernode]):
-
+            print outedge
             try:
                 if self.node.get(outedge[0]).get('type') == 'event':
                     eventlist.append(outedge[0])
@@ -321,6 +322,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         speakerelements = self.node.get(speakernode).\
             get('etreeobject').getroot().find('Components')
 
+
         for element in speakerelements.iter():
 
             speakerdata.update({element.tag: etree.tostring(element)})
@@ -335,6 +337,10 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         :return:
         """
         sdata = self.get_speaker_data(speakernode)
+
+        if len(sdata) == 0:
+            print "sdata is empty"
+
         for event in self.find_events(speakernode):
 
             eventtree = self.node.get(event).get('etreeobject')
@@ -360,7 +366,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     event_speaker.append(etree.fromstring(sdata.get('Nationality')))
                     event_speaker.append(etree.fromstring(sdata.get('LocationData')))
                     event_speaker.append(etree.fromstring(sdata.get('LanguageData')))
-                    # deal with language data dublicates
+                    # deal with language data duplicates
                     # put a copy into <LanguageData> and remove it
                     language_data = event_speaker.find('LanguageData')
                     for lang in languages:
@@ -403,7 +409,8 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         try:
             resourceproxies = cmdiroot.find("Resources").find("ResourceProxyList")
         except AttributeError:
-            logging.error("No Resource Element found in " + metafilenode + ". Check cmdi file consistency.")
+            logging.error("No Resource Element found in " +
+                          metafilenode + ". Check cmdi file consistency.")
             return
 
         in_nodes = [i[0] for i in self.in_edges(metafilenode)]
@@ -516,19 +523,26 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         :param resource:
         :return:
         """
+
         cmdiroot = None
         try:
+            # retrieve the etree object of the current node
             cmdi_etrobj = self.node.get(resource).get("etreeobject")
         except AttributeError:
             logging.error("referenced resource node has no attribute 'etreeobject'")
             return
 
+        # set root for accessing the etree object:
+
+        # a) if the type of the current node is "event" or
         if self.node.get(resource).get('type') == 'event':
             try:
                 cmdiroot = cmdi_etrobj.xpath('//DGDEvent')[0]
             except:
                 logging.error('cannot access DGDEvent as root: ' + resource)
                 return
+
+        # b) if the type of the current node is "corpus"
         if self.node.get(resource).get('type') == 'corpus':
             try:
                 cmdiroot = cmdi_etrobj.xpath('//DGDCorpus')[0]
@@ -536,20 +550,24 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                 logging.error('cannot access DGDCorpus as root: ' + resource)
                 return
 
+        # find all in/out edges for the current node
         in_nodes = [i[0] for i in self.in_edges(resource)]
         out_nodes = [i[1] for i in self.out_edges(resource)]
 
         # hasPart Elements for out_nodes
         # isPartOf Elements for in_nodes
 
-        # remove speaker references for now
+        # remove speaker references in outward nodes
         for speaker in out_nodes:
-            if speaker == self.node.get(speaker).get('type') == 'speaker':
+            if self.node.get(speaker).get('type') == 'speaker':
                 out_nodes.remove(speaker)
+                logging.info(speaker + " detached from " + resource)
 
+        # remove
         for speaker in in_nodes:
-            if speaker == self.node.get(speaker).get('type') == 'speaker':
+            if self.node.get(speaker).get('type') == 'speaker':
                 in_nodes.remove(speaker)
+                logging.info(speaker + " detached from " + resource)
 
         # remove the abstract node from the resource lists
         if 'AGD_root' in in_nodes:
@@ -592,7 +610,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                         haspart.set('href', LANDINGPG + transcriptref)
                         haspart.text = self.node.get(node).get('type').capitalize() + ': ' + node
                 except TypeError:
-                    logging.error("check data integrity of node " + node)
+                    logging.error("check data integrity of outbound node " + node)
                     return
             for node in in_nodes:
                 try:
@@ -600,7 +618,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     ispartof.set('href', SVNROOT + node + '.cmdi')
                     ispartof.text = self.node.get(node).get('type').capitalize() + ': ' + node
                 except TypeError:
-                    logging.error("check data integrity of node " + node)
+                    logging.error("check data integrity of inbound  node " + node)
 
             # define a node that refers to the version of this metadata
             isversionof = etree.SubElement(relations, 'isVersionOf')
@@ -609,7 +627,8 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             # finally define an "source" element that refers to the original agd metadata
             agd_source = etree.SubElement(relations, 'source')
             if self.node.get(resource).get('type') == 'corpus':
-                agd_source.set('href', LANDINGPG + self.node.get(resource).get('filename').split('_')[1])
+                agd_source.set('href', LANDINGPG +
+                               self.node.get(resource).get('filename').split('_')[1])
 
             else:
                 agd_source.set('href', LANDINGPG + resource)

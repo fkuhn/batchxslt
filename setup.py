@@ -6,7 +6,7 @@ README = open(os.path.join(here, 'README.md')).read()
 NEWS = open(os.path.join(here, 'NEWS.txt')).read()
 
 
-version = '0.1'
+version = '0.4'
 
 install_requires = [
     # List your project dependencies here.
@@ -27,12 +27,14 @@ setup(name='dgd2cmdi',
     author_email='kuhn@ids-mannheim.de',
     url='www.ids-mannheim.de',
     license='Apache v2',
+    package_data={'config': ['/config/config.yml'], 'data': ['../data/*']},
+    include_package_data= True,
     packages=find_packages('src'),
-    package_dir = {'': 'src'},include_package_data=True,
+    package_dir = {'': 'src'},
     zip_safe=False,
     install_requires=install_requires,
     entry_points={
         'console_scripts':
-            ['dgd2cmdi=dgd2cmdi:main']
+            ['dgd2cmdi=batchxslt.dgd2cmdi:main']
     }
 )

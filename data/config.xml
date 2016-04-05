@@ -5,27 +5,27 @@ processor - defines a xslt processor
 stylesheet - a stylesheet that is used to transform the referred data
 indirectory - the directory where the xml data to be transformed is found
 prefix - the prefix-label that is added to the filename of the transformed file (readabilty purpose)
-outdirectory - the output directory for the transformed file 
+outdirectory - the output directory for the transformed file
 
 This is an example configuration for dgd metadata transformation.
 
 -->
 <CONFIG>
-    <GLOBAL type="processor">../../saxon/saxon9he.jar</GLOBAL>
+    <GLOBAL type="processor">../../data/saxon9he.jar</GLOBAL>
 
-    <CORPUS type="stylesheet" corpus="">../../../xslt/dgdCorpus2cmdi_Rev2.xsl</CORPUS>
-    <CORPUS type="indirectory" corpus="">../../../../metadata/corpora/extern</CORPUS>
+    <CORPUS type="stylesheet" corpus="">../../data/dgdCorpus2cmdi.xsl</CORPUS>
+    <CORPUS type="indirectory" corpus="">/home/kuhn/IDS/Repos/svn/dgd2_data_rev1233/dgd2_data/metadata/corpora/extern</CORPUS>
     <CORPUS type="prefix" corpus="">CMDI_</CORPUS>
-    <CORPUS type="outdirectory" corpus="">../../../cmdiOutput/corpus</CORPUS>
+    <CORPUS type="outdirectory" corpus="">../../cmdiOutput/corpus</CORPUS>
 
-    <EVENT type="stylesheet" corpus="">../../../xslt/dgdEvent2cmdi_Rev3.xsl</EVENT>
-    <EVENT type="indirectory" corpus="">../../../../metadata/events/extern</EVENT>
+    <EVENT type="stylesheet" corpus="">../../data/dgdEvent2cmdi.xsl</EVENT>
+    <EVENT type="indirectory" corpus="">/home/kuhn/IDS/Repos/svn/dgd2_data_rev1233/dgd2_data/metadata/events/extern</EVENT>
     <EVENT type="prefix" corpus="">CMDI_</EVENT>
-    <EVENT type="outdirectory" corpus="">../../../cmdiOutput/event</EVENT>
+    <EVENT type="outdirectory" corpus="">../../cmdiOutput/event</EVENT>
 
-    <SPEAKER type="stylesheet" corpus="">../../../xslt/dgdSpeaker2cmdi_Rev2.xsl</SPEAKER>
-    <SPEAKER type="indirectory" corpus="">../../../../metadata/speakers/extern</SPEAKER>
+    <SPEAKER type="stylesheet" corpus="">../../data/dgdSpeaker2cmdi.xsl</SPEAKER>
+    <SPEAKER type="indirectory" corpus="">/home/kuhn/IDS/Repos/svn/dgd2_data_rev1233/dgd2_data/metadata/speakers/extern</SPEAKER>
     <SPEAKER type="prefix" corpus="">CMDI_</SPEAKER>
-    <SPEAKER type="outdirectory" corpus="">../../../cmdiOutput/speakers</SPEAKER>
-    
+    <SPEAKER type="outdirectory" corpus="">../../cmdiOutput/speakers</SPEAKER>
+
 </CONFIG>
