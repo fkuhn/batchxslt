@@ -628,7 +628,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             agd_source = etree.SubElement(relations, 'source')
             if self.node.get(resource).get('type') == 'corpus':
                 agd_source.set('href', LANDINGPG +
-                               self.node.get(resource).get('filename').split('_')[1])
+                               self.node.get(resource).get('filename').split('_')[0] + '.cmdi')
 
             else:
                 agd_source.set('href', LANDINGPG + resource)
