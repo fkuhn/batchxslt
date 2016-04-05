@@ -1,5 +1,3 @@
-__author__ = 'kuhn'
-
 import logging
 import os
 from lxml import etree
@@ -17,7 +15,6 @@ PREFIX = 'cmdi_'
 PREF = 'agd_ids_'
 NAME = 'AGD'
 SVNROOT = u'dgd2_data/dgd2cmdi/cmdi/'
-
 # this is the landing page prefix for the agd werbservice
 LANDINGPG = u'http://dgd.ids-mannheim.de/service/DGD2Web/ExternalAccessServlet?command=displayData&id='
 
@@ -42,11 +39,12 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
     """
 
     def __init__(self, corpuspath, eventspath, speakerspath, transcriptspath):
+
         super(ResourceTreeCollection, self).__init__()
-        corpusnames = os.listdir(corpuspath)
-        eventcorpusnames = os.listdir(eventspath)
-        speakercorpusnames = os.listdir(speakerspath)
-        transcriptscorpusnames = os.listdir(transcriptspath)
+        corpusnames = os.listdir(os.path.abspath(corpuspath))
+        eventcorpusnames = os.listdir(os.path.abspath(eventspath))
+        speakercorpusnames = os.listdir(os.path.abspath(speakerspath))
+        transcriptscorpusnames = os.listdir(os.path.abspath(transcriptspath))
         self.name = NAME
 
         # cwdstart = os.getcwd()
@@ -56,14 +54,16 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             # iterate over all corpus file names in corpus metadata dir
             # and define a node for each.
             try:
-                etr = etree.parse(corpuspath + '/' + corpus)
+                etr = etree.parse(os.path.abspath(os.path.join(corpuspath, corpus)))
             except (etree.XMLSyntaxError, IOError):
-                logging.error("Warning. xml file was not parsed: " + corpus)
+                logging.error("Warning corpus xml file was not parsed: " + corpus)
                 continue
             self.add_node(
-                corpus.split('_')[1].rstrip('-'),
+                corpus.split('-')[0],
+
                 {
                     'repopath': self.contextpath(corpus, DGDROOT),
+                    'corpus': corpus.split('-')[0],
                     'corpusroot': True,
                     'type': 'corpus',
                     'etreeobject': etr,
@@ -73,22 +73,27 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             # add edge from root to current node
             self.add_edge('AGD_root', corpus.split('_')[1].rstrip('-'))
         # define event nodes and add add them to their corpus root
+
         for eventcorpusname in eventcorpusnames:
             """
             define eventnodes. note that each event has a number of sessions that
             are not explicitly stored as nodes.
             """
             if self.has_node(eventcorpusname):
-                eventcorpusfilepath = eventspath + '/' + eventcorpusname
+                eventcorpusfilepath = os.path.abspath(os.path.join(eventspath, eventcorpusname))
+
                 for filename in os.listdir(eventcorpusfilepath):
                     try:
-                        etr = etree.parse(eventcorpusfilepath + '/' + filename)
+                        etr = etree.parse(os.path.join(eventcorpusfilepath, filename))
                     except (etree.XMLSyntaxError, IOError):
-                        logging.error("Warning. xml file was not parsed: " + filename)
+                        logging.error("Warning event file of a corpus was not parsed: " +
+                                      os.path.join(eventcorpusfilepath, filename))
                         continue
-                    eventnodename = filename.split('.')[0].lstrip(PREFIX).rstrip('_extern')
+
+                    eventnodename = filename.rstrip('_extern.cmdi')
                     self.add_node(eventnodename, {
                         'repopath': self.contextpath(eventcorpusname, DGDROOT),
+                        'corpus': eventcorpusname,
                         'corpusroot': False,
                         'type': 'event',
                         'etreeobject': etr,
@@ -98,7 +103,10 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     # self.__idcount += 1
                     # find media file reference in the event
                     self.find_media(eventnodename)
+                # print("Finished reading of {}".format(eventcorpusfilepath))
+
             # finally connect an event to all speakers that take part in it.
+            # FIXME: referred before assignment: UnboundLocalError
             for speaker in self.find_speakers(eventnodename):
                 self.add_edge(eventnodename, speaker)
 
@@ -111,7 +119,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             Each transcript is part of a recording session.
             """
             if self.has_node(transcriptcorp):
-                transcriptcorpusfilepath = transcriptspath + '/' + transcriptcorp
+                transcriptcorpusfilepath = os.path.abspath(os.path.join(transcriptspath, transcriptcorp))
                 for filename in os.listdir(transcriptcorpusfilepath):
                     # contruct node name. eg. from FOLK_E_00004_SE_01_T_01_DF_01.fln
                     transcriptnodename = filename.split('.')[0]
@@ -139,16 +147,16 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             """
             # find corpus the speaker is part of
             if self.has_node(speakercorp):
-                speakercorpusfilepath = speakerspath + '/' + speakercorp
+                speakercorpusfilepath = os.path.join(speakerspath, speakercorp)
 
                 for filename in os.listdir(speakercorpusfilepath):
                     try:
-                        etr = etree.parse(speakercorpusfilepath + '/' + filename)
+                        etr = etree.parse(os.path.abspath(os.path.join(speakercorpusfilepath, filename)))
                     except (etree.XMLSyntaxError, IOError):
                         logging.error("Warning. xml file was not parsed: " +
                                       filename)
                         continue
-                    speakernodename = filename.split('.')[0].lstrip(PREFIX).rstrip('_extern')
+                    speakernodename = filename.rstrip('_extern.cmdi')
                     self.add_node(speakernodename, {
                         'repopath': self.contextpath(speakercorp, DGDROOT),
                         'corpusroot': False,
@@ -172,10 +180,14 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             if nodedata.get('type') == 'event':
                 for speaker in self.find_speakers(nodename):
                     self.add_edge(nodename, speaker)
+                    #TODO: call speaker2event while initializing
+                    # self.speaker2event(speaker)
             # elif nodedata.get('type') == 'speaker':
             #     for event in self.find_events(nodename):
             #         if self.has_node(event):
             #             self.add_edge(event, nodename)
+
+
 
     def find_media(self, resource):
         """
