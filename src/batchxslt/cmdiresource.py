@@ -2,11 +2,11 @@ import logging
 import mimetypes
 import os
 import re
-
+import cmdiheader
 import networkx
 from lxml import etree
 
-# TODO: define paths in csv files
+# PRELIMINARIES: CONSTANTS
 DGDROOT = "dgd2_data"
 RESOURCEPROXIES = "ResourceProxyList"
 SPEAKERXPATH = "//InEvent/Event"
@@ -15,9 +15,10 @@ PREFIX = 'cmdi_'
 PREF = 'agd_ids_'
 NAME = 'AGD'
 SVNROOT = u'dgd2_data/dgd2cmdi/cmdi/'
+
 # this is the landing page prefix for the agd werbservice
 LANDINGPG = u'http://dgd.ids-mannheim.de/service/DGD2Web/ExternalAccessServlet?command=displayData&id='
-
+EXTENSION = '_extern.cmdi'
 
 class ResourceTreeCollection(networkx.MultiDiGraph):
     """
@@ -59,19 +60,19 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                 logging.error("Warning corpus xml file was not parsed: " + corpus)
                 continue
             self.add_node(
-                corpus.split('-')[0],
+                corpus.split('-')[0].rstrip(EXTENSION),
 
                 {
                     'repopath': self.contextpath(corpus, DGDROOT),
-                    'corpus': corpus.split('-')[0],
+                    'corpus': corpus.split('-')[0].rstrip(EXTENSION),
                     'corpusroot': True,
                     'type': 'corpus',
                     'etreeobject': etr,
                     'filename': corpus,
-                    'id':  PREF + corpus.split('_')[0].rstrip('-')})
+                    'id':  PREF + corpus.split('-')[0].rstrip(EXTENSION)})
 
             # add edge from root to current node
-            self.add_edge('AGD_root', corpus.split('_')[1].rstrip('-'))
+            self.add_edge('AGD_root', corpus.split('-')[0].rstrip(EXTENSION))
         # define event nodes and add add them to their corpus root
 
         for eventcorpusname in eventcorpusnames:
@@ -98,7 +99,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                         'type': 'event',
                         'etreeobject': etr,
                         'filename': filename,
-                        'id':  PREF + eventcorpusname.split('_')[0].rstrip('-')})
+                        'id':  PREF + eventcorpusname.split('-')[0].rstrip(EXTENSION)})
                     self.add_edge(eventcorpusname, eventnodename)
                     # self.__idcount += 1
                     # find media file reference in the event
@@ -129,7 +130,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                         'type': 'transcript',
                         'etreeobject': False,
                         'filename': filename,
-                        'id':  PREF + transcriptcorp.split('_')[0].rstrip('-')})
+                        'id':  PREF + transcriptcorp.split('-')[0].rstrip(EXTENSION)})
 
                     # obtain event from filename
                     transcriptevent = '_'.join(transcriptnodename.split('_')[:3])
@@ -163,7 +164,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                         'type': 'speaker',
                         'etreeobject': etr,
                         'filename': filename,
-                        'id':  PREF + speakercorp.split('_')[0].rstrip('-')})
+                        'id':  PREF + speakercorp.split('-')[0].rstrip(EXTENSION)})
                     # self.__idcount += 1
                     # define an edge from the parent corpus (speakercorp)
                     # to the current speakernode
@@ -205,7 +206,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                 'type': 'audio',
                 'etreeobject': False,
                 'filename': audiofile,
-                'id':  PREF + audiofile.split('_')[0].rstrip('-')})
+                'id':  PREF + audiofile.split('-')[0].rstrip(EXTENSION)})
 
             self.add_edge(resource, audiofile.split('.')[0])
 
@@ -254,15 +255,20 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         """
 
         eventlist = list()
-        print "events for "+speakernode+": "
+        # print "events for "+speakernode+": "
         for outedge in self.in_edges_iter([speakernode]):
-            print outedge
+            # print outedge
             try:
                 if self.node.get(outedge[0]).get('type') == 'event':
                     eventlist.append(outedge[0])
             except IndexError:
                 logging.error('Index Error while splitting filename: '
                               + outedge[0] + ' while accessing inedges for: ' + speakernode)
+
+        # make sure there are unique elements in this list
+        tmpset = set(eventlist)
+        eventlist = list(tmpset)
+
         return eventlist
 
         # sessions = self.find_eventsessions(speakernode)
@@ -341,15 +347,93 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         if len(sdata) == 0:
             print "sdata is empty"
 
+        speakertuple_complete = ('','','')
+
         for event in self.find_events(speakernode):
 
             eventtree = self.node.get(event).get('etreeobject')
+            # Abbruchbedingung setzen
+
+            # TODO: go for each session rather than each speaker
 
             for event_speaker in eventtree.getroot().xpath('//Speaker'):
                 # write from xml string to the element (cannot pass an etree-element to another
                 # document scope
                 # print event_speaker.find('Label').text + ' vs ' + speakernode
                 if event_speaker.find('Label').text == speakernode:
+
+                    # prevent multiple entries to the speaker element
+                    speakertuple_temp = (speakernode, event_speaker, event)
+
+                    if speakertuple_temp == speakertuple_complete:
+                         continue
+                    else:
+                         speakertuple_complete = speakertuple_temp
+
+                    # get a copy of the 'Language' to insert it to 'LanguageData' below
+                    languages = event_speaker.xpath('//Language')
+                    for language in event_speaker.xpath('//Language'):
+                        language.getparent().remove(language)
+
+                    event_speaker.append(etree.fromstring(sdata.get('Name')))
+                    event_speaker.append(etree.fromstring(sdata.get('Alias')))
+                    # etree.SubElement(event_speaker, speaker_sex)
+                    event_speaker.append(etree.fromstring(sdata.get('DateOfBirth')))
+                    event_speaker.append(etree.fromstring(sdata.get('Education')))
+                    event_speaker.append(etree.fromstring(sdata.get('Profession')))
+                    event_speaker.append(etree.fromstring(sdata.get('Ethnicity')))
+                    event_speaker.append(etree.fromstring(sdata.get('Nationality')))
+                    event_speaker.append(etree.fromstring(sdata.get('LocationData')))
+                    event_speaker.append(etree.fromstring(sdata.get('LanguageData')))
+                    # deal with language data duplicates
+                    # put a copy into <LanguageData> and remove it
+                    language_data = event_speaker.find('LanguageData')
+                    for lang in languages:
+                        if lang.text in [l.text for l in language_data.xpath('Language')]:
+                            # extra_lang = etree.SubElement(language_data, 'Language')
+                            # extra_lang.text = lang.text
+                            continue
+                        else:
+                            extra_lang = etree.SubElement(language_data, 'Language')
+                            extra_lang.text = lang.text
+
+    def speaker2event_session(self, speakernode):
+        """
+        This is a refined version of speaker2event which iterates over every session
+        found in an event rather than looping over all speaker regardless of the
+        session.
+        takes a speaker node, finds all events the speaker takes part in and writes
+        the important data to the <Speaker> element of an event-session datum.
+        :param speakernode:
+        :return:
+        """
+        sdata = self.get_speaker_data(speakernode)
+
+        if len(sdata) == 0:
+            print "sdata is empty"
+
+        speakertuple_complete = ('', '', '')
+
+        for event in self.find_events(speakernode):
+
+            eventtree = self.node.get(event).get('etreeobject')
+            # Abbruchbedingung setzen
+
+            # TODO: go for each session rather than each speaker
+
+            for event_speaker in eventtree.getroot().xpath('//Speaker'):
+                # write from xml string to the element (cannot pass an etree-element to another
+                # document scope
+                # print event_speaker.find('Label').text + ' vs ' + speakernode
+                if event_speaker.find('Label').text == speakernode:
+
+                    # prevent multiple entries to the speaker element
+                    speakertuple_temp = (speakernode, event_speaker, event)
+
+                    if speakertuple_temp == speakertuple_complete:
+                        continue
+                    else:
+                        speakertuple_complete = speakertuple_temp
 
                     # get a copy of the 'Language' to insert it to 'LanguageData' below
                     languages = event_speaker.xpath('//Language')
@@ -490,15 +574,6 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         else:
             resource_ref.text = unicode(refprefix + nodename + refpostfix)
 
-    def write_cmdi(self, nodename, fname):
-        """
-        write the cmid-xml of a node to a specified file.
-        :param nodename, fname:
-        :return:
-        """
-        self.node.get(nodename).get('etreeobject').write(fname, encoding='utf-8', method='xml',
-                                                         xml_declaration="<?xml version='1.0' encoding='UTF-8'?>",
-                                                         inclusive_ns_prefixes=['xsi', 'cmd'])
 
     def build_resourceproxy(self):
         """
@@ -683,3 +758,48 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             return errorlist
         else:
             return True
+
+    def _write_cmdi(self, nodename, fname):
+        """
+        write the cmid-xml of a node to a specified file.
+        :param nodename, fname:
+        :return:
+        """
+        self.node.get(nodename).get('etreeobject').write(fname, encoding='utf-8', method='xml',
+                                                         xml_declaration="<?xml version='1.0' encoding='UTF-8'?>",
+                                                         inclusive_ns_prefixes=['xsi', 'cmd'])
+
+    def write2cmdi(self, corpus, outpath):
+
+        if not os.path.isdir(os.path.abspath(os.path.join(outpath, corpus))):
+            os.mkdir(os.path.abspath(os.path.join(outpath, corpus)))
+
+        outpathfinal = os.path.abspath(os.path.join(outpath, corpus))
+
+        for nodename, ndata in self.nodes_iter(data=True):
+            if ndata.get('type') == 'event' and ndata.get('corpus') == corpus:
+                cmdiheader.define_header(nodename, self)
+                self._write_cmdi(nodename, os.path.join(outpathfinal, nodename + '.cmdi'))
+            elif ndata.get('type') == 'corpus' and ndata.get('corpus') == corpus:
+                cmdiheader.define_header(nodename, self)
+                self._write_cmdi(nodename, os.path.join(outpathfinal, nodename + '.cmdi'))
+
+
+class CorpusIterator(object):
+    """
+    Iterator is initialized with a corpus path.
+    either returns files or, in case of event and speaker,
+    the corpus label directories
+    """
+
+    def __init__(self, resourcepath, resourcetype):
+        self.resourcepath = os.path.abspath(resourcepath)
+        self.resourcetype = resourcetype
+        self._files_iter = iter(os.listdir(self.resourcepath))
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        file_name = self._files_iter.next()
+        return os.path.join(self.resourcepath, file_name)
