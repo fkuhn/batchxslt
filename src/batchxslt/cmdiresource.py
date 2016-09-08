@@ -6,7 +6,7 @@ import cmdiheader
 import networkx
 from lxml import etree
 
-# PRELIMINARIES: CONSTANTS
+# define constants
 DGDROOT = "dgd2_data"
 RESOURCEPROXIES = "ResourceProxyList"
 SPEAKERXPATH = "//InEvent/Event"
@@ -19,6 +19,7 @@ SVNROOT = u'dgd2_data/dgd2cmdi/cmdi/'
 # this is the landing page prefix for the agd werbservice
 LANDINGPG = u'http://dgd.ids-mannheim.de/service/DGD2Web/ExternalAccessServlet?command=displayData&id='
 EXTENSION = '_extern.cmdi'
+
 
 class ResourceTreeCollection(networkx.MultiDiGraph):
     """
@@ -43,10 +44,33 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
         super(ResourceTreeCollection, self).__init__()
         corpusnames = os.listdir(os.path.abspath(corpuspath))
-        eventcorpusnames = os.listdir(os.path.abspath(eventspath))
-        speakercorpusnames = os.listdir(os.path.abspath(speakerspath))
-        transcriptscorpusnames = os.listdir(os.path.abspath(transcriptspath))
+        eventcorpusdirectories = os.listdir(os.path.abspath(eventspath))
+        speakercorpusdirectories = os.listdir(os.path.abspath(speakerspath))
+        transcriptcorpusdirectories = os.listdir(os.path.abspath(transcriptspath))
         self.name = NAME
+
+        # eventcorpustuples are a collection of tuples
+        # with a event corpus directory and its corresponding
+        # corpus label (e.g. 'PF--')
+        self.eventcorpustuples = list()
+        for evecorp in eventcorpusdirectories:
+            for corplabel in corpusnames:
+                if evecorp == corplabel.split('-')[0]:
+                    self.eventcorpustuples.append((evecorp,
+                                                   corplabel.rstrip(EXTENSION)))
+        self.speakercorpustuples = list()
+        for speakcorp in speakercorpusdirectories:
+            for corplabel in corpusnames:
+                if speakcorp == corplabel.split('-')[0]:
+                    self.speakercorpustuples.append((speakcorp,
+                                                   corplabel.rstrip(EXTENSION)))
+
+        self.transcriptcorpustuples = list()
+        for transcorp in transcriptcorpusdirectories:
+            for corplabel in corpusnames:
+                if transcorp == corplabel.split('-')[0]:
+                    self.transcriptcorpustuples.append((transcorp,
+                                                     corplabel.rstrip(EXTENSION)))
 
         # cwdstart = os.getcwd()
         # define a collection root that precedes all corpora
@@ -60,28 +84,37 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                 logging.error("Warning corpus xml file was not parsed: " + corpus)
                 continue
             self.add_node(
-                corpus.split('-')[0].rstrip(EXTENSION),
+                corpus.rstrip(EXTENSION),
+                # corpus.split('-')[0].rstrip(EXTENSION),
 
                 {
                     'repopath': self.contextpath(corpus, DGDROOT),
-                    'corpus': corpus.split('-')[0].rstrip(EXTENSION),
+                    # 'corpus': corpus.split('-')[0].rstrip(EXTENSION),
+                    'corpus': corpus.rstrip(EXTENSION),
                     'corpusroot': True,
                     'type': 'corpus',
                     'etreeobject': etr,
                     'filename': corpus,
-                    'id':  PREF + corpus.split('-')[0].rstrip(EXTENSION)})
+                    'id': PREF + corpus.rstrip(EXTENSION)})
+                    # 'id':  PREF + corpus.split('-')[0].rstrip(EXTENSION)})
 
             # add edge from root to current node
-            self.add_edge('AGD_root', corpus.split('-')[0].rstrip(EXTENSION))
+            self.add_edge('AGD_root', corpus.rstrip(EXTENSION))
+            # self.add_edge('AGD_root', corpus.split('-')[0].rstrip(EXTENSION))
         # define event nodes and add add them to their corpus root
 
-        for eventcorpusname in eventcorpusnames:
+        for eventcorpustuple in self.eventcorpustuples:
             """
             define eventnodes. note that each event has a number of sessions that
             are not explicitly stored as nodes.
             """
-            if self.has_node(eventcorpusname):
-                eventcorpusfilepath = os.path.abspath(os.path.join(eventspath, eventcorpusname))
+
+            if self.has_node(eventcorpustuple[1]):
+                # reconstruct the path to the event. must add the corpus directory
+                # the corpus directory does NOT use the '-' in its name
+                eventcorpusfilepath = os.path.abspath(
+                    os.path.join(eventspath,
+                                 eventcorpustuple[0]))
 
                 for filename in os.listdir(eventcorpusfilepath):
                     try:
@@ -93,25 +126,28 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
                     eventnodename = filename.rstrip('_extern.cmdi')
                     self.add_node(eventnodename, {
-                        'repopath': self.contextpath(eventcorpusname, DGDROOT),
-                        'corpus': eventcorpusname,
+                        'repopath': self.contextpath(eventcorpustuple[0], DGDROOT),
+                        'corpus': eventcorpustuple[1],
                         'corpusroot': False,
                         'type': 'event',
                         'etreeobject': etr,
                         'filename': filename,
-                        'id':  PREF + eventcorpusname.split('-')[0].rstrip(EXTENSION)})
-                    self.add_edge(eventcorpusname, eventnodename)
+                        # 'id': PREF + eventcorpusname.split('-')[0].rstrip(EXTENSION)})
+                        'id': PREF + eventcorpustuple[1]})
+                    self.add_edge(eventcorpustuple[1], eventnodename)
                     # self.__idcount += 1
                     # find media file reference in the event
                     self.find_media(eventnodename)
                 # print("Finished reading of {}".format(eventcorpusfilepath))
 
-            # finally connect an event to all speakers that take part in it.
-            # FIXME: referred before assignment: UnboundLocalError
-            for speaker in self.find_speakers(eventnodename):
-                self.add_edge(eventnodename, speaker)
-
-        for transcriptcorp in transcriptscorpusnames:
+                # finally connect an event to all speakers that take part in it.
+                # FIXME: referred before assignment: UnboundLocalError
+                    try:
+                        for speaker in self.find_speakers(eventnodename):
+                            self.add_edge(eventnodename, speaker)
+                    except UnboundLocalError:
+                        continue
+        for transcripttuple in self.transcriptcorpustuples:
             """
             define transcriptnodes for each corpus found in the primary source folders
             the event that an trancript is counted to is simply derived by splitting the
@@ -119,18 +155,18 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             simple and safe.
             Each transcript is part of a recording session.
             """
-            if self.has_node(transcriptcorp):
-                transcriptcorpusfilepath = os.path.abspath(os.path.join(transcriptspath, transcriptcorp))
+            if self.has_node(transcripttuple[1]):
+                transcriptcorpusfilepath = os.path.abspath(os.path.join(transcriptspath, transcripttuple[0]))
                 for filename in os.listdir(transcriptcorpusfilepath):
                     # contruct node name. eg. from FOLK_E_00004_SE_01_T_01_DF_01.fln
                     transcriptnodename = filename.split('.')[0]
                     self.add_node(transcriptnodename, {
-                        'repopath': transcriptcorp,
+                        'repopath': transcriptcorpusfilepath +'/'+ transcriptnodename,
                         'corpusroot': False,
                         'type': 'transcript',
                         'etreeobject': False,
                         'filename': filename,
-                        'id':  PREF + transcriptcorp.split('-')[0].rstrip(EXTENSION)})
+                        'id':  PREF + transcripttuple[1]})
 
                     # obtain event from filename
                     transcriptevent = '_'.join(transcriptnodename.split('_')[:3])
@@ -138,17 +174,17 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     if self.has_node(transcriptevent):
                         self.add_edge(transcriptevent, transcriptnodename)
                     # define an edge to refer from the corpus catalogue to the transcript
-                    # if self.has_node(transcriptcorp):
-                    #     self.add_edge(transcriptcorp, transcriptnodename)
-        for speakercorp in speakercorpusnames:
+                    # if self.has_node(transcripttuple):
+                    #     self.add_edge(transcripttuple, transcriptnodename)
+        for speakertuple in self.speakercorpustuples:
             """
             define speakernodes. note that each speaker is part of an session
             in an event. to just find the event, a speaker has taken part,
             access the <InEvent> element of the speaker cmdi metadata.
             """
             # find corpus the speaker is part of
-            if self.has_node(speakercorp):
-                speakercorpusfilepath = os.path.join(speakerspath, speakercorp)
+            if self.has_node(speakertuple[1]):
+                speakercorpusfilepath = os.path.join(speakerspath, speakertuple[0])
 
                 for filename in os.listdir(speakercorpusfilepath):
                     try:
@@ -159,22 +195,22 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                         continue
                     speakernodename = filename.rstrip('_extern.cmdi')
                     self.add_node(speakernodename, {
-                        'repopath': self.contextpath(speakercorp, DGDROOT),
+                        'repopath': self.contextpath(speakertuple, DGDROOT),
                         'corpusroot': False,
                         'type': 'speaker',
                         'etreeobject': etr,
                         'filename': filename,
-                        'id':  PREF + speakercorp.split('-')[0].rstrip(EXTENSION)})
+                        'id':  PREF + speakertuple[1]})
                     # self.__idcount += 1
                     # define an edge from the parent corpus (speakercorp)
                     # to the current speakernode
                     # example: "PF" --> "PF--_S_00103.xml"
-                    self.add_edge(speakercorp, speakernodename)
+                    self.add_edge(speakertuple[1], speakernodename)
                     # define edges from events to current speaker
                     speakerevents = self.find_events(speakernodename)
-                    for eventcorpusname in speakerevents:
-                        if self.has_node(eventcorpusname):
-                            self.add_edge(eventcorpusname, speakernodename)
+                    for event in speakerevents:
+                        if self.has_node(event):
+                            self.add_edge(event, speakernodename)
 
         # finally connect an event to all speakers that take part in it.
         for nodename, nodedata in self.nodes_iter(data=True):
@@ -206,7 +242,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                 'type': 'audio',
                 'etreeobject': False,
                 'filename': audiofile,
-                'id':  PREF + audiofile.split('-')[0].rstrip(EXTENSION)})
+                'id':  PREF + audiofile.rstrip(EXTENSION)})
 
             self.add_edge(resource, audiofile.split('.')[0])
 
@@ -568,8 +604,10 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
             resource_ref.text = unicode(refprefix + transcriptref + refpostfix)
         elif self.node.get(nodename).get('type') == 'corpus':
-            # need to refer to the original filenam label of the corpus.
-            corpusref = self.node.get(nodename).get('filename').split('_')[1]
+            # refer to the original label of the corpus:
+            # corpusref = self.node.get(nodename).get('filename').split('-')[0].split('_extern')[0]
+            # corrected link to AGD corpus
+            corpusref = self.node.get(nodename).get('filename').split('_extern')[0]
             resource_ref.text = unicode(refprefix + corpusref + refpostfix)
         else:
             resource_ref.text = unicode(refprefix + nodename + refpostfix)
@@ -621,9 +659,17 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         if self.node.get(resource).get('type') == 'corpus':
             try:
                 cmdiroot = cmdi_etrobj.xpath('//DGDCorpus')[0]
+
+                # Set the <SelfLink> element of the object
+                selflink = cmdiroot.xpath('//SelfLink')[0]
+                selflink.text = str(resource) + '.cmdi'
+
             except:
                 logging.error('cannot access DGDCorpus as root: ' + resource)
                 return
+
+
+
 
         # find all in/out edges for the current node
         in_nodes = [i[0] for i in self.in_edges(resource)]
@@ -701,9 +747,15 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             isversionof.text = 'Version 0'
             # finally define an "source" element that refers to the original agd metadata
             agd_source = etree.SubElement(relations, 'source')
+
+            # FIXME: <source> stays empty for corpus catalogue metadata
             if self.node.get(resource).get('type') == 'corpus':
-                agd_source.set('href', LANDINGPG +
-                               self.node.get(resource).get('filename').split('_')[0] + '.cmdi')
+                try:
+                    agd_source.set('href', LANDINGPG +
+                                   self.node.get(resource).get('filename').split('_')[0])
+                except TypeError:
+                    print "Type Error: " + str(resource)
+                    print str(self.node.get(resource).get('filename'))
 
             else:
                 agd_source.set('href', LANDINGPG + resource)
@@ -758,6 +810,8 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             return errorlist
         else:
             return True
+
+
 
     def _write_cmdi(self, nodename, fname):
         """
