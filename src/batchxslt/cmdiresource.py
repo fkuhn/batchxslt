@@ -47,7 +47,27 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         eventcorpusdirectories = os.listdir(os.path.abspath(eventspath))
         speakercorpusdirectories = os.listdir(os.path.abspath(speakerspath))
         transcriptcorpusdirectories = os.listdir(os.path.abspath(transcriptspath))
+
+        self.corpuspath = corpuspath
+        self.eventspath = eventspath
+        self.speakerspath = speakerspath
+        self.transcriptspath = transcriptspath
+
+        if len(corpusnames) == 0:
+            print "Warning: Corpus catalogues not parsed"
+        elif len(eventcorpusdirectories) == 0:
+            print "Warning: Event directories not parsed"
+        elif len(speakercorpusdirectories) == 0:
+            print "Warning: Speaker directories not parsed"
+
+        if len(corpusnames) != len(eventcorpusdirectories)\
+                and len(corpusnames) != len(speakercorpusdirectories):
+            print "Warning: initialized numbers of directories is not even"
+
+
         self.name = NAME
+
+
 
         # eventcorpustuples are a collection of tuples
         # with a event corpus directory and its corresponding
@@ -55,24 +75,27 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         self.eventcorpustuples = list()
         for evecorp in eventcorpusdirectories:
             for corplabel in corpusnames:
-                if evecorp == corplabel.split('-')[0]:
+                # if a corpuslabel has len 4 and is not using
+                # '-', the split command does not change anything.
+                if evecorp == corplabel.rstrip(EXTENSION).split('-')[0]:
+                    print "Found event directory for: {}".format(str(evecorp))
                     self.eventcorpustuples.append((evecorp,
                                                    corplabel.rstrip(EXTENSION)))
         self.speakercorpustuples = list()
         for speakcorp in speakercorpusdirectories:
             for corplabel in corpusnames:
-                if speakcorp == corplabel.split('-')[0]:
+                if speakcorp == corplabel.rstrip(EXTENSION).split('-')[0]:
                     self.speakercorpustuples.append((speakcorp,
                                                    corplabel.rstrip(EXTENSION)))
 
         self.transcriptcorpustuples = list()
         for transcorp in transcriptcorpusdirectories:
             for corplabel in corpusnames:
-                if transcorp == corplabel.split('-')[0]:
+                if transcorp == corplabel.rstrip(EXTENSION).split('-')[0]:
                     self.transcriptcorpustuples.append((transcorp,
                                                      corplabel.rstrip(EXTENSION)))
 
-        # cwdstart = os.getcwd()
+
         # define a collection root that precedes all corpora
         self.add_node("AGD_root")
         for corpus in corpusnames:
@@ -112,6 +135,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             if self.has_node(eventcorpustuple[1]):
                 # reconstruct the path to the event. must add the corpus directory
                 # the corpus directory does NOT use the '-' in its name
+
                 eventcorpusfilepath = os.path.abspath(
                     os.path.join(eventspath,
                                  eventcorpustuple[0]))
@@ -162,6 +186,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     transcriptnodename = filename.split('.')[0]
                     self.add_node(transcriptnodename, {
                         'repopath': transcriptcorpusfilepath +'/'+ transcriptnodename,
+                        'corpus' : transcripttuple[1],
                         'corpusroot': False,
                         'type': 'transcript',
                         'etreeobject': False,
@@ -196,6 +221,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     speakernodename = filename.rstrip('_extern.cmdi')
                     self.add_node(speakernodename, {
                         'repopath': self.contextpath(speakertuple, DGDROOT),
+                        'corpus': speakertuple[1],
                         'corpusroot': False,
                         'type': 'speaker',
                         'etreeobject': etr,
@@ -566,7 +592,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             elif self.node.get(node).get('type') in ['event']:
                 self.set_resourceproxy(node, resourceproxies,
                                        rtype='Metadata', mtype='application/x-cmdi+xml', idprefix='cmdi_',
-                                       refprefix=SVNROOT, refpostfix='.cmdi')
+                                       refprefix=SVNROOT+self.node.get(node).get('corpus')+'/', refpostfix='.cmdi')
                 # self.set_resourceproxy(node, resourceproxies,
                 #                       rtype='Resource',
                 #                       refprefix=LANDINGPG, refpostfix='')
@@ -662,7 +688,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
                 # Set the <SelfLink> element of the object
                 selflink = cmdiroot.xpath('//SelfLink')[0]
-                selflink.text = str(resource) + '.cmdi'
+                selflink.text = str(SVNROOT) + str(self.node.get(resource).get('corpus')) + '/' + str(resource) + '.cmdi'
 
             except:
                 logging.error('cannot access DGDCorpus as root: ' + resource)
@@ -720,7 +746,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     elif self.node.get(node).get('type') == 'event':
                         # refer to original dgd metadata as source (via landing page)
                         haspart = etree.SubElement(relations, 'hasPart')
-                        haspart.set('href', SVNROOT + node + '.cmdi')
+                        haspart.set('href', SVNROOT + self.node.get(node).get('corpus')+ '/' + node + '.cmdi')
                         haspart.text = self.node.get(node).get('type').capitalize() + ': ' + node
                     elif self.node.get(node).get('type') == 'transcript':
                         haspart = etree.SubElement(relations, 'hasPart')
@@ -736,14 +762,14 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             for node in in_nodes:
                 try:
                     ispartof = etree.SubElement(relations, 'isPartOf')
-                    ispartof.set('href', SVNROOT + node + '.cmdi')
+                    ispartof.set('href', SVNROOT + self.node.get(node).get('corpus')+ '/' + node + '.cmdi')
                     ispartof.text = self.node.get(node).get('type').capitalize() + ': ' + node
                 except TypeError:
                     logging.error("check data integrity of inbound  node " + node)
 
             # define a node that refers to the version of this metadata
             isversionof = etree.SubElement(relations, 'isVersionOf')
-            isversionof.set('href', SVNROOT + resource + '.cmdi')
+            isversionof.set('href', SVNROOT + self.node.get(resource).get('corpus') + '/' + resource + '.cmdi')
             isversionof.text = 'Version 0'
             # finally define an "source" element that refers to the original agd metadata
             agd_source = etree.SubElement(relations, 'source')
@@ -846,14 +872,22 @@ class CorpusIterator(object):
     the corpus label directories
     """
 
-    def __init__(self, resourcepath, resourcetype):
+    def __init__(self, resourcepath, resourcetype, validation=False):
         self.resourcepath = os.path.abspath(resourcepath)
         self.resourcetype = resourcetype
         self._files_iter = iter(os.listdir(self.resourcepath))
+        self.validation = validation
 
     def __iter__(self):
         return self
 
     def next(self):
         file_name = self._files_iter.next()
+
+        if self.validation:
+            res_etree = etree.parse(os.path.join(self.resourcepath, file_name))
+            remote_schema = etree.XMLSchema(file=res_etree.getroot().items()[1][1].split(' ')[1])
+            isvalid = remote_schema.validate(res_etree)
+            return os.path.join(self.resourcepath, file_name), isvalid
+
         return os.path.join(self.resourcepath, file_name)
