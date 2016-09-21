@@ -869,7 +869,14 @@ class CorpusIterator(object):
     """
     Iterator is initialized with a corpus path.
     either returns files or, in case of event and speaker,
-    the corpus label directories
+    the corpus label directories.
+    If validation is set to TRUE, the iterator will also
+    return a boolean value telling wether the xml resource
+    is valid or not. The schema is taken from the root elements
+    schemaLocation attribute.
+    :param:  resourcepath: string
+    :param: resourcetype: string
+    :param: validation: boolean
     """
 
     def __init__(self, resourcepath, resourcetype, validation=False):
