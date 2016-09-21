@@ -1,2 +1,0 @@
-- Add ComponentID Attribute and corresponding value in each Component.
--
