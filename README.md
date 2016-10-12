@@ -1,3 +1,6 @@
+# DGD2CMDI [![Documentation Status](https://readthedocs.org/projects/dgd2cmdi/badge/?version=latest)](http://dgd2cmdi.readthedocs.io/en/latest/?badge=latest)
+
+
 ## About
 This python package batch processes "Database for Spoken German"-specific xslt
 stylesheets to transform the original dgd metadata to cmdi metadata.
