@@ -8,6 +8,9 @@ stylesheets to transform the original dgd metadata to cmdi metadata.
 ## Installation
 
  Use ```python setupy.py install ``` to install the package.
+ You will also need an XSLT processor (e.g. SAXON-HE):
+ `ẁget https://sourceforge.net/projects/saxon/files/Saxon-HE/9.7/SaxonHE9-7-0-8J.zip`
+ `unzip -d saxon SaxonHE9-7-0-8J.zip`
 
 ## Usage
 
