@@ -1,7 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node2" href="$d6/d3a/classbatchxslt_1_1postprocessing_1_1_post_processor.html" title="batchxslt.postprocessing.\lPostProcessor" alt="" coords="127,5,297,46"/>
-<area shape="rect" id="node3" href="$d1/d1a/classbatchxslt_1_1primarylink_1_1_audio_linker.html" title="batchxslt.primarylink.Audio\lLinker" alt="" coords="123,70,301,111"/>
-<area shape="rect" id="node4" href="$d1/daa/classbatchxslt_1_1primarylink_1_1_video_linker.html" title="batchxslt.primarylink.Video\lLinker" alt="" coords="123,135,301,177"/>
-<area shape="rect" id="node5" href="$de/d42/classbatchxslt_1_1processor_1_1_config_parser.html" title="batchxslt.processor.Config\lParser" alt="" coords="123,201,301,242"/>
-<area shape="rect" id="node6" href="$dd/d23/classbatchxslt_1_1processor_1_1_x_s_l_batch_processor.html" title="batchxslt.processor.XSLBatch\lProcessor" alt="" coords="113,266,311,307"/>
-</map>

@@ -1,0 +1,23 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="object",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="batchxslt.cmdiresource.Corpus\lIterator",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classbatchxslt_1_1cmdiresource_1_1_corpus_iterator.html"];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="batchxslt.postprocessing.\lValueProcessing",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classbatchxslt_1_1postprocessing_1_1_value_processing.html"];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="batchxslt.primarylink.Audio\lLinker",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classbatchxslt_1_1primarylink_1_1_audio_linker.html"];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="batchxslt.primarylink.Video\lLinker",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classbatchxslt_1_1primarylink_1_1_video_linker.html"];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="batchxslt.processor.Configurator",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classbatchxslt_1_1processor_1_1_configurator.html"];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="batchxslt.processor.CsvConfigurator",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classbatchxslt_1_1processor_1_1_csv_configurator.html"];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="batchxslt.processor.XSLBatch\lProcessor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classbatchxslt_1_1processor_1_1_x_s_l_batch_processor.html"];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="batchxslt.sanitycheck.Sanity\lChecker",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classbatchxslt_1_1sanitycheck_1_1_sanity_checker.html"];
+}
