@@ -1,4 +1,5 @@
 import pytest
+import os
 from lxml import etree
 
 """
@@ -10,9 +11,9 @@ Are missing subelements treated appropriately?
 """
 
 TDATA = {
-    "corpus": "testdata/corpus.xml",
-    "event": "testdata/event.xml",
-    "speaker": "testdata/speaker.xml"
+    "corpus": os.path.abspath("testdata/corpus.xml"),
+    "event": os.path.abspath("testdata/event.xml"),
+    "speaker": os.path.abspath("testdata/speaker.xml")
 }
 
 
