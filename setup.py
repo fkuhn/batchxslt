@@ -17,12 +17,12 @@ install_requires = [
 
 setup(name='dgd2cmdi',
     version=version,
-    description="batch transformation for xsl stylesheets",
+    description="XSLT transformation for cmdi resources of the AGD",
     long_description=README + '\n\n' + NEWS,
     classifiers=[
       # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
     ],
-    keywords='xslt batch python xml',
+    keywords='xslt python xml',
     author='Florian Kuhn',
     author_email='kuhn@ids-mannheim.de',
     url='www.ids-mannheim.de',
@@ -35,6 +35,6 @@ setup(name='dgd2cmdi',
     install_requires=install_requires,
     entry_points={
         'console_scripts':
-            ['dgd2cmdi=batchxslt.dgd2cmdi:main']
+            ['dgd2cmdi=dgd2cmdi_trans:main']
     }
 )
