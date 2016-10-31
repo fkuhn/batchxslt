@@ -20,9 +20,42 @@ def main():
     print "Stylesheet paths:\n"
     print "Corpus: {}".format(xslt['corpus'])
     print "Event: {}".format(xslt['event'])
-    print "Speaker: {}".format(xslt['speaker'])
-    
-        
-if __name__ == '__main__':
-    main()
+    print "Speaker: {}\n".format(xslt['speaker'])
+    print "XSLT processor path: {}".format(xslt['processor'])
 
+
+def call_saxon(resourcetype, resources):
+
+    xslt = xslt = resources.get('xslt')
+
+    metafilepath = os.path.abspath(metafilepath)
+    saxonpath = os.path.abspath(saxonpath)
+
+    if resourcetype == 'corpus':
+        stylesheetpath = os.path.abspath(xslt['corpus'])
+        outputpath = os.path.abspath(OUTPATHDIC.get('C'))
+        os.system("java -jar {} -s:{} -xsl:{} -o:{}".format(
+            saxonpath, metafilepath,
+            stylesheetpath, os.path.join(outputpath,
+                                         os.path.basename(metafilepath).split('.')[0]+'.cmdi')))
+    elif resourcetype == 'event':
+
+        stylesheetpath = os.path.abspath(stylesheetdic.get('E_XSL'))
+        outputpath = os.path.abspath(os.path.join(OUTPATHDIC.get('E'), os.path.basename(metafilepath)))
+        for resource in os.listdir(metafilepath):
+            os.system("java -jar {} -s:{} -xsl:{} -o:{}".format(
+                saxonpath, os.path.join(metafilepath,resource),
+                stylesheetpath, os.path.join(outputpath,
+                                             '.'.join([resource.split('.')[0],'cmdi']))))
+
+    elif resourcetype == 'speaker':
+
+        stylesheetpath = os.path.abspath(stylesheetdic.get('S_XSL'))
+        outputpath = os.path.abspath(os.path.join(OUTPATHDIC.get('S'), os.path.basename(metafilepath)))
+        for resource in os.listdir(metafilepath):
+            os.system("java -jar {} -s:{} -xsl:{} -o:{}".format(
+                saxonpath, os.path.join(metafilepath, resource),
+                stylesheetpath, os.path.join(outputpath,
+                                             '.'.join([resource.split('.')[0],'cmdi']))))
+    else:
+        raise ValueError()
