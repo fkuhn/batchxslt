@@ -23,6 +23,6 @@ def main():
     print "Speaker: {}".format(xslt['speaker'])
 
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#    main()
 
