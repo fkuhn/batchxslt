@@ -1,5 +1,5 @@
 from setuptools import setup, find_packages
-import sys, os
+import os
 
 here = os.path.abspath(os.path.dirname(__file__))
 README = open(os.path.join(here, 'README.md')).read()
@@ -35,6 +35,7 @@ setup(name='dgd2cmdi',
     install_requires=install_requires,
     entry_points={
         'console_scripts':
-            ['dgd2cmdi=dgd2cmdi:main']
+            ['dgd2cmdi = dgd2cmdi:main',
+             'dgd_trans = dgd2cmdi_trans:main']
     }
 )
