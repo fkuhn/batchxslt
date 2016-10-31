@@ -36,6 +36,6 @@ setup(name='dgd2cmdi',
     entry_points={
         'console_scripts':
             ['dgd2cmdi = dgd2cmdi:main',
-             'dgd_trans = dgd2cmdi_trans:main']
+             'dgd_trans = dgd2cmdi.dgd2cmdi_trans:main']
     }
 )
