@@ -23,6 +23,9 @@ def main():
     print "Speaker: {}".format(xslt['speaker'])
 
 
+    # read the 
+
+
 # if __name__ == '__main__':
 #    main()
 

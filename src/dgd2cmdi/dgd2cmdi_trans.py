@@ -1,4 +1,8 @@
 #!/usr/bin/python
+"""
+This module contains methods to read in a resource
+configuration file and to
+"""
 import os
 import codecs
 import argparse
@@ -25,7 +29,10 @@ def main():
 
 
 def call_saxon(resourcetype, resources):
-
+    """
+    calls a xslt processor by using the informations
+    from the resource configuration file.
+    """
     xslt = xslt = resources.get('xslt')
 
     metafilepath = os.path.abspath(metafilepath)
