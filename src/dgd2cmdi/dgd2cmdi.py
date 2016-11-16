@@ -16,14 +16,20 @@ def main():
     args = parser.parse_args()
     with codecs.open(args.resources, mode='r', encoding='utf-8') as resfile:
         resources = yaml.safe_load(resfile)
-    xslt = resources.get('xslt')
+    processor = resources['processor']
+    xslt = resources.get('stylesheets')
+    print "Processorpath: {}".format(processor)
     print "Stylesheet paths:\n"
     print "Corpus: {}".format(xslt['corpus'])
     print "Event: {}".format(xslt['event'])
     print "Speaker: {}".format(xslt['speaker'])
+    print resources.get('collection')
+    resdic = resources.get('collection')
+    for coll in resdic:
+        print resdic.get(coll).get('speaker')
+        
+        # Iterate over the resource and call the processor
 
-
-    # read the 
 
 
 # if __name__ == '__main__':

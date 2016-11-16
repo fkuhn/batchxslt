@@ -6,6 +6,7 @@ import cmdiheader
 import networkx
 from lxml import etree
 
+
 # define constants
 DGDROOT = "dgd2_data"
 RESOURCEPROXIES = "ResourceProxyList"
@@ -46,7 +47,8 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         corpusnames = os.listdir(os.path.abspath(corpuspath))
         eventcorpusdirectories = os.listdir(os.path.abspath(eventspath))
         speakercorpusdirectories = os.listdir(os.path.abspath(speakerspath))
-        transcriptcorpusdirectories = os.listdir(os.path.abspath(transcriptspath))
+        transcriptcorpusdirectories = os.listdir(
+            os.path.abspath(transcriptspath))
 
         self.corpuspath = corpuspath
         self.eventspath = eventspath
@@ -64,10 +66,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                 and len(corpusnames) != len(speakercorpusdirectories):
             print "Warning: initialized numbers of directories is not even"
 
-
         self.name = NAME
-
-
 
         # eventcorpustuples are a collection of tuples
         # with a event corpus directory and its corresponding
@@ -86,15 +85,14 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             for corplabel in corpusnames:
                 if speakcorp == corplabel.rstrip(EXTENSION).split('-')[0]:
                     self.speakercorpustuples.append((speakcorp,
-                                                   corplabel.rstrip(EXTENSION)))
+                                                     corplabel.rstrip(EXTENSION)))
 
         self.transcriptcorpustuples = list()
         for transcorp in transcriptcorpusdirectories:
             for corplabel in corpusnames:
                 if transcorp == corplabel.rstrip(EXTENSION).split('-')[0]:
                     self.transcriptcorpustuples.append((transcorp,
-                                                     corplabel.rstrip(EXTENSION)))
-
+                                                        corplabel.rstrip(EXTENSION)))
 
         # define a collection root that precedes all corpora
         self.add_node("AGD_root")
@@ -102,9 +100,11 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             # iterate over all corpus file names in corpus metadata dir
             # and define a node for each.
             try:
-                etr = etree.parse(os.path.abspath(os.path.join(corpuspath, corpus)))
+                etr = etree.parse(os.path.abspath(
+                    os.path.join(corpuspath, corpus)))
             except (etree.XMLSyntaxError, IOError):
-                logging.error("Warning corpus xml file was not parsed: " + corpus)
+                logging.error(
+                    "Warning corpus xml file was not parsed: " + corpus)
                 continue
             self.add_node(
                 corpus.rstrip(EXTENSION),
@@ -119,7 +119,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     'etreeobject': etr,
                     'filename': corpus,
                     'id': PREF + corpus.rstrip(EXTENSION)})
-                    # 'id':  PREF + corpus.split('-')[0].rstrip(EXTENSION)})
+            # 'id':  PREF + corpus.split('-')[0].rstrip(EXTENSION)})
 
             # add edge from root to current node
             self.add_edge('AGD_root', corpus.rstrip(EXTENSION))
@@ -142,7 +142,8 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
                 for filename in os.listdir(eventcorpusfilepath):
                     try:
-                        etr = etree.parse(os.path.join(eventcorpusfilepath, filename))
+                        etr = etree.parse(os.path.join(
+                            eventcorpusfilepath, filename))
                     except (etree.XMLSyntaxError, IOError):
                         logging.error("Warning event file of a corpus was not parsed: " +
                                       os.path.join(eventcorpusfilepath, filename))
@@ -180,13 +181,15 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             Each transcript is part of a recording session.
             """
             if self.has_node(transcripttuple[1]):
-                transcriptcorpusfilepath = os.path.abspath(os.path.join(transcriptspath, transcripttuple[0]))
+                transcriptcorpusfilepath = os.path.abspath(
+                    os.path.join(transcriptspath, transcripttuple[0]))
                 for filename in os.listdir(transcriptcorpusfilepath):
-                    # contruct node name. eg. from FOLK_E_00004_SE_01_T_01_DF_01.fln
+                    # contruct node name. eg. from
+                    # FOLK_E_00004_SE_01_T_01_DF_01.fln
                     transcriptnodename = filename.split('.')[0]
                     self.add_node(transcriptnodename, {
-                        'repopath': transcriptcorpusfilepath +'/'+ transcriptnodename,
-                        'corpus' : transcripttuple[1],
+                        'repopath': transcriptcorpusfilepath + '/' + transcriptnodename,
+                        'corpus': transcripttuple[1],
                         'corpusroot': False,
                         'type': 'transcript',
                         'etreeobject': False,
@@ -194,7 +197,8 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                         'id':  PREF + transcripttuple[1]})
 
                     # obtain event from filename
-                    transcriptevent = '_'.join(transcriptnodename.split('_')[:3])
+                    transcriptevent = '_'.join(
+                        transcriptnodename.split('_')[:3])
                     # define edge from event to transcript
                     if self.has_node(transcriptevent):
                         self.add_edge(transcriptevent, transcriptnodename)
@@ -209,11 +213,13 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             """
             # find corpus the speaker is part of
             if self.has_node(speakertuple[1]):
-                speakercorpusfilepath = os.path.join(speakerspath, speakertuple[0])
+                speakercorpusfilepath = os.path.join(
+                    speakerspath, speakertuple[0])
 
                 for filename in os.listdir(speakercorpusfilepath):
                     try:
-                        etr = etree.parse(os.path.abspath(os.path.join(speakercorpusfilepath, filename)))
+                        etr = etree.parse(os.path.abspath(
+                            os.path.join(speakercorpusfilepath, filename)))
                     except (etree.XMLSyntaxError, IOError):
                         logging.error("Warning. xml file was not parsed: " +
                                       filename)
@@ -243,14 +249,12 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             if nodedata.get('type') == 'event':
                 for speaker in self.find_speakers(nodename):
                     self.add_edge(nodename, speaker)
-                    #TODO: call speaker2event while initializing
+                    # TODO: call speaker2event while initializing
                     # self.speaker2event(speaker)
             # elif nodedata.get('type') == 'speaker':
             #     for event in self.find_events(nodename):
             #         if self.has_node(event):
             #             self.add_edge(event, nodename)
-
-
 
     def find_media(self, resource):
         """
@@ -290,7 +294,8 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         empties = list()
         for nodename in self.nodes_iter():
             if self.node.get(nodename).get('etreeobject') is None:
-                empties.append((nodename, self.node.get(nodename).get('filename')))
+                empties.append(
+                    (nodename, self.node.get(nodename).get('filename')))
         return empties
 
     def find_eventsessions(self, speakernode):
@@ -303,7 +308,8 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         filed as nodes.
         """
         expression = "//InEvents/EventSession"
-        inevent = self.node.get(speakernode).get("etreeobject").xpath(expression)
+        inevent = self.node.get(speakernode).get(
+            "etreeobject").xpath(expression)
         # must add _extern label to find in graph
         # inevent_out = [event.text + '_extern.xml' for event in inevent]
         ineventsessions_out = [event.text for event in inevent]
@@ -390,7 +396,6 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         speakerelements = self.node.get(speakernode).\
             get('etreeobject').getroot().find('Components')
 
-
         for element in speakerelements.iter():
 
             speakerdata.update({element.tag: etree.tostring(element)})
@@ -409,7 +414,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         if len(sdata) == 0:
             print "sdata is empty"
 
-        speakertuple_complete = ('','','')
+        speakertuple_complete = ('', '', '')
 
         for event in self.find_events(speakernode):
 
@@ -428,11 +433,12 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     speakertuple_temp = (speakernode, event_speaker, event)
 
                     if speakertuple_temp == speakertuple_complete:
-                         continue
+                        continue
                     else:
-                         speakertuple_complete = speakertuple_temp
+                        speakertuple_complete = speakertuple_temp
 
-                    # get a copy of the 'Language' to insert it to 'LanguageData' below
+                    # get a copy of the 'Language' to insert it to
+                    # 'LanguageData' below
                     languages = event_speaker.xpath('//Language')
                     for language in event_speaker.xpath('//Language'):
                         language.getparent().remove(language)
@@ -440,13 +446,20 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     event_speaker.append(etree.fromstring(sdata.get('Name')))
                     event_speaker.append(etree.fromstring(sdata.get('Alias')))
                     # etree.SubElement(event_speaker, speaker_sex)
-                    event_speaker.append(etree.fromstring(sdata.get('DateOfBirth')))
-                    event_speaker.append(etree.fromstring(sdata.get('Education')))
-                    event_speaker.append(etree.fromstring(sdata.get('Profession')))
-                    event_speaker.append(etree.fromstring(sdata.get('Ethnicity')))
-                    event_speaker.append(etree.fromstring(sdata.get('Nationality')))
-                    event_speaker.append(etree.fromstring(sdata.get('LocationData')))
-                    event_speaker.append(etree.fromstring(sdata.get('LanguageData')))
+                    event_speaker.append(
+                        etree.fromstring(sdata.get('DateOfBirth')))
+                    event_speaker.append(
+                        etree.fromstring(sdata.get('Education')))
+                    event_speaker.append(
+                        etree.fromstring(sdata.get('Profession')))
+                    event_speaker.append(
+                        etree.fromstring(sdata.get('Ethnicity')))
+                    event_speaker.append(
+                        etree.fromstring(sdata.get('Nationality')))
+                    event_speaker.append(
+                        etree.fromstring(sdata.get('LocationData')))
+                    event_speaker.append(
+                        etree.fromstring(sdata.get('LanguageData')))
                     # deal with language data duplicates
                     # put a copy into <LanguageData> and remove it
                     language_data = event_speaker.find('LanguageData')
@@ -456,7 +469,8 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                             # extra_lang.text = lang.text
                             continue
                         else:
-                            extra_lang = etree.SubElement(language_data, 'Language')
+                            extra_lang = etree.SubElement(
+                                language_data, 'Language')
                             extra_lang.text = lang.text
 
     def speaker2event_session(self, speakernode):
@@ -497,7 +511,8 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     else:
                         speakertuple_complete = speakertuple_temp
 
-                    # get a copy of the 'Language' to insert it to 'LanguageData' below
+                    # get a copy of the 'Language' to insert it to
+                    # 'LanguageData' below
                     languages = event_speaker.xpath('//Language')
                     for language in event_speaker.xpath('//Language'):
                         language.getparent().remove(language)
@@ -505,13 +520,20 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     event_speaker.append(etree.fromstring(sdata.get('Name')))
                     event_speaker.append(etree.fromstring(sdata.get('Alias')))
                     # etree.SubElement(event_speaker, speaker_sex)
-                    event_speaker.append(etree.fromstring(sdata.get('DateOfBirth')))
-                    event_speaker.append(etree.fromstring(sdata.get('Education')))
-                    event_speaker.append(etree.fromstring(sdata.get('Profession')))
-                    event_speaker.append(etree.fromstring(sdata.get('Ethnicity')))
-                    event_speaker.append(etree.fromstring(sdata.get('Nationality')))
-                    event_speaker.append(etree.fromstring(sdata.get('LocationData')))
-                    event_speaker.append(etree.fromstring(sdata.get('LanguageData')))
+                    event_speaker.append(
+                        etree.fromstring(sdata.get('DateOfBirth')))
+                    event_speaker.append(
+                        etree.fromstring(sdata.get('Education')))
+                    event_speaker.append(
+                        etree.fromstring(sdata.get('Profession')))
+                    event_speaker.append(
+                        etree.fromstring(sdata.get('Ethnicity')))
+                    event_speaker.append(
+                        etree.fromstring(sdata.get('Nationality')))
+                    event_speaker.append(
+                        etree.fromstring(sdata.get('LocationData')))
+                    event_speaker.append(
+                        etree.fromstring(sdata.get('LanguageData')))
                     # deal with language data duplicates
                     # put a copy into <LanguageData> and remove it
                     language_data = event_speaker.find('LanguageData')
@@ -521,7 +543,8 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                             # extra_lang.text = lang.text
                             continue
                         else:
-                            extra_lang = etree.SubElement(language_data, 'Language')
+                            extra_lang = etree.SubElement(
+                                language_data, 'Language')
                             extra_lang.text = lang.text
 
     def define_resourceproxy(self, metafilenode):
@@ -553,7 +576,8 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             return
 
         try:
-            resourceproxies = cmdiroot.find("Resources").find("ResourceProxyList")
+            resourceproxies = cmdiroot.find(
+                "Resources").find("ResourceProxyList")
         except AttributeError:
             logging.error("No Resource Element found in " +
                           metafilenode + ". Check cmdi file consistency.")
@@ -592,7 +616,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             elif self.node.get(node).get('type') in ['event']:
                 self.set_resourceproxy(node, resourceproxies,
                                        rtype='Metadata', mtype='application/x-cmdi+xml', idprefix='cmdi_',
-                                       refprefix=SVNROOT+self.node.get(node).get('corpus')+'/', refpostfix='.cmdi')
+                                       refprefix=SVNROOT + self.node.get(node).get('corpus') + '/', refpostfix='.cmdi')
                 # self.set_resourceproxy(node, resourceproxies,
                 #                       rtype='Resource',
                 #                       refprefix=LANDINGPG, refpostfix='')
@@ -633,11 +657,11 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             # refer to the original label of the corpus:
             # corpusref = self.node.get(nodename).get('filename').split('-')[0].split('_extern')[0]
             # corrected link to AGD corpus
-            corpusref = self.node.get(nodename).get('filename').split('_extern')[0]
+            corpusref = self.node.get(nodename).get(
+                'filename').split('_extern')[0]
             resource_ref.text = unicode(refprefix + corpusref + refpostfix)
         else:
             resource_ref.text = unicode(refprefix + nodename + refpostfix)
-
 
     def build_resourceproxy(self):
         """
@@ -668,7 +692,8 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             # retrieve the etree object of the current node
             cmdi_etrobj = self.node.get(resource).get("etreeobject")
         except AttributeError:
-            logging.error("referenced resource node has no attribute 'etreeobject'")
+            logging.error(
+                "referenced resource node has no attribute 'etreeobject'")
             return
 
         # set root for accessing the etree object:
@@ -688,14 +713,12 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
                 # Set the <SelfLink> element of the object
                 selflink = cmdiroot.xpath('//SelfLink')[0]
-                selflink.text = str(SVNROOT) + str(self.node.get(resource).get('corpus')) + '/' + str(resource) + '.cmdi'
+                selflink.text = str(
+                    SVNROOT) + str(self.node.get(resource).get('corpus')) + '/' + str(resource) + '.cmdi'
 
             except:
                 logging.error('cannot access DGDCorpus as root: ' + resource)
                 return
-
-
-
 
         # find all in/out edges for the current node
         in_nodes = [i[0] for i in self.in_edges(resource)]
@@ -738,16 +761,20 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                         # refer to audio as hasPart
                         source = etree.SubElement(relations, 'hasPart')
                         source.set('href', LANDINGPG + node)
-                        source.text = self.node.get(node).get('type').capitalize() + ': ' + node
+                        source.text = self.node.get(node).get(
+                            'type').capitalize() + ': ' + node
                     # elif mimetypes.guess_type(self.node.get(node).get('filename'))[0] == 'application/x-cmdi+xml':
                     #     source = etree.SubElement(relations, 'hasPart')
                     #     source.set('href', SVNROOT + node)
                     #     source.text = self.node.get(node).get('type').capitalize() + ': ' + node
                     elif self.node.get(node).get('type') == 'event':
-                        # refer to original dgd metadata as source (via landing page)
+                        # refer to original dgd metadata as source (via landing
+                        # page)
                         haspart = etree.SubElement(relations, 'hasPart')
-                        haspart.set('href', SVNROOT + self.node.get(node).get('corpus')+ '/' + node + '.cmdi')
-                        haspart.text = self.node.get(node).get('type').capitalize() + ': ' + node
+                        haspart.set(
+                            'href', SVNROOT + self.node.get(node).get('corpus') + '/' + node + '.cmdi')
+                        haspart.text = self.node.get(node).get(
+                            'type').capitalize() + ': ' + node
                     elif self.node.get(node).get('type') == 'transcript':
                         haspart = etree.SubElement(relations, 'hasPart')
                         transnlist = node.split('_')
@@ -755,23 +782,30 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                         transnlist.pop()
                         transcriptref = '_'.join(transnlist)
                         haspart.set('href', LANDINGPG + transcriptref)
-                        haspart.text = self.node.get(node).get('type').capitalize() + ': ' + node
+                        haspart.text = self.node.get(node).get(
+                            'type').capitalize() + ': ' + node
                 except TypeError:
-                    logging.error("check data integrity of outbound node " + node)
+                    logging.error(
+                        "check data integrity of outbound node " + node)
                     return
             for node in in_nodes:
                 try:
                     ispartof = etree.SubElement(relations, 'isPartOf')
-                    ispartof.set('href', SVNROOT + self.node.get(node).get('corpus')+ '/' + node + '.cmdi')
-                    ispartof.text = self.node.get(node).get('type').capitalize() + ': ' + node
+                    ispartof.set(
+                        'href', SVNROOT + self.node.get(node).get('corpus') + '/' + node + '.cmdi')
+                    ispartof.text = self.node.get(node).get(
+                        'type').capitalize() + ': ' + node
                 except TypeError:
-                    logging.error("check data integrity of inbound  node " + node)
+                    logging.error(
+                        "check data integrity of inbound  node " + node)
 
             # define a node that refers to the version of this metadata
             isversionof = etree.SubElement(relations, 'isVersionOf')
-            isversionof.set('href', SVNROOT + self.node.get(resource).get('corpus') + '/' + resource + '.cmdi')
+            isversionof.set(
+                'href', SVNROOT + self.node.get(resource).get('corpus') + '/' + resource + '.cmdi')
             isversionof.text = 'Version 0'
-            # finally define an "source" element that refers to the original agd metadata
+            # finally define an "source" element that refers to the original
+            # agd metadata
             agd_source = etree.SubElement(relations, 'source')
 
             # FIXME: <source> stays empty for corpus catalogue metadata
@@ -837,8 +871,6 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         else:
             return True
 
-
-
     def _write_cmdi(self, nodename, fname):
         """
         write the cmid-xml of a node to a specified file.
@@ -859,10 +891,12 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         for nodename, ndata in self.nodes_iter(data=True):
             if ndata.get('type') == 'event' and ndata.get('corpus') == corpus:
                 cmdiheader.define_header(nodename, self)
-                self._write_cmdi(nodename, os.path.join(outpathfinal, nodename + '.cmdi'))
+                self._write_cmdi(nodename, os.path.join(
+                    outpathfinal, nodename + '.cmdi'))
             elif ndata.get('type') == 'corpus' and ndata.get('corpus') == corpus:
                 cmdiheader.define_header(nodename, self)
-                self._write_cmdi(nodename, os.path.join(outpathfinal, nodename + '.cmdi'))
+                self._write_cmdi(nodename, os.path.join(
+                    outpathfinal, nodename + '.cmdi'))
 
 
 class CorpusIterator(object):
@@ -893,7 +927,8 @@ class CorpusIterator(object):
 
         if self.validation:
             res_etree = etree.parse(os.path.join(self.resourcepath, file_name))
-            remote_schema = etree.XMLSchema(file=res_etree.getroot().items()[1][1].split(' ')[1])
+            remote_schema = etree.XMLSchema(
+                file=res_etree.getroot().items()[1][1].split(' ')[1])
             isvalid = remote_schema.validate(res_etree)
             return os.path.join(self.resourcepath, file_name), isvalid
 

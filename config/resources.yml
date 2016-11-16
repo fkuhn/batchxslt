@@ -1,14 +1,26 @@
-corpus:
-    - "testpath.xml"
-    - "testpath3.xml"
-event:
-    - "testpath.xml"
-    - "testpath2.xml"
-speaker:
-    - "testpath/"
-processor:
-    - "saxon_testpath"
-xslt:
+# This file defines the resources for any 
+# xslt processing via dgd2cmdi
+
+processor: "saxon_testpath"
+stylesheets:
     corpus: "corpus_xslt"
     event: "event_xslt"
     speaker: "speaker_xslt"
+collection:
+    PF:
+        corpus:
+            - "testpath.xml"
+            - "testpath3.xml"
+        event:
+            - "testpath.xml"
+            - "testpath2.xml"
+        speaker:
+            - "testpath/"
+    ZW:
+        corpus:
+            - "testpath"
+        event:
+            - "testpath"
+        speaker:
+            - "whatever"
+
