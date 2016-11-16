@@ -1,7 +1,14 @@
 #!/usr/bin/python
 """
 This module contains methods to read in a resource
-configuration file and to
+configuration file.
+
+The configuration file is written in yaml and has the following
+form:
+
+
+
+
 """
 import os
 import codecs
@@ -21,6 +28,8 @@ def main():
     with codecs.open(args.resources, mode='r', encoding='utf-8') as resfile:
         resources = yaml.safe_load(resfile)
     xslt = resources.get('xslt')
+    corpora = resources.get('corpora')
+
     print "Stylesheet paths:\n"
     print "Corpus: {}".format(xslt['corpus'])
     print "Event: {}".format(xslt['event'])
