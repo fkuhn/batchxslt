@@ -1,0 +1,14 @@
+corpus:
+    - "testpath.xml"
+    - "testpath3.xml"
+event:
+    - "testpath.xml"
+    - "testpath2.xml"
+speaker:
+    - "testpath/"
+processor:
+    - "saxon_testpath"
+xslt:
+    corpus: "corpus_xslt"
+    event: "event_xslt"
+    speaker: "speaker_xslt"
