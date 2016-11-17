@@ -47,51 +47,63 @@ def transform(resources):
     processor = resources['processor']
     stylesheets = resources['stylesheets']
     collection = resources['collection']
-    outputinter = resources['output-inter']
+    outputinter_corpus = resources['output-inter-corpus']
+    outputinter_events = resources['output-inter-events']
+    outputinter_speakers = resources['output-inter-speakers']
     outputfinal = resources['output-final']
 
     for resource in collection:
 
-        corpus = collection.get(resource).get('corpus')
-        events = collection.get(resource).get('event')
-        speakers = collection.get(resource).get('speaker')
+        corpus_inpath = collection.get(resource).get('corpus')
+        events_inpath = collection.get(resource).get('event')
+        speakers_inpath = collection.get(resource).get('speaker')
 
-        outputfolder = prepare_cpath(outputinter, resource)
+        outputfolder_corpus = prepare_cpath(outputinter_corpus, resource)
+        outputfolder_event = prepare_cpath(outputinter_events, resource)
+        outputfolder_speaker = prepare_cpath(outputinter_speakers, resource)
+
+        call_processor(corpus_inpath, 'corpus', stylesheets,
+                       processor, outputfolder_corpus)
+        call_processor(events_inpath, 'event', stylesheets,
+                       processor, outputfolder_event)
+        call_processor(speakers_inpath, 'speaker', stylesheets,
+                       processor, outputfolder_speaker)
 
 
-def call_processor(metafilepath, resourcetype, stylesheetdic, saxonpath, outputpath):
+def call_processor(metafilepath, resourcetype, stylesheetdic, processor, outputpath):
     """
     calls the xslt processor
     """
     metafilepath = os.path.abspath(metafilepath)
-    saxonpath = os.path.abspath(saxonpath)
+    processor = os.path.abspath(processor)
 
     if resourcetype == 'corpus':
-        stylesheetpath = os.path.abspath(stylesheetdic.get('C_XSL'))
-        outputpath = os.path.abspath(OUTPATHDIC.get('C'))
+        stylesheetpath = os.path.abspath(stylesheetdic.get('corpus'))
+        outputpath = os.path.abspath(outputpath)
         os.system("java -jar {} -s:{} -xsl:{} -o:{}".format(
-            saxonpath, metafilepath,
+            processor, metafilepath,
             stylesheetpath, os.path.join(outputpath,
-                                         os.path.basename(metafilepath).split('.')[0] + '.cmdi')))
+                                         os.path.basename(
+                                             metafilepath).split('.')[0] + '.cmdi')))
     elif resourcetype == 'event':
 
-        stylesheetpath = os.path.abspath(stylesheetdic.get('E_XSL'))
+        stylesheetpath = os.path.abspath(stylesheetdic.get('event'))
         outputpath = os.path.abspath(os.path.join(
-            OUTPATHDIC.get('E'), os.path.basename(metafilepath)))
+            outputpath, os.path.basename(metafilepath)))
         for resource in os.listdir(metafilepath):
             os.system("java -jar {} -s:{} -xsl:{} -o:{}".format(
-                saxonpath, os.path.join(metafilepath, resource),
+                processor, os.path.join(metafilepath, resource),
                 stylesheetpath, os.path.join(outputpath,
                                              '.'.join([resource.split('.')[0], 'cmdi']))))
 
     elif resourcetype == 'speaker':
 
-        stylesheetpath = os.path.abspath(stylesheetdic.get('S_XSL'))
+        stylesheetpath = os.path.abspath(stylesheetdic.get('speaker'))
         outputpath = os.path.abspath(os.path.join(
-            OUTPATHDIC.get('S'), os.path.basename(metafilepath)))
+            outputpath, os.path.basename(metafilepath)))
         for resource in os.listdir(metafilepath):
             os.system("java -jar {} -s:{} -xsl:{} -o:{}".format(
-                saxonpath, os.path.join(metafilepath, resource),
+                processor, os.path.join(metafilepath, resource),
                 stylesheetpath, os.path.join(outputpath,
                                              '.'.join([resource.split('.')[0], 'cmdi']))))
     else:
