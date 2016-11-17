@@ -9,8 +9,8 @@ import os
 
 import yaml
 
-parser = argparse.ArgumentParser()
-parser.add_argument(
+PARSER = argparse.ArgumentParser()
+PARSER.add_argument(
     'resources', help='a file containing paths of a resource (corpus, event, speaker) to transform')
 
 
@@ -19,7 +19,7 @@ def main():
     Main Method for dgd to cmdi transformation
     :return:
     """
-    args = parser.parse_args()
+    args = PARSER.parse_args()
     with codecs.open(args.resources, mode='r', encoding='utf-8') as resfile:
         resources = yaml.safe_load(resfile)
     # processor = resources['processor']
@@ -149,5 +149,8 @@ class CorpusIterator(object):
         return self
 
     def next(self):
+        """
+        next element.
+        """
         file_name = self._files_iter.next()
         return os.path.join(self.resourcepath, file_name)
