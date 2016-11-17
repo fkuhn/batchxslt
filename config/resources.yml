@@ -6,21 +6,19 @@ stylesheets:
     corpus: "corpus_xslt"
     event: "event_xslt"
     speaker: "speaker_xslt"
+
+output-inter: "path/to/intermediate/transformation/output"
+
+output-final: "path/to/finalized/output"
+
 collection:
     PF:
-        corpus:
-            - "testpath.xml"
-            - "testpath3.xml"
-        event:
-            - "testpath.xml"
-            - "testpath2.xml"
-        speaker:
-            - "testpath/"
+        corpus: "testpath.xml"
+        event: "testpath.xml"
+        speaker: "testpath.xml"
+
     ZW:
-        corpus:
-            - "testpath"
-        event:
-            - "testpath"
-        speaker:
-            - "whatever"
+        corpus: "testpath.xml"
+        event: "testpath.xml"
+        speaker: "testpath.xml"
 
