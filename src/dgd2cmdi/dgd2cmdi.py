@@ -62,17 +62,24 @@ def transform(resources):
         outputfolder_event = prepare_cpath(outputinter_events, resource)
         outputfolder_speaker = prepare_cpath(outputinter_speakers, resource)
 
+        # corpus_iterator = FileIterator()
+        event_iterator = FileIterator(events_inpath, 'event')
+        speaker_iterator = FileIterator(speakers_inpath, 'speaker')
+
         call_processor(corpus_inpath, 'corpus', stylesheets,
                        processor, outputfolder_corpus)
-        call_processor(events_inpath, 'event', stylesheets,
-                       processor, outputfolder_event)
-        call_processor(speakers_inpath, 'speaker', stylesheets,
-                       processor, outputfolder_speaker)
+
+        for event_resourcefile in event_iterator:
+            call_processor(event_resourcefile, 'event', stylesheets,
+                           processor, outputfolder_event)
+        for speaker_resourcefile in speaker_iterator:
+            call_processor(speaker_resourcefile, 'speaker', stylesheets,
+                           processor, outputfolder_speaker)
 
 
 def call_processor(metafilepath, resourcetype, stylesheetdic, processor, outputpath):
     """
-    calls the xslt processor
+    calls the xslt processor for one resource instance.
     """
     metafilepath = os.path.abspath(metafilepath)
     processor = os.path.abspath(processor)
@@ -133,7 +140,7 @@ def prepare_cpath(outfolder, cname):
     return os.path.join(outfolder, cname)
 
 
-class CorpusIterator(object):
+class FileIterator(object):
     """
     Iterator is initialized with a corpus path.
     either returns files or, in case of event and speaker,
