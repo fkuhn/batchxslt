@@ -97,22 +97,24 @@ def call_processor(metafilepath, resourcetype, stylesheetdic, processor, outputp
         stylesheetpath = os.path.abspath(stylesheetdic.get('event'))
         outputpath = os.path.abspath(os.path.join(
             outputpath, os.path.basename(metafilepath)))
-        for resource in os.listdir(metafilepath):
-            os.system("java -jar {} -s:{} -xsl:{} -o:{}".format(
-                processor, os.path.join(metafilepath, resource),
-                stylesheetpath, os.path.join(outputpath,
-                                             '.'.join([resource.split('.')[0], 'cmdi']))))
+        # for resource in os.listdir(metafilepath):
+        os.system("java -jar {} -s:{} -xsl:{} -o:{}".format(
+            processor, os.path.join(metafilepath),
+            stylesheetpath, os.path.join(outputpath,
+                                         os.path.basename(
+                                             metafilepath).split('.')[0] + '.cmdi')))
 
     elif resourcetype == 'speaker':
 
         stylesheetpath = os.path.abspath(stylesheetdic.get('speaker'))
         outputpath = os.path.abspath(os.path.join(
             outputpath, os.path.basename(metafilepath)))
-        for resource in os.listdir(metafilepath):
-            os.system("java -jar {} -s:{} -xsl:{} -o:{}".format(
-                processor, os.path.join(metafilepath, resource),
-                stylesheetpath, os.path.join(outputpath,
-                                             '.'.join([resource.split('.')[0], 'cmdi']))))
+        # for resource in os.listdir(metafilepath):
+        os.system("java -jar {} -s:{} -xsl:{} -o:{}".format(
+            processor, os.path.join(metafilepath),
+            stylesheetpath, os.path.join(outputpath,
+                                         os.path.basename(
+                                             metafilepath).split('.')[0] + '.cmdi')))
     else:
         raise ValueError()
 
