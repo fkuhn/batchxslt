@@ -50,6 +50,7 @@ def transform(resources):
     outputinter_corpus = resources['output-inter-corpus']
     outputinter_events = resources['output-inter-events']
     outputinter_speakers = resources['output-inter-speakers']
+
     outputfinal = resources['output-final']
 
     for resource in collection:
