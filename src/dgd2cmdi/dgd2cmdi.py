@@ -1,6 +1,4 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-"""=
+"""
 This module provides methods to read the configuration file,
 process the referenced resources and
 """
@@ -87,13 +85,13 @@ def transform(resources):
         i = 0
         litems = len(speakers_inpath)
         print_progress(i, litems, prefix='Events:',
-                       suffix='Complete', bar_length=50)
+                       suffix='Complete', bar_length=100)
         for speaker_resourcefile in speaker_iterator:
             call_processor(speaker_resourcefile, 'speaker', stylesheets,
                            processor, outputfolder_speaker)
             i += 1
             print_progress(i, litems, prefix='Speakers:',
-                           suffix='Complete', bar_length=50)
+                           suffix='Complete', bar_length=100)
 
 
 def call_processor(metafilepath, resourcetype, stylesheetdic, processor, outputpath):
