@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 """=
 This module provides methods to read the configuration file,
 process the referenced resources and
@@ -6,6 +7,7 @@ process the referenced resources and
 import argparse
 import codecs
 import os
+import sys
 
 import yaml
 
@@ -66,21 +68,40 @@ def transform(resources):
         event_iterator = FileIterator(events_inpath, 'event')
         speaker_iterator = FileIterator(speakers_inpath, 'speaker')
 
+        # 1 transform the corpus catalogue data
         call_processor(corpus_inpath, 'corpus', stylesheets,
                        processor, outputfolder_corpus)
-
+        # 2 transform the event metadata files of a corpus resource
+        i = 0
+        litems = len(events_inpath)
+        print_progress(i, litems, prefix='Events:',
+                       suffix='Complete', bar_length=50)
         for event_resourcefile in event_iterator:
             call_processor(event_resourcefile, 'event', stylesheets,
                            processor, outputfolder_event)
+            i += 1
+            print_progress(i, litems, prefix='Events:',
+                           suffix='Complete', bar_length=50)
+
+        # 3 transform the speaker metadata files of a corpus resource
+        i = 0
+        litems = len(speakers_inpath)
+        print_progress(i, litems, prefix='Events:',
+                       suffix='Complete', bar_length=50)
         for speaker_resourcefile in speaker_iterator:
             call_processor(speaker_resourcefile, 'speaker', stylesheets,
                            processor, outputfolder_speaker)
+            i += 1
+            print_progress(i, litems, prefix='Speakers:',
+                           suffix='Complete', bar_length=50)
 
 
 def call_processor(metafilepath, resourcetype, stylesheetdic, processor, outputpath):
     """
     calls the xslt processor for one resource instance.
     """
+    # TODO: provide more feedback for process. maybe use a verbose parameter
+    # TODO: e.g. implement a simple progress bar
     metafilepath = os.path.abspath(metafilepath)
     processor = os.path.abspath(processor)
 
@@ -140,6 +161,31 @@ def prepare_cpath(outfolder, cname):
         os.mkdir(os.path.join(outfolder, cname))
 
     return os.path.join(outfolder, cname)
+
+
+# Print iterations progress
+def print_progress(iteration, total, prefix='', suffix='', decimals=1, bar_length=100):
+    """
+    Call in a loop to create terminal progress bar
+    @params:
+        iteration   - Required  : current iteration (Int)
+        total       - Required  : total iterations (Int)
+        prefix      - Optional  : prefix string (Str)
+        suffix      - Optional  : suffix string (Str)
+        decimals    - Optional  : positive number of decimals in percent complete (Int)
+        bar_length  - Optional  : character length of bar (Int)
+    """
+    str_format = "{0:." + str(decimals) + "f}"
+    percents = str_format.format(100 * (iteration / float(total)))
+    filled_length = int(round(bar_length * iteration / float(total)))
+    bar = '*' * filled_length + '-' * (bar_length - filled_length)
+
+    sys.stdout.write('\r%s |%s| %s%s %s' %
+                     (prefix, bar, percents, '%', suffix)),
+
+    if iteration == total:
+        sys.stdout.write('\n')
+    sys.stdout.flush()
 
 
 class FileIterator(object):
