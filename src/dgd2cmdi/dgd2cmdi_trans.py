@@ -25,37 +25,46 @@ def main():
 
 
 def call_saxon(resourcetype, resources):
-
+    """
+    Calls a xslt processor.
+    :param: ds
+    :return:
+    """
     xslt = xslt = resources.get('xslt')
 
-    metafilepath = os.path.abspath(metafilepath)
-    saxonpath = os.path.abspath(saxonpath)
+    metafilepath = os.path.abspath(resources.meta)
+    processor = os.path.abspath(resources.processor)
 
-    if resourcetype == 'corpus':
-        stylesheetpath = os.path.abspath(xslt['corpus'])
-        outputpath = os.path.abspath(OUTPATHDIC.get('C'))
-        os.system("java -jar {} -s:{} -xsl:{} -o:{}".format(
-            saxonpath, metafilepath,
-            stylesheetpath, os.path.join(outputpath,
-                                         os.path.basename(metafilepath).split('.')[0]+'.cmdi')))
-    elif resourcetype == 'event':
+    # now iterate over each corpus and collect the
+    # resource paths
+    for corpus in resources.corpus:
 
-        stylesheetpath = os.path.abspath(stylesheetdic.get('E_XSL'))
-        outputpath = os.path.abspath(os.path.join(OUTPATHDIC.get('E'), os.path.basename(metafilepath)))
-        for resource in os.listdir(metafilepath):
+
+        if resourcetype == 'corpus':
+            stylesheetpath = os.path.abspath(xslt['corpus'])
+            outputpath = os.path.abspath(OUTPATHDIC.get('C'))
             os.system("java -jar {} -s:{} -xsl:{} -o:{}".format(
-                saxonpath, os.path.join(metafilepath,resource),
+                processor, metafilepath,
                 stylesheetpath, os.path.join(outputpath,
-                                             '.'.join([resource.split('.')[0],'cmdi']))))
+                                            os.path.basename(metafilepath).split('.')[0]+'.cmdi')))
+        elif resourcetype == 'event':
 
-    elif resourcetype == 'speaker':
+            stylesheetpath = os.path.abspath(stylesheetdic.get('E_XSL'))
+            outputpath = os.path.abspath(os.path.join(OUTPATHDIC.get('E'), os.path.basename(metafilepath)))
+            for resource in os.listdir(metafilepath):
+                os.system("java -jar {} -s:{} -xsl:{} -o:{}".format(
+                    processor, os.path.join(metafilepath,resource),
+                    stylesheetpath, os.path.join(outputpath,
+                                                '.'.join([resource.split('.')[0],'cmdi']))))
 
-        stylesheetpath = os.path.abspath(stylesheetdic.get('S_XSL'))
-        outputpath = os.path.abspath(os.path.join(OUTPATHDIC.get('S'), os.path.basename(metafilepath)))
-        for resource in os.listdir(metafilepath):
-            os.system("java -jar {} -s:{} -xsl:{} -o:{}".format(
-                saxonpath, os.path.join(metafilepath, resource),
-                stylesheetpath, os.path.join(outputpath,
-                                             '.'.join([resource.split('.')[0],'cmdi']))))
-    else:
-        raise ValueError()
+        elif resourcetype == 'speaker':
+
+            stylesheetpath = os.path.abspath(stylesheetdic.get('S_XSL'))
+            outputpath = os.path.abspath(os.path.join(OUTPATHDIC.get('S'), os.path.basename(metafilepath)))
+            for resource in os.listdir(metafilepath):
+                os.system("java -jar {} -s:{} -xsl:{} -o:{}".format(
+                    processor, os.path.join(metafilepath, resource),
+                    stylesheetpath, os.path.join(outputpath,
+                                                '.'.join([resource.split('.')[0],'cmdi']))))
+        else:
+            raise ValueError()
