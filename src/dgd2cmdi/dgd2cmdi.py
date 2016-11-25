@@ -6,8 +6,11 @@ import argparse
 import codecs
 import os
 import sys
+import subprocess
 
 import yaml
+
+from lxml import etree
 
 PARSER = argparse.ArgumentParser()
 PARSER.add_argument(
@@ -67,7 +70,7 @@ def transform(resources):
         speaker_iterator = FileIterator(speakers_inpath, 'speaker')
 
         # 1 transform the corpus catalogue data
-        call_processor(corpus_inpath, 'corpus', stylesheets,
+        call_inline_processor(corpus_inpath, 'corpus', stylesheets,
                        processor, outputfolder_corpus)
         # 2 transform the event metadata files of a corpus resource
         i = 0
@@ -92,6 +95,38 @@ def transform(resources):
             i += 1
             print_progress(i, litems, prefix='Speakers:',
                            suffix='Complete', bar_length=100)
+
+
+def call_inline_processor(metafilepath, resourcetype, stylesheetdic, processor, outputpath):
+    """
+    transforms resources inline by using
+    subprocess and parsing the returncode
+    with etree.
+    subprocess functions
+    """
+    metafilepath = os.path.abspath(metafilepath)
+    processor = os.path.abspath(processor)
+    converts = {}
+
+    if resourcetype == 'corpus':
+        stylesheetpath = os.path.abspath(stylesheetdic.get('corpus'))
+        outputpath = os.path.abspath(outputpath)
+        command = "java -jar {} -s:{} -xsl:{}".format(
+            processor, metafilepath,
+            stylesheetpath)
+
+        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
+        process.wait()
+        converts.update({os.path.basename(metafilepath): etree.parse(process.stdout)})
+
+        os.system("java -jar {} -s:{} -xsl:{} -o:{}".format(
+            processor, metafilepath,
+            stylesheetpath, os.path.join(outputpath,
+                                         os.path.basename(
+                                             metafilepath).split('.')[0] + '.cmdi')))
+
+    else:
+        raise ValueError()
 
 
 def call_processor(metafilepath, resourcetype, stylesheetdic, processor, outputpath):
