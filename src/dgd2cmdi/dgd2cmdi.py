@@ -53,6 +53,7 @@ def transform(resources):
     outputinter_corpus = resources['output-inter-corpus']
     outputinter_events = resources['output-inter-events']
     outputinter_speakers = resources['output-inter-speakers']
+
     outputfinal = resources['output-final']
 
     for resource in collection:
@@ -73,28 +74,28 @@ def transform(resources):
         call_inline_processor(corpus_inpath, 'corpus', stylesheets,
                        processor, outputfolder_corpus)
         # 2 transform the event metadata files of a corpus resource
-        i = 0
-        litems = len(events_inpath)
-        print_progress(i, litems, prefix='Events:',
-                       suffix='Complete', bar_length=50)
+        # i = 0
+        # litems = len(events_inpath)
+        # print_progress(i, litems, prefix='Events:',
+        #                suffix = 'Complete', bar_length = 50)
         for event_resourcefile in event_iterator:
-            call_processor(event_resourcefile, 'event', stylesheets,
-                           processor, outputfolder_event)
-            i += 1
-            print_progress(i, litems, prefix='Events:',
-                           suffix='Complete', bar_length=50)
+            call_processor(event_resourcefile, 'event',
+                           stylesheets, processor, outputfolder_event)
+            # i += 1
+            # print_progress(i, litems, prefix='Events:',
+            #                suffix='Complete', bar_length=50)
 
         # 3 transform the speaker metadata files of a corpus resource
-        i = 0
-        litems = len(speakers_inpath)
-        print_progress(i, litems, prefix='Events:',
-                       suffix='Complete', bar_length=100)
+        # i = 0
+        # litems = len(speakers_inpath)
+        # print_progress(i, litems, prefix='Events:',
+        #                suffix = 'Complete', bar_length = 100)
         for speaker_resourcefile in speaker_iterator:
             call_processor(speaker_resourcefile, 'speaker', stylesheets,
                            processor, outputfolder_speaker)
-            i += 1
-            print_progress(i, litems, prefix='Speakers:',
-                           suffix='Complete', bar_length=100)
+            # i += 1
+            # print_progress(i, litems, prefix='Speakers:',
+            #                suffix='Complete', bar_length=100)
 
 
 def call_inline_processor(metafilepath, resourcetype, stylesheetdic, processor, outputpath):
