@@ -119,13 +119,7 @@ def call_inline_processor(metafilepath, resourcetype, stylesheetdic, processor, 
         process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
         process.wait()
         converts.update({os.path.basename(metafilepath): etree.parse(process.stdout)})
-
-        # os.system("java -jar {} -s:{} -xsl:{} -o:{}".format(
-        #    processor, metafilepath,
-        #    stylesheetpath, os.path.join(outputpath,
-        #                                os.path.basename(
-        # metafilepath).split('.')[0] + '.cmdi')))
-        print converts
+        print etree.tostring(converts)
 
     else:
         raise ValueError()
