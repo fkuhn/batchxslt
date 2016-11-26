@@ -38,14 +38,11 @@ def main():
 
 def call_saxon(resourcetype, resources):
     """
-<<<<<<< HEAD
     Calls a xslt processor.
     :param: ds
     :return:
-=======
     calls a xslt processor by using the informations
     from the resource configuration file.
->>>>>>> 3bd04a0bfc1917243b211a7331e91b2c1aecb9e0
     """
     xslt = xslt = resources.get('xslt')
 

@@ -72,7 +72,7 @@ def transform(resources):
 
         # 1 transform the corpus catalogue data
         call_inline_processor(corpus_inpath, 'corpus', stylesheets,
-                       processor, outputfolder_corpus)
+                              processor, outputfolder_corpus)
         # 2 transform the event metadata files of a corpus resource
         # i = 0
         # litems = len(events_inpath)
@@ -120,11 +120,12 @@ def call_inline_processor(metafilepath, resourcetype, stylesheetdic, processor, 
         process.wait()
         converts.update({os.path.basename(metafilepath): etree.parse(process.stdout)})
 
-        os.system("java -jar {} -s:{} -xsl:{} -o:{}".format(
-            processor, metafilepath,
-            stylesheetpath, os.path.join(outputpath,
-                                         os.path.basename(
-                                             metafilepath).split('.')[0] + '.cmdi')))
+        # os.system("java -jar {} -s:{} -xsl:{} -o:{}".format(
+        #    processor, metafilepath,
+        #    stylesheetpath, os.path.join(outputpath,
+        #                                os.path.basename(
+        # metafilepath).split('.')[0] + '.cmdi')))
+        print converts
 
     else:
         raise ValueError()

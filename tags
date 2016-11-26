@@ -1,0 +1,219 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+AudioLinker	src/dgd2cmdi/primarylink.py	/^class AudioLinker(object):$/;"	kind:class	line:59
+CORPUSXSDURI	src/dgd2cmdi/cmdiheader.py	/^CORPUSXSDURI = "http:\/\/www.clarin.eu\/cmd\/ http:\/\/catalog.clarin.eu\/ds\/ComponentRegistry\/rest\/registry\/profiles\/clarin.eu:cr1:p_1430905751614\/xsd"$/;"	kind:variable	line:18
+Configuration	src/dgd2cmdi/config.py	/^class Configuration:$/;"	kind:class	line:15
+Configurator	src/dgd2cmdi/processor.py	/^class Configurator(object):$/;"	kind:class	line:10
+CorpusIterator	src/dgd2cmdi/cmdiresource.py	/^class CorpusIterator(object):$/;"	kind:class	line:902
+CsvConfigurator	src/dgd2cmdi/processor.py	/^class CsvConfigurator(object):$/;"	kind:class	line:42
+DGDROOT	src/dgd2cmdi/cmdiresource.py	/^DGDROOT = "dgd2_data"$/;"	kind:variable	line:11
+EVENTXSDURI	src/dgd2cmdi/cmdiheader.py	/^EVENTXSDURI = "http:\/\/www.clarin.eu\/cmd\/ http:\/\/catalog.clarin.eu\/ds\/ComponentRegistry\/rest\/registry\/profiles\/clarin.eu:cr1:p_1430905751615\/xsd"$/;"	kind:variable	line:17
+EXTENSION	src/dgd2cmdi/cmdiresource.py	/^EXTENSION = '_extern.cmdi'$/;"	kind:variable	line:22
+FileIterator	src/dgd2cmdi/dgd2cmdi.py	/^class FileIterator(object):$/;"	kind:class	line:225
+MDCREATOR	src/dgd2cmdi/cmdiheader.py	/^MDCREATOR = 'dgd2cmdi.py'$/;"	kind:variable	line:14
+NAME	src/dgd2cmdi/cmdiresource.py	/^NAME = 'AGD'$/;"	kind:variable	line:17
+NEWS	setup.py	/^NEWS = open(os.path.join(here, 'NEWS.txt')).read()$/;"	kind:variable	line:6
+PARSER	src/dgd2cmdi/dgd2cmdi.py	/^PARSER = argparse.ArgumentParser()$/;"	kind:variable	line:15
+PREF	src/dgd2cmdi/cmdiresource.py	/^PREF = 'agd_ids_'$/;"	kind:variable	line:16
+PREFIX	src/dgd2cmdi/cmdiresource.py	/^PREFIX = 'cmdi_'$/;"	kind:variable	line:15
+PrimaryDataPath	src/dgd2cmdi/primarylink.py	/^class PrimaryDataPath(dict):$/;"	kind:class	line:12
+README	setup.py	/^README = open(os.path.join(here, 'README.md')).read()$/;"	kind:variable	line:5
+RESOURCEPATH	src/dgd2cmdi/cmdiresource.py	/^RESOURCEPATH = "dgd2_data\/dgd2cmdi\/cmdiOutput\/"$/;"	kind:variable	line:14
+RESOURCEPROXIES	src/dgd2cmdi/cmdiresource.py	/^RESOURCEPROXIES = "ResourceProxyList"$/;"	kind:variable	line:12
+ResourceTreeCollection	src/dgd2cmdi/cmdiresource.py	/^class ResourceTreeCollection(networkx.MultiDiGraph):$/;"	kind:class	line:25
+SPEAKERXPATH	src/dgd2cmdi/cmdiresource.py	/^SPEAKERXPATH = "\/\/InEvent\/Event"$/;"	kind:variable	line:13
+SVNROOT	src/dgd2cmdi/cmdiheader.py	/^SVNROOT = 'dgd2_data\/dgd2cmdi\/cmdi\/PF\/'$/;"	kind:variable	line:16
+SVNROOT	src/dgd2cmdi/cmdiresource.py	/^SVNROOT = u'dgd2_data\/dgd2cmdi\/cmdi\/'$/;"	kind:variable	line:18
+SanityChecker	src/dgd2cmdi/sanitycheck.py	/^class SanityChecker(object):$/;"	kind:class	line:9
+TranscriptLinker	src/dgd2cmdi/primarylink.py	/^class TranscriptLinker(OrderedDict):$/;"	kind:class	line:22
+VALIDIDS	src/dgd2cmdi/cmdiheader.py	/^VALIDIDS = {'event': 'clarin.eu:cr1:p_1456409483189', 'corpus': 'clarin.eu:cr1:p_1455633534543'}$/;"	kind:variable	line:15
+ValueProcessing	src/dgd2cmdi/postprocessing.py	/^class ValueProcessing(object):$/;"	kind:class	line:10
+VideoLinker	src/dgd2cmdi/primarylink.py	/^class VideoLinker(object):$/;"	kind:class	line:66
+XSLBatchProcessor	src/dgd2cmdi/processor.py	/^class XSLBatchProcessor(object):$/;"	kind:class	line:53
+__author__	scripts/__init__.py	/^__author__ = 'kuhn'$/;"	kind:variable	line:1
+__author__	scripts/add_folkresource.py	/^__author__ = 'kuhn'$/;"	kind:variable	line:1
+__author__	scripts/add_pfresources.py	/^__author__ = 'kuhn'$/;"	kind:variable	line:1
+__author__	scripts/addresources_DR.py	/^__author__ = 'kuhn'$/;"	kind:variable	line:1
+__author__	scripts/transform_DR.py	/^__author__ = 'kuhn'$/;"	kind:variable	line:1
+__author__	scripts/transform_DR.py	/^__author__ = 'kuhn'$/;"	kind:variable	line:2
+__author__	scripts/transform_FOLK.py	/^__author__ = 'kuhn'$/;"	kind:variable	line:1
+__author__	scripts/transform_pf.py	/^__author__ = 'kuhn'$/;"	kind:variable	line:1
+__author__	src/dgd2cmdi/__init__.py	/^__author__ = "fkuhn"$/;"	kind:variable	line:2
+__author__	src/dgd2cmdi/cmdiheader.py	/^__author__ = 'kuhn'$/;"	kind:variable	line:1
+__author__	src/dgd2cmdi/postprocessing.py	/^__author__ = 'kuhn'$/;"	kind:variable	line:7
+__author__	src/dgd2cmdi/primarylink.py	/^__author__ = 'kuhn'$/;"	kind:variable	line:2
+__author__	src/dgd2cmdi/processor.py	/^__author__ = 'kuhn'$/;"	kind:variable	line:1
+__author__	src/dgd2cmdi/sanitycheck.py	/^__author__ = 'kuhn'$/;"	kind:variable	line:3
+__doc__	src/dgd2cmdi/__init__.py	/^__doc__ = "dgd2cmdi 0.1 Refer to \/doc for a tutorial."$/;"	kind:variable	line:3
+__doc__	src/dgd2cmdi/primarylink.py	/^__doc__ = 'link the cmdi resources by writing resource proxy elements and href attributes'$/;"	kind:variable	line:3
+__doc__	src/dgd2cmdi/processor.py	/^__doc__ = 'Resource Parser and XLST Processor class definitions.'$/;"	kind:variable	line:2
+__doc__	src/dgd2cmdi/sanitycheck.py	/^__doc__ = 'check integrity of referenced resources'$/;"	kind:variable	line:4
+__init__	src/dgd2cmdi/cmdiresource.py	/^    def __init__(self, corpuspath, eventspath, speakerspath, transcriptspath):$/;"	kind:member	line:44
+__init__	src/dgd2cmdi/cmdiresource.py	/^    def __init__(self, resourcepath, resourcetype, validation=False):$/;"	kind:member	line:916
+__init__	src/dgd2cmdi/config.py	/^    def __init__(self, ymlobject):$/;"	kind:member	line:17
+__init__	src/dgd2cmdi/dgd2cmdi.py	/^    def __init__(self, resourcepath, resourcetype):$/;"	kind:member	line:232
+__init__	src/dgd2cmdi/postprocessing.py	/^    def __init__(self):$/;"	kind:member	line:15
+__init__	src/dgd2cmdi/primarylink.py	/^    def __init__(self, csvfile):$/;"	kind:member	line:16
+__init__	src/dgd2cmdi/primarylink.py	/^    def __init__(self, mediaroot):$/;"	kind:member	line:71
+__init__	src/dgd2cmdi/primarylink.py	/^    def __init__(self, transcriptroot, href_prefix):$/;"	kind:member	line:29
+__init__	src/dgd2cmdi/processor.py	/^    def __init__(self, configfile):$/;"	kind:member	line:17
+__init__	src/dgd2cmdi/processor.py	/^    def __init__(self, configfile):$/;"	kind:member	line:47
+__init__	src/dgd2cmdi/processor.py	/^    def __init__(self, processorpath):$/;"	kind:member	line:58
+__init__	src/dgd2cmdi/sanitycheck.py	/^    def __init__(self):$/;"	kind:member	line:11
+__init__.py	scripts/__init__.py	1;"	kind:file	line:1
+__init__.py	src/dgd2cmdi/__init__.py	1;"	kind:file	line:1
+__iter__	src/dgd2cmdi/cmdiresource.py	/^    def __iter__(self):$/;"	kind:member	line:922
+__iter__	src/dgd2cmdi/dgd2cmdi.py	/^    def __iter__(self):$/;"	kind:member	line:240
+__rplace_nv	src/dgd2cmdi/postprocessing.py	/^    def __rplace_nv(self, etreeobj, fname):$/;"	kind:member	line:46
+_write_cmdi	src/dgd2cmdi/cmdiresource.py	/^    def _write_cmdi(self, nodename, fname):$/;"	kind:member	line:874
+add_folkresource.py	scripts/add_folkresource.py	1;"	kind:file	line:1
+add_pfresources.py	scripts/add_pfresources.py	1;"	kind:file	line:1
+add_resources_allcorp.py	scripts/add_resources_allcorp.py	1;"	kind:file	line:1
+addresources_DR.py	scripts/addresources_DR.py	1;"	kind:file	line:1
+author	setup.py	/^    author='Florian Kuhn',$/;"	kind:variable	line:26
+author_email	setup.py	/^    author_email='kuhn@ids-mannheim.de',$/;"	kind:variable	line:27
+build_parts	src/dgd2cmdi/cmdiresource.py	/^    def build_parts(self):$/;"	kind:member	line:824
+build_resourceproxy	src/dgd2cmdi/cmdiresource.py	/^    def build_resourceproxy(self):$/;"	kind:member	line:666
+call_inline_processor	src/dgd2cmdi/dgd2cmdi.py	/^def call_inline_processor(metafilepath, resourcetype, stylesheetdic, processor, outputpath):$/;"	kind:function	line:101
+call_processor	src/dgd2cmdi/dgd2cmdi.py	/^def call_processor(metafilepath, resourcetype, stylesheetdic, processor, outputpath):$/;"	kind:function	line:133
+call_saxon	src/dgd2cmdi/dgd2cmdi_trans.py	/^def call_saxon(resourcetype, resources):$/;"	kind:function	line:39
+check_cmdi_xsd	src/dgd2cmdi/cmdiresource.py	/^    def check_cmdi_xsd(self, nodename):$/;"	kind:member	line:835
+classifiers	setup.py	/^    classifiers=[$/;"	kind:variable	line:22
+cmdi_final	scripts/add_folkresource.py	/^cmdi_final = '\/tmp\/cmdi\/cmdiFOLK\/'$/;"	kind:variable	line:14
+cmdi_final	scripts/add_pfresources.py	/^cmdi_final = '..\/cmdiPF\/'$/;"	kind:variable	line:14
+cmdi_final	scripts/add_resources_allcorp.py	/^cmdi_final = '\/tmp\/cmdi_finalized\/'$/;"	kind:variable	line:14
+cmdi_final	scripts/addresources_DR.py	/^cmdi_final = '\/tmp\/cmdi\/cmdiDR\/'$/;"	kind:variable	line:13
+cmdiheader.py	src/dgd2cmdi/cmdiheader.py	1;"	kind:file	line:1
+cmdiresource.py	src/dgd2cmdi/cmdiresource.py	1;"	kind:file	line:1
+config.py	src/dgd2cmdi/config.py	1;"	kind:file	line:1
+contextpath	src/dgd2cmdi/cmdiresource.py	/^    def contextpath(fname, startpath):$/;"	kind:member	line:280
+corpus	scripts/add_folkresource.py	/^corpus = "\/tmp\/cmdi\/corpus\/"$/;"	kind:variable	line:9
+corpus	scripts/add_pfresources.py	/^corpus = "..\/cmdiOutput\/corpus\/"$/;"	kind:variable	line:9
+corpus	scripts/add_resources_allcorp.py	/^corpus = "\/opt\/cmdiOutput\/corpus\/"$/;"	kind:variable	line:9
+corpus	scripts/addresources_DR.py	/^corpus = "\/tmp\/cmdi\/corpus\/"$/;"	kind:variable	line:8
+corpus_xsl	scripts/transform_DR.py	/^corpus_xsl = "\/home\/kuhn\/Data\/IDS\/svn\/dgd2_data\/dgd2cmdi\/xslt\/dgdCorpus2cmdi.xsl"$/;"	kind:variable	line:13
+corpus_xsl	scripts/transform_FOLK.py	/^corpus_xsl = "\/home\/kuhn\/Data\/IDS\/svn\/dgd2_data\/dgd2cmdi\/xslt\/dgdCorpus2cmdi.xsl"$/;"	kind:variable	line:12
+corpus_xsl	scripts/transform_pf.py	/^corpus_xsl = "\/home\/kuhn\/IDS\/svn\/Repos\/dgd2_data\/dgd2cmdi\/xslt\/dgdCorpus2cmdi.xsl"$/;"	kind:variable	line:12
+corpuslabel	scripts/add_folkresource.py	/^    corpuslabel = node.split('_')[0]$/;"	kind:variable	line:21
+corpuslabel	scripts/add_pfresources.py	/^    corpuslabel = node.split('_')[0]$/;"	kind:variable	line:23
+corpuslabel	scripts/addresources_DR.py	/^    corpuslabel = node.split('_')[0]$/;"	kind:variable	line:20
+counter	scripts/add_folkresource.py	/^counter = 0$/;"	kind:variable	line:19
+counter	scripts/add_pfresources.py	/^counter = 0$/;"	kind:variable	line:21
+counter	scripts/add_resources_allcorp.py	/^counter = 0$/;"	kind:variable	line:27
+counter	scripts/addresources_DR.py	/^counter = 0$/;"	kind:variable	line:18
+define_header	src/dgd2cmdi/cmdiheader.py	/^def define_header(cmdinode, resourcetree, override_profile=False):$/;"	kind:function	line:21
+define_parts	src/dgd2cmdi/cmdiresource.py	/^    def define_parts(self, resource):$/;"	kind:member	line:681
+define_resourceproxy	src/dgd2cmdi/cmdiresource.py	/^    def define_resourceproxy(self, metafilenode):$/;"	kind:member	line:550
+description	setup.py	/^    description="XSLT transformation for cmdi resources of the AGD",$/;"	kind:variable	line:20
+dgd2cmdi.py	src/dgd2cmdi/dgd2cmdi.py	1;"	kind:file	line:1
+dgd2cmdi_trans.py	src/dgd2cmdi/dgd2cmdi_trans.py	1;"	kind:file	line:1
+dgd_corpus	scripts/transform_DR.py	/^dgd_corpus = "\/home\/kuhn\/Data\/IDS\/svn_rev1233\/dgd2_data\/metadata\/corpora\/extern"$/;"	kind:variable	line:9
+dgd_corpus	scripts/transform_FOLK.py	/^dgd_corpus = "\/home\/kuhn\/Data\/IDS\/svn_rev1233\/dgd2_data\/metadata\/corpora\/extern"$/;"	kind:variable	line:8
+dgd_corpus	scripts/transform_pf.py	/^dgd_corpus = "\/home\/kuhn\/IDS\/Repos\/svn\/dgd2_data_rev1233\/dgd2_data\/metadata\/corpora\/extern"$/;"	kind:variable	line:8
+dgd_events	scripts/transform_DR.py	/^dgd_events = "\/home\/kuhn\/Data\/IDS\/svn_rev1233\/dgd2_data\/metadata\/events\/extern"$/;"	kind:variable	line:10
+dgd_events	scripts/transform_FOLK.py	/^dgd_events = "\/home\/kuhn\/Data\/IDS\/svn_rev1233\/dgd2_data\/metadata\/events\/extern"$/;"	kind:variable	line:9
+dgd_events	scripts/transform_pf.py	/^dgd_events = "\/home\/kuhn\/IDS\/Repos\/svn\/dgd2_data_rev1233\/dgd2_data\/metadata\/events\/extern"$/;"	kind:variable	line:9
+dgd_speakers	scripts/transform_DR.py	/^dgd_speakers = "\/home\/kuhn\/Data\/IDS\/svn_rev1233\/dgd2_data\/metadata\/speakers\/extern"$/;"	kind:variable	line:11
+dgd_speakers	scripts/transform_FOLK.py	/^dgd_speakers = "\/home\/kuhn\/Data\/IDS\/svn_rev1233\/dgd2_data\/metadata\/speakers\/extern"$/;"	kind:variable	line:10
+dgd_speakers	scripts/transform_pf.py	/^dgd_speakers = "\/home\/kuhn\/IDS\/Repos\/svn\/dgd2_data_rev1233\/dgd2_data\/metadata\/speakers\/extern"$/;"	kind:variable	line:10
+dgdstart.py	src/dgd2cmdi/dgdstart.py	1;"	kind:file	line:1
+entry_points	setup.py	/^    entry_points={$/;"	kind:variable	line:36
+event	scripts/add_folkresource.py	/^event = "\/tmp\/cmdi\/events\/"$/;"	kind:variable	line:10
+event	scripts/add_pfresources.py	/^event = "..\/cmdiOutput\/event\/"$/;"	kind:variable	line:10
+event	scripts/add_resources_allcorp.py	/^event = "\/opt\/cmdiOutput\/event\/"$/;"	kind:variable	line:10
+event	scripts/addresources_DR.py	/^event = "\/tmp\/cmdi\/events\/"$/;"	kind:variable	line:9
+event_xsl	scripts/transform_DR.py	/^event_xsl = "\/home\/kuhn\/Data\/IDS\/svn\/dgd2_data\/dgd2cmdi\/xslt\/dgdEvent2cmdi.xsl"$/;"	kind:variable	line:14
+event_xsl	scripts/transform_FOLK.py	/^event_xsl = "\/home\/kuhn\/Data\/IDS\/svn\/dgd2_data\/dgd2cmdi\/xslt\/dgdEvent2cmdi.xsl"$/;"	kind:variable	line:13
+event_xsl	scripts/transform_pf.py	/^event_xsl = "\/home\/kuhn\/IDS\/svn\/Repos\/dgd2_data\/dgd2cmdi\/xslt\/dgdEvent2cmdi.xsl"$/;"	kind:variable	line:13
+finalize_resources	src/dgd2cmdi/dgd2cmdi.py	/^def finalize_resources():$/;"	kind:function	line:177
+find_events	src/dgd2cmdi/cmdiresource.py	/^    def find_events(self, speakernode):$/;"	kind:member	line:318
+find_eventsessions	src/dgd2cmdi/cmdiresource.py	/^    def find_eventsessions(self, speakernode):$/;"	kind:member	line:301
+find_media	src/dgd2cmdi/cmdiresource.py	/^    def find_media(self, resource):$/;"	kind:member	line:259
+find_speakers	src/dgd2cmdi/cmdiresource.py	/^    def find_speakers(self, eventnode):$/;"	kind:member	line:349
+find_transcripts	src/dgd2cmdi/cmdiresource.py	/^    def find_transcripts(self, eventnode):$/;"	kind:member	line:374
+genchecksum	src/dgd2cmdi/sanitycheck.py	/^    def genchecksum(fileobject):$/;"	kind:member	line:18
+get_speaker_data	src/dgd2cmdi/cmdiresource.py	/^    def get_speaker_data(self, speakernode):$/;"	kind:member	line:387
+get_transscripts	src/dgd2cmdi/primarylink.py	/^    def get_transscripts(self, corpusname):$/;"	kind:member	line:43
+here	setup.py	/^here = os.path.abspath(os.path.dirname(__file__))$/;"	kind:variable	line:4
+include_package_data	setup.py	/^    include_package_data= True,$/;"	kind:variable	line:31
+install_requires	setup.py	/^    install_requires=install_requires,$/;"	kind:variable	line:35
+install_requires	setup.py	/^install_requires = [$/;"	kind:variable	line:11
+keywords	setup.py	/^    keywords='xslt python xml',$/;"	kind:variable	line:25
+license	setup.py	/^    license='Apache v2',$/;"	kind:variable	line:29
+load_configuration	src/dgd2cmdi/config.py	/^def load_configuration(conffile):$/;"	kind:function	line:4
+long_description	setup.py	/^    long_description=README + '\\n\\n' + NEWS,$/;"	kind:variable	line:21
+main	src/dgd2cmdi/__init__.py	/^def main():$/;"	kind:function	line:10
+main	src/dgd2cmdi/dgd2cmdi.py	/^def main():$/;"	kind:function	line:20
+main	src/dgd2cmdi/dgd2cmdi_trans.py	/^def main():$/;"	kind:function	line:21
+make_directory	scripts/add_resources_allcorp.py	/^def make_directory(pathname):$/;"	kind:function	line:16
+next	src/dgd2cmdi/cmdiresource.py	/^    def next(self):$/;"	kind:member	line:925
+next	src/dgd2cmdi/dgd2cmdi.py	/^    def next(self):$/;"	kind:member	line:243
+package_data	setup.py	/^    package_data={'config': ['\/config\/config.yml'], 'data': ['..\/data\/*']},$/;"	kind:variable	line:30
+package_dir	setup.py	/^    package_dir = {'': 'src'},$/;"	kind:variable	line:33
+packages	setup.py	/^    packages=find_packages('src'),$/;"	kind:variable	line:32
+parser	src/dgd2cmdi/dgd2cmdi_trans.py	/^parser = argparse.ArgumentParser()$/;"	kind:variable	line:17
+pf_corpus	scripts/transform_DR.py	/^pf_corpus = os.path.join(dgd_corpus, 'DR--_extern.xml')$/;"	kind:variable	line:19
+pf_corpus	scripts/transform_FOLK.py	/^pf_corpus = os.path.join(dgd_corpus, 'FOLK_extern.xml')$/;"	kind:variable	line:18
+pf_corpus	scripts/transform_pf.py	/^pf_corpus = os.path.join(dgd_corpus, 'PF--_extern.xml')$/;"	kind:variable	line:18
+pf_events	scripts/transform_DR.py	/^pf_events = os.path.join(dgd_events, 'DR')$/;"	kind:variable	line:20
+pf_events	scripts/transform_FOLK.py	/^pf_events = os.path.join(dgd_events, 'FOLK')$/;"	kind:variable	line:19
+pf_events	scripts/transform_pf.py	/^pf_events = os.path.join(dgd_events, 'PF')$/;"	kind:variable	line:19
+pf_speakers	scripts/transform_DR.py	/^pf_speakers = os.path.join(dgd_speakers, 'DR')$/;"	kind:variable	line:21
+pf_speakers	scripts/transform_FOLK.py	/^pf_speakers = os.path.join(dgd_speakers, 'FOLK')$/;"	kind:variable	line:20
+pf_speakers	scripts/transform_pf.py	/^pf_speakers = os.path.join(dgd_speakers, 'PF')$/;"	kind:variable	line:20
+postprocessing.py	src/dgd2cmdi/postprocessing.py	1;"	kind:file	line:1
+prepare_cpath	src/dgd2cmdi/dgd2cmdi.py	/^def prepare_cpath(outfolder, cname):$/;"	kind:function	line:189
+primarylink.py	src/dgd2cmdi/primarylink.py	1;"	kind:file	line:1
+print_progress	src/dgd2cmdi/dgd2cmdi.py	/^def print_progress(iteration, total, prefix='', suffix='', decimals=1, bar_length=100):$/;"	kind:function	line:201
+processor.py	src/dgd2cmdi/processor.py	1;"	kind:file	line:1
+replace_nonvalues	src/dgd2cmdi/postprocessing.py	/^    def replace_nonvalues(self, filename):$/;"	kind:member	line:28
+resourcetree	scripts/add_folkresource.py	/^resourcetree = cmdiresource.ResourceTreeCollection(corpus, event, speakers, transcripts)$/;"	kind:variable	line:16
+resourcetree	scripts/add_pfresources.py	/^resourcetree = cmdiresource.ResourceTreeCollection(corpus, event, speakers, transcripts)$/;"	kind:variable	line:16
+resourcetree	scripts/add_resources_allcorp.py	/^resourcetree = cmdiresource.ResourceTreeCollection(corpus, event, speakers, transcripts)$/;"	kind:variable	line:24
+resourcetree	scripts/addresources_DR.py	/^resourcetree = cmdiresource.ResourceTreeCollection(corpus, event, speakers, transcripts)$/;"	kind:variable	line:15
+sanitycheck.py	src/dgd2cmdi/sanitycheck.py	1;"	kind:file	line:1
+saxon_jar	scripts/transform_DR.py	/^saxon_jar = "\/home\/kuhn\/Data\/IDS\/svn\/dgd2_data\/dgd2cmdi\/dgd2cmdi\/saxon\/saxon9he.jar"$/;"	kind:variable	line:17
+saxon_jar	scripts/transform_FOLK.py	/^saxon_jar = "\/home\/kuhn\/Data\/IDS\/svn\/dgd2_data\/dgd2cmdi\/dgd2cmdi\/saxon\/saxon9he.jar"$/;"	kind:variable	line:16
+saxon_jar	scripts/transform_pf.py	/^saxon_jar = "\/home\/kuhn\/Data\/IDS\/svn\/dgd2_data\/dgd2cmdi\/dgd2cmdi\/saxon\/saxon9he.jar"$/;"	kind:variable	line:16
+set_resourceproxy	src/dgd2cmdi/cmdiresource.py	/^    def set_resourceproxy(self, nodename, resourceproxies,$/;"	kind:member	line:628
+setup.py	setup.py	1;"	kind:file	line:1
+show_empty_etree	src/dgd2cmdi/cmdiresource.py	/^    def show_empty_etree(self):$/;"	kind:member	line:289
+speaker2event	src/dgd2cmdi/cmdiresource.py	/^    def speaker2event(self, speakernode):$/;"	kind:member	line:405
+speaker2event_session	src/dgd2cmdi/cmdiresource.py	/^    def speaker2event_session(self, speakernode):$/;"	kind:member	line:476
+speaker_xsl	scripts/transform_DR.py	/^speaker_xsl = "\/home\/kuhn\/Data\/IDS\/svn\/dgd2_data\/dgd2cmdi\/xslt\/dgdSpeaker2cmdi.xsl"$/;"	kind:variable	line:15
+speaker_xsl	scripts/transform_FOLK.py	/^speaker_xsl = "\/home\/kuhn\/Data\/IDS\/svn\/dgd2_data\/dgd2cmdi\/xslt\/dgdSpeaker2cmdi.xsl"$/;"	kind:variable	line:14
+speaker_xsl	scripts/transform_pf.py	/^speaker_xsl = "\/home\/kuhn\/IDS\/Repos\/svn\/dgd2_data\/dgd2cmdi\/xslt\/dgdSpeaker2cmdi.xsl"$/;"	kind:variable	line:14
+speakers	scripts/add_folkresource.py	/^speakers = "\/tmp\/cmdi\/speakers\/"$/;"	kind:variable	line:11
+speakers	scripts/add_pfresources.py	/^speakers = "..\/cmdiOutput\/speakers\/"$/;"	kind:variable	line:11
+speakers	scripts/add_resources_allcorp.py	/^speakers = "\/opt\/cmdiOutput\/speakers\/"$/;"	kind:variable	line:11
+speakers	scripts/addresources_DR.py	/^speakers = "\/tmp\/cmdi\/speakers\/"$/;"	kind:variable	line:10
+start	src/dgd2cmdi/processor.py	/^    def start(self, stylesheet, xmldatadirectory, prefix, outputdir):$/;"	kind:member	line:109
+test_catalogue	tests/test_transform.py	/^def test_catalogue():$/;"	kind:function	line:20
+test_cmdiversion	tests/test_resproxycreation.py	/^def test_cmdiversion():$/;"	kind:function	line:7
+test_event	tests/test_transform.py	/^def test_event():$/;"	kind:function	line:32
+test_resourceproxies	tests/test_resproxycreation.py	/^def test_resourceproxies():$/;"	kind:function	line:4
+test_resproxycreation.py	tests/test_resproxycreation.py	1;"	kind:file	line:1
+test_speaker	tests/test_transform.py	/^def test_speaker():$/;"	kind:function	line:36
+test_transform.py	tests/test_transform.py	1;"	kind:file	line:1
+transcripts	scripts/add_folkresource.py	/^transcripts = "\/home\/kuhn\/Data\/IDS\/svn_rev1233\/dgd2_data\/transcripts\/"$/;"	kind:variable	line:12
+transcripts	scripts/add_pfresources.py	/^transcripts = "\/home\/kuhn\/IDS\/Repos\/svn\/dgd2_data_rev1233\/dgd2_data"$/;"	kind:variable	line:12
+transcripts	scripts/add_resources_allcorp.py	/^transcripts = "\/home\/kuhn\/IDS\/Repos\/svn\/dgd2_data_rev1233\/dgd2_data\/transcripts"$/;"	kind:variable	line:12
+transcripts	scripts/addresources_DR.py	/^transcripts = "\/home\/kuhn\/Data\/IDS\/svn_rev1233\/dgd2_data\/transcripts\/"$/;"	kind:variable	line:11
+transform	src/dgd2cmdi/dgd2cmdi.py	/^def transform(resources):$/;"	kind:function	line:44
+transform	src/dgd2cmdi/processor.py	/^    def transform(self, stylesheet, xmldata, prefix, outputdir):$/;"	kind:member	line:66
+transform_DR.py	scripts/transform_DR.py	1;"	kind:file	line:1
+transform_FOLK.py	scripts/transform_FOLK.py	1;"	kind:file	line:1
+transform_pf.py	scripts/transform_pf.py	1;"	kind:file	line:1
+url	setup.py	/^    url='www.ids-mannheim.de',$/;"	kind:variable	line:28
+validate_corpus	src/dgd2cmdi/cmdiresource.py	/^    def validate_corpus(self, corpusnode):$/;"	kind:member	line:851
+version	setup.py	/^    version=version,$/;"	kind:variable	line:19
+version	setup.py	/^version = '0.4'$/;"	kind:variable	line:9
+write2cmdi	src/dgd2cmdi/cmdiresource.py	/^    def write2cmdi(self, corpus, outpath):$/;"	kind:member	line:884
+xsl_processor	scripts/transform_DR.py	/^xsl_processor = processor.XSLBatchProcessor(saxon_jar)$/;"	kind:variable	line:23
+xsl_processor	scripts/transform_FOLK.py	/^xsl_processor = processor.XSLBatchProcessor(saxon_jar)$/;"	kind:variable	line:22
+xsl_processor	scripts/transform_pf.py	/^xsl_processor = processor.XSLBatchProcessor(saxon_jar)$/;"	kind:variable	line:22
+zip_safe	setup.py	/^    zip_safe=False,$/;"	kind:variable	line:34
