@@ -38,7 +38,8 @@ def main():
     #    print resdic.get(coll).get('speaker')
 
         # Iterate over the resource and call the processor
-    transform(resources)
+    resources = transform(resources)
+    print resources
 
 
 def transform(resources):
@@ -56,6 +57,8 @@ def transform(resources):
 
     outputfinal = resources['output-final']
 
+    trans_resources = {}
+
     for resource in collection:
 
         corpus_inpath = collection.get(resource).get('corpus')
@@ -66,36 +69,25 @@ def transform(resources):
         outputfolder_event = prepare_cpath(outputinter_events, resource)
         outputfolder_speaker = prepare_cpath(outputinter_speakers, resource)
 
-        # corpus_iterator = FileIterator()
         event_iterator = FileIterator(events_inpath, 'event')
         speaker_iterator = FileIterator(speakers_inpath, 'speaker')
 
-        # 1 transform the corpus catalogue data
-        call_inline_processor(corpus_inpath, 'corpus', stylesheets,
-                              processor, outputfolder_corpus)
-        # 2 transform the event metadata files of a corpus resource
-        # i = 0
-        # litems = len(events_inpath)
-        # print_progress(i, litems, prefix='Events:',
-        #                suffix = 'Complete', bar_length = 50)
-        for event_resourcefile in event_iterator:
-            call_processor(event_resourcefile, 'event',
-                           stylesheets, processor, outputfolder_event)
-            # i += 1
-            # print_progress(i, litems, prefix='Events:',
-            #                suffix='Complete', bar_length=50)
+        corpus = call_inline_processor(corpus_inpath, 'corpus', stylesheets,
+                                       processor, outputfolder_corpus)
 
-        # 3 transform the speaker metadata files of a corpus resource
-        # i = 0
-        # litems = len(speakers_inpath)
-        # print_progress(i, litems, prefix='Events:',
-        #                suffix = 'Complete', bar_length = 100)
+        events = {}
+        for event_resourcefile in event_iterator:
+            events.update(call_inline_processor(event_resourcefile, 'event',
+                                                stylesheets, processor, outputfolder_event))
+
+        speakers = {}
         for speaker_resourcefile in speaker_iterator:
-            call_processor(speaker_resourcefile, 'speaker', stylesheets,
-                           processor, outputfolder_speaker)
-            # i += 1
-            # print_progress(i, litems, prefix='Speakers:',
-            #                suffix='Complete', bar_length=100)
+            speakers.update(call_inline_processor(speaker_resourcefile, 'speaker', stylesheets,
+                                                  processor, outputfolder_speaker))
+
+        trans_resources.update({resource: (corpus, events, speakers)})
+
+    return trans_resources
 
 
 def call_inline_processor(metafilepath, resourcetype, stylesheetdic, processor, outputpath):
@@ -103,7 +95,7 @@ def call_inline_processor(metafilepath, resourcetype, stylesheetdic, processor, 
     transforms resources inline by using
     subprocess and parsing the returncode
     with etree.
-    subprocess functions
+    returns a dictionary with filename key  and etree value 
     """
     metafilepath = os.path.abspath(metafilepath)
     processor = os.path.abspath(processor)
@@ -118,8 +110,32 @@ def call_inline_processor(metafilepath, resourcetype, stylesheetdic, processor, 
 
         process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
         process.wait()
-        converts.update({os.path.basename(metafilepath): etree.parse(process.stdout)})
-        print etree.tostring(converts)
+        converts.update({os.path.basename(metafilepath)                         : etree.parse(process.stdout)})
+        return converts
+
+    elif resourcetype == 'event':
+        stylesheetpath = os.path.abspath(stylesheetdic.get('event'))
+        outputpath = os.path.abspath(outputpath)
+        command = "java -jar {} -s:{} -xsl:{}".format(
+            processor, metafilepath,
+            stylesheetpath)
+
+        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
+        process.wait()
+        converts.update({os.path.basename(metafilepath)                         : etree.parse(process.stdout)})
+        return converts
+
+    elif resourcetype == 'speaker':
+        stylesheetpath = os.path.abspath(stylesheetdic.get('speaker'))
+        outputpath = os.path.abspath(outputpath)
+        command = "java -jar {} -s:{} -xsl:{}".format(
+            processor, metafilepath,
+            stylesheetpath)
+
+        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
+        process.wait()
+        converts.update({os.path.basename(metafilepath)                         : etree.parse(process.stdout)})
+        return converts
 
     else:
         raise ValueError()
