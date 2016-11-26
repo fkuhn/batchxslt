@@ -1,4 +1,14 @@
 #!/usr/bin/python
+"""
+This module contains methods to read in a resource
+configuration file.
+
+The configuration file is written in yaml and has the following
+form:
+
+
+
+"""
 import os
 import codecs
 import argparse
@@ -17,6 +27,8 @@ def main():
     with codecs.open(args.resources, mode='r', encoding='utf-8') as resfile:
         resources = yaml.safe_load(resfile)
     xslt = resources.get('xslt')
+    corpora = resources.get('corpora')
+
     print "Stylesheet paths:\n"
     print "Corpus: {}".format(xslt['corpus'])
     print "Event: {}".format(xslt['event'])
@@ -26,9 +38,14 @@ def main():
 
 def call_saxon(resourcetype, resources):
     """
+<<<<<<< HEAD
     Calls a xslt processor.
     :param: ds
     :return:
+=======
+    calls a xslt processor by using the informations
+    from the resource configuration file.
+>>>>>>> 3bd04a0bfc1917243b211a7331e91b2c1aecb9e0
     """
     xslt = xslt = resources.get('xslt')
 
