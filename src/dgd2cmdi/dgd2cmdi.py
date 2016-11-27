@@ -25,17 +25,7 @@ def main():
     args = PARSER.parse_args()
     with codecs.open(args.resources, mode='r', encoding='utf-8') as resfile:
         resources = yaml.safe_load(resfile)
-    # processor = resources['processor']
-    # xslt = resources.get('stylesheets')
-    # print "Processorpath: {}".format(processor)
-    # print "Stylesheet paths:\n"
-    # print "Corpus: {}".format(xslt['corpus'])
-    # print "Event: {}".format(xslt['event'])
-    # print "Speaker: {}".format(xslt['speaker'])
-    # print resources.get('collection')
-    # resdic = resources.get('collection')
-    # for coll in resdic:
-    #    print resdic.get(coll).get('speaker')
+    
 
         # Iterate over the resource and call the processor
     resources = transform(resources)
@@ -72,22 +62,23 @@ def transform(resources):
         event_iterator = FileIterator(events_inpath, 'event')
         speaker_iterator = FileIterator(speakers_inpath, 'speaker')
 
-        corpus = call_inline_processor(corpus_inpath, 'corpus', stylesheets,
+        call_processor(corpus_inpath, 'corpus', stylesheets,
                                        processor, outputfolder_corpus)
 
         events = {}
         for event_resourcefile in event_iterator:
-            events.update(call_inline_processor(event_resourcefile, 'event',
-                                                stylesheets, processor, outputfolder_event))
+            call_processor(event_resourcefile, 'event',
+                                                stylesheets, processor, outputfolder_event)
 
         speakers = {}
         for speaker_resourcefile in speaker_iterator:
-            speakers.update(call_inline_processor(speaker_resourcefile, 'speaker', stylesheets,
-                                                  processor, outputfolder_speaker))
+            call_processor(speaker_resourcefile, 'speaker', stylesheets,
+                                                  processor, outputfolder_speaker)
 
-        trans_resources.update({resource: (corpus, events, speakers)})
+        # trans_resources.update({resource: (corpus, events, speakers)})
 
-    return trans_resources
+    # return trans_resources
+		finalize_resources(outputfolder_corpus, outputfolder_event, outputfolder_speaker, outputfinal)	
 
 
 def call_inline_processor(metafilepath, resourcetype, stylesheetdic, processor, outputpath):
@@ -185,12 +176,13 @@ def call_processor(metafilepath, resourcetype, stylesheetdic, processor, outputp
         raise ValueError()
 
 
-def finalize_resources():
+def finalize_resources(corpus, event, speaker, finaldir):
     """
     The final step adding resource proxies, cmdi headers and speaker
     informations in event metafiles.
     """
-    pass
+	
+	
 
 # -------------------------------
 # Some helper methods and classes
