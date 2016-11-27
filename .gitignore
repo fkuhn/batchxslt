@@ -15,3 +15,5 @@ dist
 
 doc/.ipynb_checkpoints
 notebooks/.ipynb_checkpoints
+
+.vscode

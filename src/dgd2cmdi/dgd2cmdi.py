@@ -176,13 +176,34 @@ def call_processor(metafilepath, resourcetype, stylesheetdic, processor, outputp
         raise ValueError()
 
 
-def finalize_resources(corpus, event, speaker, finaldir):
-    """
-    The final step adding resource proxies, cmdi headers and speaker
+def finalize_resources(corpus, event, speaker, transcripts, finaldir):
+    """The final step adding resource proxies, cmdi headers and speaker
     informations in event metafiles.
     """
-	
-	
+    restree = cmdiresource.ResourceTreeCollection(corpus, event, speaker, transcripts)
+    counter = 0
+    # create ids
+    for node in restree.nodes_iter():
+        corpuslabel = node.split('_')[0]
+        restree.node.get(node).update({'id': corpuslabel + '_' + str(counter)})
+        counter += 1
+
+    restree.build_resourceproxy()
+
+    for nodename in restree.nodes_iter():
+        if restree.node.get(nodename).get('type') == 'event':
+            restree.define_parts(nodename)
+        elif restree.node.get(nodename).get('type') == 'corpus':
+            restree.define_parts(nodename)
+
+    for nodename, ndata in restree.nodes_iter(data=True):
+        if ndata.get('type') == 'speaker':
+            restree.speaker2event(nodename)
+
+    for corpuslabel in corpus:
+        restree.write2cmdi(corpus, finaldir)
+
+        
 
 # -------------------------------
 # Some helper methods and classes
