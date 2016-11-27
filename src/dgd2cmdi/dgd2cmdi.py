@@ -59,7 +59,7 @@ def transform(resources):
         events_inpath = collection.get(resource).get('event')
         speakers_inpath = collection.get(resource).get('speaker')
 
-        outputfolder_corpus = prepare_cpath(outputinter_corpus, resource)
+        outputfolder_corpus = outputinter_corpus
         outputfolder_event = prepare_cpath(outputinter_events, resource)
         outputfolder_speaker = prepare_cpath(outputinter_speakers, resource)
 
@@ -146,8 +146,7 @@ def call_processor(metafilepath, resourcetype, stylesheetdic, processor,
     """
     calls the xslt processor for one resource instance.
     """
-    # TODO: provide more feedback for process. maybe use a verbose parameter
-    # TODO: e.g. implement a simple progress bar
+
     metafilepath = os.path.abspath(metafilepath)
     processor = os.path.abspath(processor)
 
