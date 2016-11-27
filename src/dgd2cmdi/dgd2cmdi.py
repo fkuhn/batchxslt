@@ -44,10 +44,10 @@ def transform(resources):
     processor = resources['processor']
     stylesheets = resources['stylesheets']
     collection = resources['collection']
+    transcripts = resources['transcripts']
     outputinter_corpus = resources['output-inter-corpus']
     outputinter_events = resources['output-inter-events']
     outputinter_speakers = resources['output-inter-speakers']
-    
 
     outputfinal = resources['output-final']
 
@@ -83,7 +83,7 @@ def transform(resources):
 
         # return trans_resources
     finalize_resources(outputfolder_corpus, outputfolder_event,
-                       outputfolder_speaker, collection['transcripts'], outputfinal)
+                       outputfolder_speaker, transcripts, outputfinal)
 
 
 def call_inline_processor(metafilepath, resourcetype, stylesheetdic, processor,
