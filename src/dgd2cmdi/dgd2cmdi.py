@@ -51,7 +51,6 @@ def transform(resources):
 
     outputfinal = resources['output-final']
 
-    trans_resources = {}
 
     for resource in collection:
 
@@ -158,11 +157,13 @@ def call_processor(metafilepath, resourcetype, stylesheetdic, processor,
             os.path.join(outputpath,
                          os.path.basename(metafilepath).split('.')[0] +
                          '.cmdi')))
+    
     elif resourcetype == 'event':
-
         stylesheetpath = os.path.abspath(stylesheetdic.get('event'))
-        outputpath = os.path.abspath(
-            os.path.join(outputpath, os.path.basename(metafilepath)))
+
+        # outputpath = os.path.abspath(
+        #    os.path.join(outputpath, os.path.basename(metafilepath)))
+
         # for resource in os.listdir(metafilepath):
         os.system("java -jar {} -s:{} -xsl:{} -o:{}".format(
             processor,
@@ -174,8 +175,10 @@ def call_processor(metafilepath, resourcetype, stylesheetdic, processor,
     elif resourcetype == 'speaker':
 
         stylesheetpath = os.path.abspath(stylesheetdic.get('speaker'))
-        outputpath = os.path.abspath(
-            os.path.join(outputpath, os.path.basename(metafilepath)))
+
+        # outputpath = os.path.abspath(
+        #   os.path.join(outputpath, os.path.basename(metafilepath)))
+
         # for resource in os.listdir(metafilepath):
         os.system("java -jar {} -s:{} -xsl:{} -o:{}".format(
             processor,
@@ -229,7 +232,7 @@ def prepare_cpath(outfolder, cname):
     if not os.path.isdir(os.path.join(outfolder, cname)):
         os.mkdir(os.path.join(outfolder, cname))
 
-    return os.path.join(outfolder, cname)
+    # return os.path.join(outfolder, cname)
 
 
 # Print iterations progress
