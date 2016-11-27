@@ -14,7 +14,9 @@ from lxml import etree
 
 PARSER = argparse.ArgumentParser()
 PARSER.add_argument(
-    'resources', help='a file containing paths of a resource (corpus, event, speaker) to transform')
+    'resources',
+    help='a file containing paths of a resource (corpus, event, speaker) to transform'
+)
 
 
 def main():
@@ -25,10 +27,9 @@ def main():
     args = PARSER.parse_args()
     with codecs.open(args.resources, mode='r', encoding='utf-8') as resfile:
         resources = yaml.safe_load(resfile)
-    
 
         # Iterate over the resource and call the processor
-    resources = transform(resources)
+    transform(resources)
     print resources
 
 
@@ -44,6 +45,7 @@ def transform(resources):
     outputinter_corpus = resources['output-inter-corpus']
     outputinter_events = resources['output-inter-events']
     outputinter_speakers = resources['output-inter-speakers']
+    
 
     outputfinal = resources['output-final']
 
@@ -62,26 +64,28 @@ def transform(resources):
         event_iterator = FileIterator(events_inpath, 'event')
         speaker_iterator = FileIterator(speakers_inpath, 'speaker')
 
-        call_processor(corpus_inpath, 'corpus', stylesheets,
-                                       processor, outputfolder_corpus)
+        call_processor(corpus_inpath, 'corpus', stylesheets, processor,
+                       outputfolder_corpus)
 
         events = {}
         for event_resourcefile in event_iterator:
-            call_processor(event_resourcefile, 'event',
-                                                stylesheets, processor, outputfolder_event)
+            call_processor(event_resourcefile, 'event', stylesheets, processor,
+                           outputfolder_event)
 
         speakers = {}
         for speaker_resourcefile in speaker_iterator:
             call_processor(speaker_resourcefile, 'speaker', stylesheets,
-                                                  processor, outputfolder_speaker)
+                           processor, outputfolder_speaker)
 
         # trans_resources.update({resource: (corpus, events, speakers)})
 
-    # return trans_resources
-		finalize_resources(outputfolder_corpus, outputfolder_event, outputfolder_speaker, outputfinal)	
+        # return trans_resources
+    finalize_resources(outputfolder_corpus, outputfolder_event,
+                       outputfolder_speaker, collection['transcripts'], outputfinal)
 
 
-def call_inline_processor(metafilepath, resourcetype, stylesheetdic, processor, outputpath):
+def call_inline_processor(metafilepath, resourcetype, stylesheetdic, processor,
+                          outputpath):
     """
     transforms resources inline by using
     subprocess and parsing the returncode
@@ -95,44 +99,48 @@ def call_inline_processor(metafilepath, resourcetype, stylesheetdic, processor, 
     if resourcetype == 'corpus':
         stylesheetpath = os.path.abspath(stylesheetdic.get('corpus'))
         outputpath = os.path.abspath(outputpath)
-        command = "java -jar {} -s:{} -xsl:{}".format(
-            processor, metafilepath,
-            stylesheetpath)
+        command = "java -jar {} -s:{} -xsl:{}".format(processor, metafilepath,
+                                                      stylesheetpath)
 
         process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
         process.wait()
-        converts.update({os.path.basename(metafilepath)                         : etree.parse(process.stdout)})
+        converts.update({
+            os.path.basename(metafilepath): etree.parse(process.stdout)
+        })
         return converts
 
     elif resourcetype == 'event':
         stylesheetpath = os.path.abspath(stylesheetdic.get('event'))
         outputpath = os.path.abspath(outputpath)
-        command = "java -jar {} -s:{} -xsl:{}".format(
-            processor, metafilepath,
-            stylesheetpath)
+        command = "java -jar {} -s:{} -xsl:{}".format(processor, metafilepath,
+                                                      stylesheetpath)
 
         process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
         process.wait()
-        converts.update({os.path.basename(metafilepath)                         : etree.parse(process.stdout)})
+        converts.update({
+            os.path.basename(metafilepath): etree.parse(process.stdout)
+        })
         return converts
 
     elif resourcetype == 'speaker':
         stylesheetpath = os.path.abspath(stylesheetdic.get('speaker'))
         outputpath = os.path.abspath(outputpath)
-        command = "java -jar {} -s:{} -xsl:{}".format(
-            processor, metafilepath,
-            stylesheetpath)
+        command = "java -jar {} -s:{} -xsl:{}".format(processor, metafilepath,
+                                                      stylesheetpath)
 
         process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
         process.wait()
-        converts.update({os.path.basename(metafilepath)                         : etree.parse(process.stdout)})
+        converts.update({
+            os.path.basename(metafilepath): etree.parse(process.stdout)
+        })
         return converts
 
     else:
         raise ValueError()
 
 
-def call_processor(metafilepath, resourcetype, stylesheetdic, processor, outputpath):
+def call_processor(metafilepath, resourcetype, stylesheetdic, processor,
+                   outputpath):
     """
     calls the xslt processor for one resource instance.
     """
@@ -145,33 +153,35 @@ def call_processor(metafilepath, resourcetype, stylesheetdic, processor, outputp
         stylesheetpath = os.path.abspath(stylesheetdic.get('corpus'))
         outputpath = os.path.abspath(outputpath)
         os.system("java -jar {} -s:{} -xsl:{} -o:{}".format(
-            processor, metafilepath,
-            stylesheetpath, os.path.join(outputpath,
-                                         os.path.basename(
-                                             metafilepath).split('.')[0] + '.cmdi')))
+            processor, metafilepath, stylesheetpath,
+            os.path.join(outputpath,
+                         os.path.basename(metafilepath).split('.')[0] +
+                         '.cmdi')))
     elif resourcetype == 'event':
 
         stylesheetpath = os.path.abspath(stylesheetdic.get('event'))
-        outputpath = os.path.abspath(os.path.join(
-            outputpath, os.path.basename(metafilepath)))
+        outputpath = os.path.abspath(
+            os.path.join(outputpath, os.path.basename(metafilepath)))
         # for resource in os.listdir(metafilepath):
         os.system("java -jar {} -s:{} -xsl:{} -o:{}".format(
-            processor, os.path.join(metafilepath),
-            stylesheetpath, os.path.join(outputpath,
-                                         os.path.basename(
-                                             metafilepath).split('.')[0] + '.cmdi')))
+            processor,
+            os.path.join(metafilepath), stylesheetpath,
+            os.path.join(outputpath,
+                         os.path.basename(metafilepath).split('.')[0] +
+                         '.cmdi')))
 
     elif resourcetype == 'speaker':
 
         stylesheetpath = os.path.abspath(stylesheetdic.get('speaker'))
-        outputpath = os.path.abspath(os.path.join(
-            outputpath, os.path.basename(metafilepath)))
+        outputpath = os.path.abspath(
+            os.path.join(outputpath, os.path.basename(metafilepath)))
         # for resource in os.listdir(metafilepath):
         os.system("java -jar {} -s:{} -xsl:{} -o:{}".format(
-            processor, os.path.join(metafilepath),
-            stylesheetpath, os.path.join(outputpath,
-                                         os.path.basename(
-                                             metafilepath).split('.')[0] + '.cmdi')))
+            processor,
+            os.path.join(metafilepath), stylesheetpath,
+            os.path.join(outputpath,
+                         os.path.basename(metafilepath).split('.')[0] +
+                         '.cmdi')))
     else:
         raise ValueError()
 
@@ -180,7 +190,8 @@ def finalize_resources(corpus, event, speaker, transcripts, finaldir):
     """The final step adding resource proxies, cmdi headers and speaker
     informations in event metafiles.
     """
-    restree = cmdiresource.ResourceTreeCollection(corpus, event, speaker, transcripts)
+    restree = cmdiresource.ResourceTreeCollection(corpus, event, speaker,
+                                                  transcripts)
     counter = 0
     # create ids
     for node in restree.nodes_iter():
@@ -203,7 +214,6 @@ def finalize_resources(corpus, event, speaker, transcripts, finaldir):
     for corpuslabel in corpus:
         restree.write2cmdi(corpus, finaldir)
 
-        
 
 # -------------------------------
 # Some helper methods and classes
@@ -222,7 +232,12 @@ def prepare_cpath(outfolder, cname):
 
 
 # Print iterations progress
-def print_progress(iteration, total, prefix='', suffix='', decimals=1, bar_length=100):
+def print_progress(iteration,
+                   total,
+                   prefix='',
+                   suffix='',
+                   decimals=1,
+                   bar_length=100):
     """
     Call in a loop to create terminal progress bar
     @params:
@@ -261,6 +276,7 @@ class FileIterator(object):
 # TODO: configuration file processing
 # TODO: subcommand for each conversion step
 # TODO: 'transform' and 'add_dep'
+
     def __iter__(self):
         return self
 
