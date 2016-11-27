@@ -8,8 +8,10 @@ import os
 import sys
 import subprocess
 
+
 import yaml
 
+from dgd2cmdi import cmdiresource
 from lxml import etree
 
 PARSER = argparse.ArgumentParser()
