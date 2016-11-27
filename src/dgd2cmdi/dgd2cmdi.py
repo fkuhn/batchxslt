@@ -11,7 +11,7 @@ import subprocess
 
 import yaml
 
-from dgd2cmdi import cmdiresource
+import cmdiresource
 from lxml import etree
 
 PARSER = argparse.ArgumentParser()
