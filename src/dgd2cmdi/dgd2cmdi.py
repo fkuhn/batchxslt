@@ -82,8 +82,8 @@ def transform(resources):
         # trans_resources.update({resource: (corpus, events, speakers)})
 
         # return trans_resources
-    finalize_resources(outputinter_corpus, outputinter_event,
-                       outputinter_speaker, transcripts, outputfinal)
+    finalize_resources(outputinter_corpus, outputinter_events,
+                       outputinter_speakers, transcripts, outputfinal)
 
 
 def call_inline_processor(metafilepath, resourcetype, stylesheetdic, processor,
