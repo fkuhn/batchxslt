@@ -2,6 +2,6 @@
 {
     "python.formatting.formatOnSave": true,
         
-    "python.linting.pep8Enabled": true
-
+    "python.linting.pep8Enabled": true,
+    "python.formatting.provider": "yapf"
 }
