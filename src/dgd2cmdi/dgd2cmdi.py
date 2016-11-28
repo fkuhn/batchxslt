@@ -187,7 +187,7 @@ def call_processor(metafilepath, resourcetype, stylesheetdic, processor,
     else:
         raise ValueError()
 
-
+# TODO: finalize method for cli call
 def finalize_resources(corpus, event, speaker, transcripts, finaldir, clabels):
     """The final step adding resource proxies, cmdi headers and speaker
     informations in event metafiles.
@@ -219,6 +219,7 @@ def finalize_resources(corpus, event, speaker, transcripts, finaldir, clabels):
         write2cmdi(restree, cl, finaldir)
 
     for nodename, ndata in restree.nodes_iter(data=True):
+
         print etree.tostring(ndata.get('etreeobject'))
 
 # -------------------------------
