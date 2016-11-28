@@ -884,7 +884,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
     def write2cmdi(self, corpus, outpath):
 
         if not os.path.isdir(os.path.abspath(os.path.join(outpath, corpus))):
-            os.mkdir(os.path.abspath(os.path.join(outpath, corpus)))
+            os.mkdir(os.path.join(outpath, corpus))
 
         outpathfinal = os.path.abspath(os.path.join(outpath, corpus))
 
