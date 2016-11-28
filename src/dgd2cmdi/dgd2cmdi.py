@@ -202,6 +202,7 @@ def finalize_resources(corpus, event, speaker, transcripts, finaldir, clabels):
         counter += 1
 
     restree.build_resourceproxy()
+    print list(restree.nodes())
 
     for nodename in restree.nodes_iter():
         if restree.node.get(nodename).get('type') == 'event':
