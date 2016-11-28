@@ -881,7 +881,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         print cmdi_str
         self.node.get(nodename).get('etreeobject').write(fname, encoding='utf-8', method='xml',
                                                          xml_declaration="<?xml version='1.0' encoding='UTF-8'?>",
-                                                         inclusive_ns_prefixes=['xsi', 'cmd'], pretty_print=True)
+                                                       inclusive_ns_prefixes=['xsi', 'cmd'], pretty_print=True)
 
     def write2cmdi(self, corpus, outpath):
 
