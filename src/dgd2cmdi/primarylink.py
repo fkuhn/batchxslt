@@ -8,7 +8,7 @@ import numpy
 import os
 
 
-#todo: remember about this method
+
 class PrimaryDataPath(dict):
     """
 

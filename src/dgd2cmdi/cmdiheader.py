@@ -35,10 +35,10 @@ def define_header(cmdinode, resourcetree, override_profile=False):
     cmdimdselflink = cmdiheader.find('MdSelfLink')
     cmdiprofile = cmdiheader.find('MdProfile')
 
-    # TODO: profile validation via clarin component registry.
+
     if cmdiprofile.text not in VALIDIDS.itervalues() and override_profile is False:
         logging.error('The profile id of MdProfile is not valid: ' + cmdifilename.split('/')[-1])
 
-    # get the path
+
 
     cmdimdselflink.text = cmdifilename

@@ -77,14 +77,14 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                 # if a corpuslabel has len 4 and is not using
                 # '-', the split command does not change anything.
                 if evecorp == corplabel.rstrip(EXTENSION).split('-')[0]:
-                    print "Found event directory for: {}".format(str(evecorp))
+                    # print "Found event directory for: {}".format(str(evecorp))
                     self.eventcorpustuples.append((evecorp,
                                                    corplabel.rstrip(EXTENSION)))
         self.speakercorpustuples = list()
         for speakcorp in speakercorpusdirectories:
             for corplabel in corpusnames:
                 if speakcorp == corplabel.rstrip(EXTENSION).split('-')[0]:
-                    print "Found event directory for: {}".format(str(evecorp))
+                    # print "Found event directory for: {}".format(str(evecorp))
                     self.speakercorpustuples.append((speakcorp,
                                                      corplabel.rstrip(EXTENSION)))
 
