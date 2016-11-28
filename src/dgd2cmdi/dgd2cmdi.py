@@ -32,7 +32,6 @@ def main():
 
         # Iterate over the resource and call the processor
     transform(resources)
-    print resources
 
 
 def transform(resources):
