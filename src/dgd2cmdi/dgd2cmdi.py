@@ -218,8 +218,8 @@ def finalize_resources(corpus, event, speaker, transcripts, finaldir, clabels):
 
         write2cmdi(restree, cl, finaldir)
 
-
-
+    for nodename, ndata in restree.nodes_iter(data=True):
+        print etree.tostring(ndata.get('etreeobject'))
 
 # -------------------------------
 # Some helper methods and classes
