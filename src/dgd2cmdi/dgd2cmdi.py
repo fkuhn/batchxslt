@@ -43,22 +43,26 @@ def transform(resources):
     stylesheets = resources['stylesheets']
     collection = resources['collection']
     transcripts = resources['transcripts']
+
     outputinter_corpus = resources['output-inter-corpus']
     outputinter_events = resources['output-inter-events']
     outputinter_speakers = resources['output-inter-speakers']
 
+    # TODO: correctly create paths to intermediate results
     # create folders for intermediate results if neccessary
     if not os.path.isdir(outputinter_corpus):
-        os.mkdir(outputinter_corpus)
+        os.makedirs(outputinter_corpus)
     elif not os.path.isdir(outputinter_events):
-        os.mkdir(outputinter_events)
+        os.makedirs(outputinter_events)
     elif not os.path.isdir(outputinter_speakers):
-        os.mkdir(outputinter_speakers)
+        os.makedirs(outputinter_speakers)
 
     outputfinal = resources['output-final']
 
+    # TODO: correctly create paths to final results
+    # create folders for final results if neccessary
     if not os.path.isdir(outputfinal):
-        os.mkdir(outputfinal)
+        os.makedirs(outputfinal)
 
     for resource in collection:
 
