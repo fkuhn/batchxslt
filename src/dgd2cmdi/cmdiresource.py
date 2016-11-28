@@ -84,6 +84,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         for speakcorp in speakercorpusdirectories:
             for corplabel in corpusnames:
                 if speakcorp == corplabel.rstrip(EXTENSION).split('-')[0]:
+                    print "Found event directory for: {}".format(str(evecorp))
                     self.speakercorpustuples.append((speakcorp,
                                                      corplabel.rstrip(EXTENSION)))
 
@@ -878,7 +879,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         :return:
         """
         cmdi_str = etree.tostring(self.node.get(nodename).get('etreeobject'))
-        print cmdi_str
+
         self.node.get(nodename).get('etreeobject').write(fname, encoding='utf-8', method='xml',
                                                          xml_declaration="<?xml version='1.0' encoding='UTF-8'?>",
                                                        inclusive_ns_prefixes=['xsi', 'cmd'], pretty_print=True)
