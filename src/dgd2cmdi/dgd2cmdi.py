@@ -81,7 +81,7 @@ def transform(resources):
 
         # return trans_resources
     finalize_resources(outputinter_corpus, outputinter_events,
-                       outputinter_speakers, transcripts, outputfinal, collection)
+                       outputinter_speakers, transcripts, outputfinal)
 
 
 def call_inline_processor(metafilepath, resourcetype, stylesheetdic, processor,
@@ -187,11 +187,18 @@ def call_processor(metafilepath, resourcetype, stylesheetdic, processor,
     else:
         raise ValueError()
 
+
 # TODO: finalize method for cli call
-def finalize_resources(corpus, event, speaker, transcripts, finaldir, clabels):
+def finalize_resources(corpus, event, speaker, transcripts, finaldir):
     """The final step adding resource proxies, cmdi headers and speaker
     informations in event metafiles.
     """
+
+    # define corpuslabels
+
+    clabels = [fn.split('_')[0] for fn in os.listdir(corpus)]
+
+    # build resource tree
     restree = cmdiresource.ResourceTreeCollection(corpus, event, speaker,
                                                   transcripts)
     counter = 0
@@ -201,21 +208,23 @@ def finalize_resources(corpus, event, speaker, transcripts, finaldir, clabels):
         restree.node.get(node).update({'id': corpuslabel + '_' + str(counter)})
         counter += 1
 
+    # build resource-proxies for documents
     restree.build_resourceproxy()
-    print list(restree.nodes())
 
+    # define is-part relations
     for nodename in restree.nodes_iter():
         if restree.node.get(nodename).get('type') == 'event':
             restree.define_parts(nodename)
         elif restree.node.get(nodename).get('type') == 'corpus':
             restree.define_parts(nodename)
 
+    # merge speaker info to events
     for nodename, ndata in restree.nodes_iter(data=True):
         if ndata.get('type') == 'speaker':
             restree.speaker2event(nodename)
 
+    # write cmdi etrees to files
     for cl in clabels:
-
         write2cmdi(restree, cl, finaldir)
 
     for nodename, ndata in restree.nodes_iter(data=True):
@@ -238,35 +247,6 @@ def prepare_cpath(outfolder, cname):
     return os.path.join(outfolder, cname)
 
 
-# Print iterations progress
-# def print_progress(iteration,
-#                    total,
-#                    prefix='',
-#                    suffix='',
-#                    decimals=1,
-#                    bar_length=100):
-#     """
-#     Call in a loop to create terminal progress bar
-#     @params:
-#         iteration   - Required  : current iteration (Int)
-#         total       - Required  : total iterations (Int)
-#         prefix      - Optional  : prefix string (Str)
-#         suffix      - Optional  : suffix string (Str)
-#         decimals    - Optional  : positive number of decimals in percent complete (Int)
-#         bar_length  - Optional  : character length of bar (Int)
-#     """
-#     str_format = "{0:." + str(decimals) + "f}"
-#     percents = str_format.format(100 * (iteration / float(total)))
-#     filled_length = int(round(bar_length * iteration / float(total)))
-#     bar = '*' * filled_length + '-' * (bar_length - filled_length)
-#
-#     sys.stdout.write('\r%s |%s| %s%s %s' %
-#                      (prefix, bar, percents, '%', suffix)),
-#
-#     if iteration == total:
-#         sys.stdout.write('\n')
-#     sys.stdout.flush()
-#
 def write2cmdi(restree, corpus, outpath):
 
     if not os.path.isdir(os.path.abspath(os.path.join(outpath, corpus))):
@@ -297,9 +277,6 @@ class FileIterator(object):
         self.resourcetype = resourcetype
         self._files_iter = iter(os.listdir(self.resourcepath))
 
-# TODO: configuration file processing
-# TODO: subcommand for each conversion step
-# TODO: 'transform' and 'add_dep'
 
     def __iter__(self):
         return self
