@@ -258,7 +258,7 @@ def prepare_cpath(outfolder, cname):
     """
 
     if not os.path.isdir(os.path.join(outfolder, cname)):
-        os.mkdir(os.path.join(outfolder, cname))
+        os.makedirs(os.path.join(outfolder, cname))
 
     return os.path.join(outfolder, cname)
 
