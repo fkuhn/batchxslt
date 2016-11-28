@@ -877,9 +877,11 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         :param nodename, fname:
         :return:
         """
+        cmdi_str = etree.tostring(self.node.get(nodename).get('etreeobject'))
+        print cmdi_str
         self.node.get(nodename).get('etreeobject').write(fname, encoding='utf-8', method='xml',
                                                          xml_declaration="<?xml version='1.0' encoding='UTF-8'?>",
-                                                         inclusive_ns_prefixes=['xsi', 'cmd'])
+                                                         inclusive_ns_prefixes=['xsi', 'cmd'], pretty_print=True)
 
     def write2cmdi(self, corpus, outpath):
 
@@ -892,11 +894,11 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             if ndata.get('type') == 'event' and ndata.get('corpus') == corpus:
                 cmdiheader.define_header(nodename, self)
                 self._write_cmdi(nodename, os.path.join(
-                    outpathfinal, nodename + '.cmdi'))
+                    outpathfinal, nodename) + '.cmdi')
             elif ndata.get('type') == 'corpus' and ndata.get('corpus') == corpus:
                 cmdiheader.define_header(nodename, self)
                 self._write_cmdi(nodename, os.path.join(
-                    outpathfinal, nodename + '.cmdi'))
+                    outpathfinal, nodename) + '.cmdi')
 
 
 class CorpusIterator(object):
