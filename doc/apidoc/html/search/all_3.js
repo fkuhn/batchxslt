@@ -9,7 +9,7 @@ var searchData=
   ['configfile',['configfile',['../classbatchxslt_1_1processor_1_1_configurator.html#a1d68992722eda3198ad7f25e787d3ddc',1,'batchxslt::processor::Configurator']]],
   ['configitemslist',['configItemsList',['../classbatchxslt_1_1processor_1_1_configurator.html#aa1e95b9176da01ce1a87c9029884bd32',1,'batchxslt::processor::Configurator']]],
   ['configuration',['configuration',['../namespacebatchxslt_1_1dgdstart.html#a3f25274833716839053f24de5637c3aa',1,'batchxslt::dgdstart']]],
-  ['configuration',['Configuration',['../classbatchxslt_1_1config_1_1_configuration.html',1,'batchxslt::config']]],
+  ['configuration',['Configuration',['../classbatchxslt_1_1config_1_1_configuration.html',1,'batchxslt::samples']]],
   ['configurator',['Configurator',['../classbatchxslt_1_1processor_1_1_configurator.html',1,'batchxslt::processor']]],
   ['contextpath',['contextpath',['../classbatchxslt_1_1cmdiresource_1_1_resource_tree_collection.html#a56f3a1eca349d53c915c22fb119f0728',1,'batchxslt::cmdiresource::ResourceTreeCollection']]],
   ['corpus',['corpus',['../classbatchxslt_1_1processor_1_1_configurator.html#a1ebe9b2e3ec0762f50789d9f17de6dde',1,'batchxslt::processor::Configurator']]],

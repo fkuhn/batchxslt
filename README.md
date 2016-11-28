@@ -18,7 +18,7 @@ Contains some simple tests for travis and pytest
 
 ## Installation and Setup
 
- 1. Use ```python setupy.py install ``` to install the package.
+ 1. Use ```python setup.py install ``` to install the package.
  
  2. You will also need an XSLT processor (e.g. SAXON-HE):
  
@@ -31,13 +31,14 @@ Contains some simple tests for travis and pytest
  4. Create a file in .yml for resource reference, e.g. called "resources.yml".
     An example file can be found in config/. 
  
- 5. Define your resources to be processed by using the layout in t  
+ 5. Define your resources to be processed by using the yml layout as shown in
+    the sample resource file in samples/
 
 ## Usage
 
 dgd2cmdi installs as a cli command and can be run from the shell.
-It requires a configuration file to be passed as first argument.
- 
+It requires a configuration file (see setup) to be passed as first argument.
+
 
 
 
