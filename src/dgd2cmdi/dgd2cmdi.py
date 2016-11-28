@@ -38,7 +38,7 @@ def transform(resources):
     calls the processor and refers to all resources
     given in the configuration file.
     """
-    # define vars from config file
+    # define vars from samples file
     processor = resources['processor']
     stylesheets = resources['stylesheets']
     collection = resources['collection']
