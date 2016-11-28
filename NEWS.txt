@@ -1,6 +1,11 @@
 News
 ====
 
+0.4
+---
+**November 2016**
+cli functionality, major refactoring, simple testing
+
 0.3
 ---
 **April 2015**
