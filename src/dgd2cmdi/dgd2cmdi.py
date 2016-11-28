@@ -195,6 +195,7 @@ def finalize_resources(corpus, event, speaker, transcripts, finaldir):
     """
     restree = cmdiresource.ResourceTreeCollection(corpus, event, speaker,
                                                   transcripts)
+    print ""
     counter = 0
     # create ids
     for node in restree.nodes_iter():
@@ -215,7 +216,7 @@ def finalize_resources(corpus, event, speaker, transcripts, finaldir):
             restree.speaker2event(nodename)
 
     for corpuslabel in corpus:
-        restree.write2cmdi(corpus, finaldir)
+        restree.write2cmdi(corpuslabel, finaldir)
 
 
 # -------------------------------
