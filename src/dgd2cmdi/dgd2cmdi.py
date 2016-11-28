@@ -57,6 +57,9 @@ def transform(resources):
 
     outputfinal = resources['output-final']
 
+    if not os.path.isdir(outputfinal):
+        os.mkdir(outputfinal)
+
     for resource in collection:
 
         corpus_inpath = collection.get(resource).get('corpus')
