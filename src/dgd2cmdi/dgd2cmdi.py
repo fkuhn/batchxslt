@@ -5,9 +5,7 @@ process the referenced resources and
 import argparse
 import codecs
 import os
-import sys
 import subprocess
-
 
 import yaml
 
@@ -31,7 +29,7 @@ def main():
     with codecs.open(args.resources, mode='r', encoding='utf-8') as resfile:
         resources = yaml.safe_load(resfile)
 
-        # Iterate over the resource and call the processor
+    # start transformation with resource references
     transform(resources)
 
 
@@ -49,6 +47,14 @@ def transform(resources):
     outputinter_events = resources['output-inter-events']
     outputinter_speakers = resources['output-inter-speakers']
 
+    # create folders for intermediate results if neccessary
+    if not os.path.isdir(outputinter_corpus):
+        os.mkdir(outputinter_corpus)
+    elif not os.path.isdir(outputinter_events):
+        os.mkdir(outputinter_events)
+    elif not os.path.isdir(outputinter_speakers):
+        os.mkdir(outputinter_speakers)
+
     outputfinal = resources['output-final']
 
     for resource in collection:
@@ -56,6 +62,8 @@ def transform(resources):
         corpus_inpath = collection.get(resource).get('corpus')
         events_inpath = collection.get(resource).get('event')
         speakers_inpath = collection.get(resource).get('speaker')
+
+
 
         outputfolder_corpus = outputinter_corpus
         outputfolder_event = prepare_cpath(outputinter_events, resource)
@@ -185,7 +193,6 @@ def call_processor(metafilepath, resourcetype, stylesheetdic, processor,
         raise ValueError()
 
 
-# TODO: finalize method for cli call
 def finalize_resources(corpus, event, speaker, transcripts, finaldir):
     """The final step adding resource proxies, cmdi headers and speaker
     informations in event metafiles.
@@ -231,7 +238,7 @@ def finalize_resources(corpus, event, speaker, transcripts, finaldir):
 
 
 # -------------------------------
-# Some helper methods and classes
+# helper methods and classes
 # -------------------------------
 
 
@@ -240,6 +247,7 @@ def prepare_cpath(outfolder, cname):
     creates a valid path to a resource collection
     named after the corpus label.
     """
+
     if not os.path.isdir(os.path.join(outfolder, cname)):
         os.mkdir(os.path.join(outfolder, cname))
 
