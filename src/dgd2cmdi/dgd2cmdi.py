@@ -82,7 +82,7 @@ def transform(resources):
 
         # return trans_resources
     finalize_resources(outputinter_corpus, outputinter_events,
-                       outputinter_speakers, transcripts, outputfinal)
+                       outputinter_speakers, transcripts, outputfinal, collection)
 
 
 def call_inline_processor(metafilepath, resourcetype, stylesheetdic, processor,
@@ -189,13 +189,12 @@ def call_processor(metafilepath, resourcetype, stylesheetdic, processor,
         raise ValueError()
 
 
-def finalize_resources(corpus, event, speaker, transcripts, finaldir):
+def finalize_resources(corpus, event, speaker, transcripts, finaldir, clabels):
     """The final step adding resource proxies, cmdi headers and speaker
     informations in event metafiles.
     """
     restree = cmdiresource.ResourceTreeCollection(corpus, event, speaker,
                                                   transcripts)
-    print ""
     counter = 0
     # create ids
     for node in restree.nodes_iter():
@@ -215,8 +214,8 @@ def finalize_resources(corpus, event, speaker, transcripts, finaldir):
         if ndata.get('type') == 'speaker':
             restree.speaker2event(nodename)
 
-    for corpuslabel in corpus:
-        restree.write2cmdi(corpuslabel, finaldir)
+    for cl in clabels:
+        restree.write2cmdi(cl, finaldir)
 
 
 # -------------------------------
