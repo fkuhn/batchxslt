@@ -12,6 +12,7 @@ import subprocess
 import yaml
 
 import cmdiresource
+import cmdiheader
 from lxml import etree
 
 PARSER = argparse.ArgumentParser()
@@ -49,7 +50,6 @@ def transform(resources):
     outputinter_speakers = resources['output-inter-speakers']
 
     outputfinal = resources['output-final']
-
 
     for resource in collection:
 
@@ -215,7 +215,10 @@ def finalize_resources(corpus, event, speaker, transcripts, finaldir, clabels):
             restree.speaker2event(nodename)
 
     for cl in clabels:
-        restree.write2cmdi(cl, finaldir)
+
+        write2cmdi(restree, cl, finaldir)
+
+
 
 
 # -------------------------------
@@ -235,33 +238,50 @@ def prepare_cpath(outfolder, cname):
 
 
 # Print iterations progress
-def print_progress(iteration,
-                   total,
-                   prefix='',
-                   suffix='',
-                   decimals=1,
-                   bar_length=100):
-    """
-    Call in a loop to create terminal progress bar
-    @params:
-        iteration   - Required  : current iteration (Int)
-        total       - Required  : total iterations (Int)
-        prefix      - Optional  : prefix string (Str)
-        suffix      - Optional  : suffix string (Str)
-        decimals    - Optional  : positive number of decimals in percent complete (Int)
-        bar_length  - Optional  : character length of bar (Int)
-    """
-    str_format = "{0:." + str(decimals) + "f}"
-    percents = str_format.format(100 * (iteration / float(total)))
-    filled_length = int(round(bar_length * iteration / float(total)))
-    bar = '*' * filled_length + '-' * (bar_length - filled_length)
+# def print_progress(iteration,
+#                    total,
+#                    prefix='',
+#                    suffix='',
+#                    decimals=1,
+#                    bar_length=100):
+#     """
+#     Call in a loop to create terminal progress bar
+#     @params:
+#         iteration   - Required  : current iteration (Int)
+#         total       - Required  : total iterations (Int)
+#         prefix      - Optional  : prefix string (Str)
+#         suffix      - Optional  : suffix string (Str)
+#         decimals    - Optional  : positive number of decimals in percent complete (Int)
+#         bar_length  - Optional  : character length of bar (Int)
+#     """
+#     str_format = "{0:." + str(decimals) + "f}"
+#     percents = str_format.format(100 * (iteration / float(total)))
+#     filled_length = int(round(bar_length * iteration / float(total)))
+#     bar = '*' * filled_length + '-' * (bar_length - filled_length)
+#
+#     sys.stdout.write('\r%s |%s| %s%s %s' %
+#                      (prefix, bar, percents, '%', suffix)),
+#
+#     if iteration == total:
+#         sys.stdout.write('\n')
+#     sys.stdout.flush()
+#
+def write2cmdi(restree, corpus, outpath):
 
-    sys.stdout.write('\r%s |%s| %s%s %s' %
-                     (prefix, bar, percents, '%', suffix)),
+    if not os.path.isdir(os.path.abspath(os.path.join(outpath, corpus))):
+        os.mkdir(os.path.join(outpath, corpus))
 
-    if iteration == total:
-        sys.stdout.write('\n')
-    sys.stdout.flush()
+    outpathfinal = os.path.abspath(os.path.join(outpath, corpus))
+
+    for nodename, ndata in restree.nodes_iter(data=True):
+        if ndata.get('type') == 'event' and ndata.get('corpus') == corpus:
+            cmdiheader.define_header(nodename, restree)
+            restree._write_cmdi(nodename, os.path.join(
+                outpathfinal, nodename) + '.cmdi')
+        elif ndata.get('type') == 'corpus' and ndata.get('corpus') == corpus:
+            cmdiheader.define_header(nodename, restree)
+            restree._write_cmdi(nodename, os.path.join(
+                outpathfinal, nodename) + '.cmdi')
 
 
 class FileIterator(object):
