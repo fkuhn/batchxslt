@@ -9,7 +9,7 @@ Is non-valid xml handled without breaking
 the pipeline?
 Are missing subelements treated appropriately?
 """
-
+# TODO: First make dummy data
 #TDATA = {
 #    "corpus": os.path.abspath("testdata/corpus.xml"),
 #    "event": os.path.abspath("testdata/event.xml"),

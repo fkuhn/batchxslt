@@ -4,59 +4,31 @@
 
 
 ## About
-This python package batch processes "Database for Spoken German"-specific xslt
-stylesheets to transform the original dgd metadata to cmdi metadata.
+Processing Metadata for the Archive of Spoken German.
 
-## Installation
+## Installation and Setup
 
- Use ```python setupy.py install ``` to install the package.
+ 1. Use ```python setupy.py install ``` to install the package.
  
- You will also need an XSLT processor (e.g. SAXON-HE):
+ 2. You will also need an XSLT processor (e.g. SAXON-HE):
  
  `ẁget https://sourceforge.net/projects/saxon/files/Saxon-HE/9.7/SaxonHE9-7-0-8J.zip`
  
  `unzip -d saxon SaxonHE9-7-0-8J.zip`
+  
+ 3. The XSLT stylesheets must be present and referable
+ 
+ 4. Create a file in .yml for resource reference, e.g. called "resources.yml".
+    An example file can be found in config/. 
+
+
 
 ## Usage
 
+dgd2cmdi installs as a cli command and can be run from the shell.
+It requires a configuration file to be passed as first argument.
+the configuration file 
 
 
 
 
-
-### Configuration File
-All important paths are set in the local config.xml.
-<CONFIG> is root element to the
-following subelements:
-<GLOBAL>, defining global resources like the XSLT processor.
-<CORPUS>, which defines parameters for corpus-metadata
-<EVENT>, which defines parameters for event-metadata of a corpus
-<SPEAKER>, which defines paramters for speaker-metadata of a corpus
-
-Each element uses the attributes "type" and "corpus"
-*	"type" defines the type of resource that is refered to in the element
-	each  metadata-specific element uses the type values "stylesheet", "indirectory", "prefix", "outdirectory" to
-	define the type of reference denoted via the metadata-element.
-*	"corpus" defines the alias of the corpus refered to. The alias is the official one of the archive of spoken german.
-	(e.g. "AD", "BB", "FOLK" etc.)
-
-### Starting Transformation
-Once all parameters are set, call the python script dgdstart.py with the Configuration
-file parameter e.g. data/config.xml
-
-### Adding Resources
-Resource Proxies, part-of relations and header information to finalize all
-cmdi files are added in scripts/add_resources_allcorp.py
-
-
-
-### Referenced CMDI Profiles
-
-#### Corpora
-http://catalog.clarin.eu/ds/ComponentRegistry/rest/registry/profiles/clarin.eu:cr1:p_1430905751614
-
-#### Events
-http://catalog.clarin.eu/ds/ComponentRegistry/rest/registry/profiles/clarin.eu:cr1:p_1430905751615
-
-Speakers do not use a seperate profile. Every relevant information is extracted from the original
-dgd data and inserted into the matching event cmdi files.
