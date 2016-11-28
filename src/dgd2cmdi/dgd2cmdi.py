@@ -44,11 +44,13 @@ def transform(resources):
     collection = resources['collection']
     transcripts = resources['transcripts']
 
-    outputinter_corpus = resources['output-inter-corpus']
-    outputinter_events = resources['output-inter-events']
-    outputinter_speakers = resources['output-inter-speakers']
+    outputinter = resources['output-inter']
 
-    # TODO: correctly create paths to intermediate results
+    outputinter_corpus = os.path.join(outputinter, 'corpora')
+    outputinter_events = os.path.join(outputinter, 'events')
+    outputinter_speakers = os.path.join(outputinter, 'speakers')
+
+
     # create folders for intermediate results if neccessary
     if not os.path.isdir(outputinter_corpus):
         os.makedirs(outputinter_corpus)
@@ -59,7 +61,7 @@ def transform(resources):
 
     outputfinal = resources['output-final']
 
-    # TODO: correctly create paths to final results
+
     # create folders for final results if neccessary
     if not os.path.isdir(outputfinal):
         os.makedirs(outputfinal)
