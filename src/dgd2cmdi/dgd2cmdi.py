@@ -161,8 +161,7 @@ def call_processor(metafilepath, resourcetype, stylesheetdic, processor,
     elif resourcetype == 'event':
         stylesheetpath = os.path.abspath(stylesheetdic.get('event'))
 
-        # outputpath = os.path.abspath(
-        #    os.path.join(outputpath, os.path.basename(metafilepath)))
+        outputpath = os.path.abspath(outputpath)
 
         # for resource in os.listdir(metafilepath):
         os.system("java -jar {} -s:{} -xsl:{} -o:{}".format(
@@ -176,7 +175,7 @@ def call_processor(metafilepath, resourcetype, stylesheetdic, processor,
 
         stylesheetpath = os.path.abspath(stylesheetdic.get('speaker'))
 
-        # outputpath = os.path.abspath(
+        outputpath = os.path.abspath(outputpath)
         #   os.path.join(outputpath, os.path.basename(metafilepath)))
 
         # for resource in os.listdir(metafilepath):
