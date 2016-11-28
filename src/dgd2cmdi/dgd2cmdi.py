@@ -67,19 +67,16 @@ def transform(resources):
         call_processor(corpus_inpath, 'corpus', stylesheets, processor,
                        outputfolder_corpus)
 
-        events = {}
         for event_resourcefile in event_iterator:
             call_processor(event_resourcefile, 'event', stylesheets, processor,
                            outputfolder_event)
 
-        speakers = {}
         for speaker_resourcefile in speaker_iterator:
             call_processor(speaker_resourcefile, 'speaker', stylesheets,
                            processor, outputfolder_speaker)
 
-        # trans_resources.update({resource: (corpus, events, speakers)})
+        print "xslt transformation for {} finished.".format(resource)
 
-        # return trans_resources
     finalize_resources(outputinter_corpus, outputinter_events,
                        outputinter_speakers, transcripts, outputfinal)
 
@@ -199,6 +196,7 @@ def finalize_resources(corpus, event, speaker, transcripts, finaldir):
     clabels = [fn.split('_')[0] for fn in os.listdir(corpus)]
 
     # build resource tree
+    print "building resource tree..."
     restree = cmdiresource.ResourceTreeCollection(corpus, event, speaker,
                                                   transcripts)
     counter = 0
@@ -209,9 +207,11 @@ def finalize_resources(corpus, event, speaker, transcripts, finaldir):
         counter += 1
 
     # build resource-proxies for documents
+    print "defining resource proxies..."
     restree.build_resourceproxy()
 
     # define is-part relations
+    print "building part relations..."
     for nodename in restree.nodes_iter():
         if restree.node.get(nodename).get('type') == 'event':
             restree.define_parts(nodename)
@@ -219,17 +219,16 @@ def finalize_resources(corpus, event, speaker, transcripts, finaldir):
             restree.define_parts(nodename)
 
     # merge speaker info to events
+    print "merging speaker data to events..."
     for nodename, ndata in restree.nodes_iter(data=True):
         if ndata.get('type') == 'speaker':
             restree.speaker2event(nodename)
 
     # write cmdi etrees to files
     for cl in clabels:
+        print "writing finalized cmdi files for {}".format(cl)
         write2cmdi(restree, cl, finaldir)
 
-    for nodename, ndata in restree.nodes_iter(data=True):
-
-        print etree.tostring(ndata.get('etreeobject'))
 
 # -------------------------------
 # Some helper methods and classes
@@ -276,7 +275,6 @@ class FileIterator(object):
         self.resourcepath = os.path.abspath(resourcepath)
         self.resourcetype = resourcetype
         self._files_iter = iter(os.listdir(self.resourcepath))
-
 
     def __iter__(self):
         return self
