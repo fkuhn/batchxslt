@@ -9,11 +9,12 @@ develop-eggs
 tmp
 build
 dist
-
+tags
 *.idea
 .idea
-
+scripts
 doc/.ipynb_checkpoints
+notebooks
 notebooks/.ipynb_checkpoints
 
 .vscode

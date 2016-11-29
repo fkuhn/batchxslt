@@ -10,7 +10,7 @@ from lxml import etree
 class Configurator(object):
     """
     Simple configuration file parser. template for further extensions.
-    Parses config.xml in main module directory. How to use config.xml
+    Parses samples.xml in main module directory. How to use samples.xml
     see README.md
     """
 
@@ -41,7 +41,7 @@ class Configurator(object):
 
 class CsvConfigurator(object):
     """
-    a more flexible config parser using just csv files as input.
+    a more flexible samples parser using just csv files as input.
     """
 
     def __init__(self, configfile):

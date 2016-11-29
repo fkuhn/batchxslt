@@ -5,9 +5,7 @@ process the referenced resources and
 import argparse
 import codecs
 import os
-import sys
 import subprocess
-
 
 import yaml
 
@@ -31,7 +29,7 @@ def main():
     with codecs.open(args.resources, mode='r', encoding='utf-8') as resfile:
         resources = yaml.safe_load(resfile)
 
-        # Iterate over the resource and call the processor
+    # start transformation with resource references
     transform(resources)
 
 
@@ -40,22 +38,41 @@ def transform(resources):
     calls the processor and refers to all resources
     given in the configuration file.
     """
-    # define vars from config file
+    # define vars from samples file
     processor = resources['processor']
     stylesheets = resources['stylesheets']
     collection = resources['collection']
     transcripts = resources['transcripts']
-    outputinter_corpus = resources['output-inter-corpus']
-    outputinter_events = resources['output-inter-events']
-    outputinter_speakers = resources['output-inter-speakers']
+
+    outputinter = resources['output-inter']
+
+    outputinter_corpus = os.path.join(outputinter, 'corpora')
+    outputinter_events = os.path.join(outputinter, 'events')
+    outputinter_speakers = os.path.join(outputinter, 'speakers')
+
+
+    # create folders for intermediate results if neccessary
+    if not os.path.isdir(outputinter_corpus):
+        os.makedirs(outputinter_corpus)
+    elif not os.path.isdir(outputinter_events):
+        os.makedirs(outputinter_events)
+    elif not os.path.isdir(outputinter_speakers):
+        os.makedirs(outputinter_speakers)
 
     outputfinal = resources['output-final']
+
+
+    # create folders for final results if neccessary
+    if not os.path.isdir(outputfinal):
+        os.makedirs(outputfinal)
 
     for resource in collection:
 
         corpus_inpath = collection.get(resource).get('corpus')
         events_inpath = collection.get(resource).get('event')
         speakers_inpath = collection.get(resource).get('speaker')
+
+
 
         outputfolder_corpus = outputinter_corpus
         outputfolder_event = prepare_cpath(outputinter_events, resource)
@@ -67,21 +84,18 @@ def transform(resources):
         call_processor(corpus_inpath, 'corpus', stylesheets, processor,
                        outputfolder_corpus)
 
-        events = {}
         for event_resourcefile in event_iterator:
             call_processor(event_resourcefile, 'event', stylesheets, processor,
                            outputfolder_event)
 
-        speakers = {}
         for speaker_resourcefile in speaker_iterator:
             call_processor(speaker_resourcefile, 'speaker', stylesheets,
                            processor, outputfolder_speaker)
 
-        # trans_resources.update({resource: (corpus, events, speakers)})
+        print "xslt transformation for {} finished.".format(resource)
 
-        # return trans_resources
     finalize_resources(outputinter_corpus, outputinter_events,
-                       outputinter_speakers, transcripts, outputfinal, collection)
+                       outputinter_speakers, transcripts, outputfinal)
 
 
 def call_inline_processor(metafilepath, resourcetype, stylesheetdic, processor,
@@ -188,11 +202,17 @@ def call_processor(metafilepath, resourcetype, stylesheetdic, processor,
         raise ValueError()
 
 
-# TODO: finalize method for cli call
-def finalize_resources(corpus, event, speaker, transcripts, finaldir, clabels):
+def finalize_resources(corpus, event, speaker, transcripts, finaldir):
     """The final step adding resource proxies, cmdi headers and speaker
     informations in event metafiles.
     """
+
+    # define corpuslabels
+
+    clabels = [fn.split('_')[0] for fn in os.listdir(corpus)]
+
+    # build resource tree
+    print "building resource tree..."
     restree = cmdiresource.ResourceTreeCollection(corpus, event, speaker,
                                                   transcripts)
     counter = 0
@@ -202,29 +222,32 @@ def finalize_resources(corpus, event, speaker, transcripts, finaldir, clabels):
         restree.node.get(node).update({'id': corpuslabel + '_' + str(counter)})
         counter += 1
 
+    # build resource-proxies for documents
+    print "defining resource proxies..."
     restree.build_resourceproxy()
-    print list(restree.nodes())
 
+    # define is-part relations
+    print "building part relations..."
     for nodename in restree.nodes_iter():
         if restree.node.get(nodename).get('type') == 'event':
             restree.define_parts(nodename)
         elif restree.node.get(nodename).get('type') == 'corpus':
             restree.define_parts(nodename)
 
+    # merge speaker info to events
+    print "merging speaker data to events..."
     for nodename, ndata in restree.nodes_iter(data=True):
         if ndata.get('type') == 'speaker':
             restree.speaker2event(nodename)
 
+    # write cmdi etrees to files
     for cl in clabels:
-
+        print "writing finalized cmdi files for {}".format(cl)
         write2cmdi(restree, cl, finaldir)
 
-    for nodename, ndata in restree.nodes_iter(data=True):
-
-        print etree.tostring(ndata.get('etreeobject'))
 
 # -------------------------------
-# Some helper methods and classes
+# helper methods and classes
 # -------------------------------
 
 
@@ -233,41 +256,13 @@ def prepare_cpath(outfolder, cname):
     creates a valid path to a resource collection
     named after the corpus label.
     """
+
     if not os.path.isdir(os.path.join(outfolder, cname)):
-        os.mkdir(os.path.join(outfolder, cname))
+        os.makedirs(os.path.join(outfolder, cname))
 
     return os.path.join(outfolder, cname)
 
 
-# Print iterations progress
-# def print_progress(iteration,
-#                    total,
-#                    prefix='',
-#                    suffix='',
-#                    decimals=1,
-#                    bar_length=100):
-#     """
-#     Call in a loop to create terminal progress bar
-#     @params:
-#         iteration   - Required  : current iteration (Int)
-#         total       - Required  : total iterations (Int)
-#         prefix      - Optional  : prefix string (Str)
-#         suffix      - Optional  : suffix string (Str)
-#         decimals    - Optional  : positive number of decimals in percent complete (Int)
-#         bar_length  - Optional  : character length of bar (Int)
-#     """
-#     str_format = "{0:." + str(decimals) + "f}"
-#     percents = str_format.format(100 * (iteration / float(total)))
-#     filled_length = int(round(bar_length * iteration / float(total)))
-#     bar = '*' * filled_length + '-' * (bar_length - filled_length)
-#
-#     sys.stdout.write('\r%s |%s| %s%s %s' %
-#                      (prefix, bar, percents, '%', suffix)),
-#
-#     if iteration == total:
-#         sys.stdout.write('\n')
-#     sys.stdout.flush()
-#
 def write2cmdi(restree, corpus, outpath):
 
     if not os.path.isdir(os.path.abspath(os.path.join(outpath, corpus))):
@@ -297,10 +292,6 @@ class FileIterator(object):
         self.resourcepath = os.path.abspath(resourcepath)
         self.resourcetype = resourcetype
         self._files_iter = iter(os.listdir(self.resourcepath))
-
-# TODO: configuration file processing
-# TODO: subcommand for each conversion step
-# TODO: 'transform' and 'add_dep'
 
     def __iter__(self):
         return self
