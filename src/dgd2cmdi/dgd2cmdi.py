@@ -187,6 +187,7 @@ def call_processor(metafilepath, resourcetype, stylesheetdic, processor,
     else:
         raise ValueError()
 
+
 # TODO: finalize method for cli call
 def finalize_resources(corpus, event, speaker, transcripts, finaldir, clabels):
     """The final step adding resource proxies, cmdi headers and speaker
