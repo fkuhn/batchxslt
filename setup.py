@@ -27,7 +27,7 @@ setup(name='dgd2cmdi',
     author_email='kuhn@ids-mannheim.de',
     url='www.ids-mannheim.de',
     license='Apache v2',
-    package_data={'samples': ['/samples/example_resources.yml'], 'data': ['../data/*']},
+    package_data={'samples': ['/samples/resources.yml'], 'data': ['../data/*']},
     include_package_data= True,
     packages=find_packages('src'),
     package_dir = {'': 'src'},
@@ -35,7 +35,7 @@ setup(name='dgd2cmdi',
     install_requires=install_requires,
     entry_points={
         'console_scripts':
-            ['dgd2cmdi = dgd2cmdi.dgd2cmdi:main',
-             'dgd_trans = dgd2cmdi.dgd2cmdi_trans:main']
+            ['dgd2cmdi = dgd2cmdi.dgd2cmdi:main'
+             ]
     }
 )
