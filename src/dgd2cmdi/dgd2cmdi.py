@@ -33,6 +33,62 @@ def main():
     transform(resources)
 
 
+def transform_par(processor, stylesheets, collection, transcripts, outputinter, outputfinal):
+    """
+    starts transformation by using command line parameters and not a config file
+    :param processor:
+    :param stylesheets:
+    :param collection:
+    :param transcripts:
+    :param outputinter:
+    :param outputfinal:
+    :return:
+    """
+    outputinter_corpus = os.path.join(outputinter, 'corpora')
+    outputinter_events = os.path.join(outputinter, 'events')
+    outputinter_speakers = os.path.join(outputinter, 'speakers')
+
+    # create folders for intermediate results if neccessary
+    if not os.path.isdir(outputinter_corpus):
+        os.makedirs(outputinter_corpus)
+    elif not os.path.isdir(outputinter_events):
+        os.makedirs(outputinter_events)
+    elif not os.path.isdir(outputinter_speakers):
+        os.makedirs(outputinter_speakers)
+
+    # create folders for final results if neccessary
+    if not os.path.isdir(outputfinal):
+        os.makedirs(outputfinal)
+
+    for resource in collection:
+
+        corpus_inpath = collection.get(resource).get('corpus')
+        events_inpath = collection.get(resource).get('event')
+        speakers_inpath = collection.get(resource).get('speaker')
+
+        outputfolder_corpus = outputinter_corpus
+        outputfolder_event = prepare_cpath(outputinter_events, resource)
+        outputfolder_speaker = prepare_cpath(outputinter_speakers, resource)
+
+        event_iterator = FileIterator(events_inpath, 'event')
+        speaker_iterator = FileIterator(speakers_inpath, 'speaker')
+
+        call_processor(corpus_inpath, 'corpus', stylesheets, processor,
+                       outputfolder_corpus)
+
+        for event_resourcefile in event_iterator:
+            call_processor(event_resourcefile, 'event', stylesheets, processor,
+                           outputfolder_event)
+
+        for speaker_resourcefile in speaker_iterator:
+            call_processor(speaker_resourcefile, 'speaker', stylesheets,
+                           processor, outputfolder_speaker)
+
+        print "xslt transformation for {} finished.".format(resource)
+
+    finalize_resources(outputinter_corpus, outputinter_events,
+                       outputinter_speakers, transcripts, outputfinal)
+
 def transform(resources):
     """
     calls the processor and refers to all resources
