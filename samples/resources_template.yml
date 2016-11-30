@@ -2,7 +2,8 @@
 # xslt processing via dgd2cmdi
 
 # xslt processor and stylesheet path declaration
-processor: "path/to/saxon.jar"
+processor: "../saxon/saxon.jar"
+# add the path to the xsl stylesheets
 stylesheets:
     corpus: "path/to/corpus.xsl"
     event: "path/to/event.xsl"
@@ -19,5 +20,9 @@ collection:
         event: "path/to/events/"
         speaker: "path/to/speakers"
 
-# Just add corpora here ...
+# add corpora here using the convention:
+#   CORPUSLABEL:
+#        corpus:
+#        event:
+#        speaker:
 
