@@ -1,0 +1,28 @@
+# This file defines the resources for any 
+# xslt processing via dgd2cmdi
+
+# xslt processor and stylesheet path declaration
+processor: "saxon/saxon.jar"
+# add the path to the xsl stylesheets
+stylesheets:
+    corpus: "xslt/dgdCorpus2cmdi_November16.xsl"
+    event: "xslt/dgdEvent2cmdi_November16.xsl"
+    speaker: "xslt/dgdSpeaker2cmdi_November16.xsl"
+
+# output paths declarations
+output-inter: "/tmp/intermediate_cmdi"
+output-final: "path/to/finalized/output"
+
+# resource collection declaration
+collection:
+    PF:
+        corpus: "path/to/corpus/catalogue/file/corpus.xml" # the catalogue file
+        event: "path/to/events/" # the directory containing all of the corpus' events
+        speaker: "path/to/speakers" # the directory containing all of the corpus' speakers
+
+# add corpora here using the convention:
+#   CORPUSLABEL:
+#        corpus:
+#        event:
+#        speaker:
+
