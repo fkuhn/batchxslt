@@ -170,8 +170,11 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                 # FIXME: referred before assignment: UnboundLocalError
                     try:
                         for speaker in self.find_speakers(eventnodename):
+                            #print "CP speaker " + speaker  dar
                             self.add_edge(eventnodename, speaker)
+                            #print self dar
                     except UnboundLocalError:
+                        print "ULError!"
                         continue
         for transcripttuple in self.transcriptcorpustuples:
             """
@@ -277,8 +280,24 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
             self.add_edge(resource, audiofile.split('.')[0])
 
+    # dar
+
+        videolabels = self.node.get(resource).get(
+            'etreeobject').xpath('//VideoData/FileName/text()')
+
+        for videofile in videolabels:
+            self.add_node(videofile.split('.')[0], {
+                'repopath': self.contextpath(resource, DGDROOT),
+                'corpusroot': False,
+                'type': 'video',
+                'etreeobject': False,
+                'filename': videofile,
+                'id': PREF + videofile.rstrip(EXTENSION)})
+
+            self.add_edge(resource, videofile.split('.')[0])
+
     @staticmethod
-    def contextpath(fname, startpath):
+    def contextpath(fname, startpath): # Wird nicht aufgerufen?
         # FIXME: method always returns None.
         """find the path from a startpath to a given file"""
         for root, dirs, files in os.walk(startpath):
@@ -355,7 +374,8 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         """
         speakerlist = self.node.get(eventnode).get("etreeobject").\
             getroot().xpath('//Speaker/Label/text()')
-
+        #print eventnode     dar
+        #print speakerlist   dar
         return speakerlist
 
         # simple split label solution
@@ -427,7 +447,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             for event_speaker in eventtree.getroot().xpath('//Speaker'):
                 # write from xml string to the element (cannot pass an etree-element to another
                 # document scope
-                # print event_speaker.find('Label').text + ' vs ' + speakernode
+                #print event_speaker.find('Label').text + ' vs ' + speakernode   dar
                 if event_speaker.find('Label').text == speakernode:
 
                     # prevent multiple entries to the speaker element
@@ -440,9 +460,10 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
 
                     # get a copy of the 'Language' to insert it to
                     # 'LanguageData' below
-                    languages = event_speaker.xpath('//Language')
-                    for language in event_speaker.xpath('//Language'):
-                        language.getparent().remove(language)
+                    languages = event_speaker.xpath('//LanguageCompetence')
+                    #for language in event_speaker.xpath('//LanguageCompetence'):
+                    #    print language
+                        #language.getparent().remove(language) DAR Language FIX Experiment
 
                     event_speaker.append(etree.fromstring(sdata.get('Name')))
                     event_speaker.append(etree.fromstring(sdata.get('Alias')))
@@ -464,7 +485,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     # deal with language data duplicates
                     # put a copy into <LanguageData> and remove it
                     language_data = event_speaker.find('LanguageData')
-                    for lang in languages:
+                    '''for lang in languages:      DAR Language FIX Experiment
                         if lang.text in [l.text for l in language_data.xpath('Language')]:
                             # extra_lang = etree.SubElement(language_data, 'Language')
                             # extra_lang.text = lang.text
@@ -472,7 +493,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                         else:
                             extra_lang = etree.SubElement(
                                 language_data, 'Language')
-                            extra_lang.text = lang.text
+                            extra_lang.text = lang.text '''
 
     def speaker2event_session(self, speakernode):
         """
@@ -501,7 +522,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             for event_speaker in eventtree.getroot().xpath('//Speaker'):
                 # write from xml string to the element (cannot pass an etree-element to another
                 # document scope
-                # print event_speaker.find('Label').text + ' vs ' + speakernode
+                print event_speaker.find('Label').text + ' vs2 ' + speakernode
                 if event_speaker.find('Label').text == speakernode:
 
                     # prevent multiple entries to the speaker element
@@ -567,8 +588,11 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         ID = 0
         PREF = 'agd_ids_'
         # mimetypes
+        mimetypes.add_type('application/mp4', '.mp4')  # dar
+        mimetypes.add_type('application/wav', '.wav')  # dar
         mimetypes.add_type('application/xml', '.fln')
-        mimetypes.add_type('application/x-cmdi+xml', '.cmdi')
+        #mimetypes.add_type('application/x-cmdi+xml', '.cmdi')
+        mimetypes.add_type('application/xml;format-variant=cmdi', '.cmdi') # dar
         cmdi_etrobj = self.node.get(metafilenode).get("etreeobject")
         try:
             cmdiroot = cmdi_etrobj.getroot()
@@ -610,14 +634,14 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         # build proxy for original metadata as "Resource"
         for node in resource_nodes:
             # define the transcripts and audio resources
-            if self.node.get(node).get('type') in ['transcript', 'audio']:
+            if self.node.get(node).get('type') in ['transcript', 'audio', 'video']:
                 self.set_resourceproxy(node, resourceproxies,
                                        rtype='Resource')
             # define the cmdi metadate entry: just events are listed
             elif self.node.get(node).get('type') in ['event']:
                 self.set_resourceproxy(node, resourceproxies,
-                                       rtype='Metadata', mtype='application/x-cmdi+xml', idprefix='cmdi_',
-                                       refprefix=SVNROOT + self.node.get(node).get('corpus') + '/', refpostfix='.cmdi')
+                                       rtype='Metadata', mtype='application/xml;format-variant=cmdi', idprefix='cmdi_',
+                                       refprefix=SVNROOT + self.node.get(node).get('corpus') + '/', refpostfix='.cmdi') # dar
                 # self.set_resourceproxy(node, resourceproxies,
                 #                       rtype='Resource',
                 #                       refprefix=LANDINGPG, refpostfix='')
@@ -758,12 +782,24 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         # find them in
             for node in out_nodes:
                 try:
-                    if mimetypes.guess_type(self.node.get(node).get('filename'))[0] == 'audio/x-wav':
+                    print self.node.get(node).get('type') #dar
+                    #if mimetypes.guess_type(self.node.get(node).get('filename'))[0] == 'audio/x-wav':
+                    if self.node.get(node).get('type') == 'audio':
                         # refer to audio as hasPart
                         source = etree.SubElement(relations, 'hasPart')
                         source.set('href', LANDINGPG + node)
                         source.text = self.node.get(node).get(
                             'type').capitalize() + ': ' + node
+
+                    # dar
+
+                    elif self.node.get(node).get('type') == 'video':
+                        # refer to video as hasPart
+                        haspart = etree.SubElement(relations, 'hasPart')
+                        haspart.set('href', LANDINGPG + node)
+                        haspart.text = self.node.get(node).get(
+                            'type').capitalize() + ': ' + node
+
                     # elif mimetypes.guess_type(self.node.get(node).get('filename'))[0] == 'application/x-cmdi+xml':
                     #     source = etree.SubElement(relations, 'hasPart')
                     #     source.set('href', SVNROOT + node)
