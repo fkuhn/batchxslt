@@ -170,9 +170,9 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                 # FIXME: referred before assignment: UnboundLocalError
                     try:
                         for speaker in self.find_speakers(eventnodename):
-                            #print "CP speaker " + speaker  dar
+
                             self.add_edge(eventnodename, speaker)
-                            #print self dar
+
                     except UnboundLocalError:
                         print "ULError!"
                         continue
@@ -297,7 +297,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             self.add_edge(resource, videofile.split('.')[0])
 
     @staticmethod
-    def contextpath(fname, startpath): # Wird nicht aufgerufen?
+    def contextpath(fname, startpath): 
         # FIXME: method always returns None.
         """find the path from a startpath to a given file"""
         for root, dirs, files in os.walk(startpath):
@@ -374,8 +374,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
         """
         speakerlist = self.node.get(eventnode).get("etreeobject").\
             getroot().xpath('//Speaker/Label/text()')
-        #print eventnode     dar
-        #print speakerlist   dar
+
         return speakerlist
 
         # simple split label solution
@@ -447,7 +446,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             for event_speaker in eventtree.getroot().xpath('//Speaker'):
                 # write from xml string to the element (cannot pass an etree-element to another
                 # document scope
-                #print event_speaker.find('Label').text + ' vs ' + speakernode   dar
+                # print event_speaker.find('Label').text + ' vs ' + speakernode
                 if event_speaker.find('Label').text == speakernode:
 
                     # prevent multiple entries to the speaker element
@@ -463,7 +462,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     languages = event_speaker.xpath('//LanguageCompetence')
                     #for language in event_speaker.xpath('//LanguageCompetence'):
                     #    print language
-                        #language.getparent().remove(language) DAR Language FIX Experiment
+                        #language.getparent().remove(language) dar Language FIX
 
                     event_speaker.append(etree.fromstring(sdata.get('Name')))
                     event_speaker.append(etree.fromstring(sdata.get('Alias')))
@@ -485,7 +484,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
                     # deal with language data duplicates
                     # put a copy into <LanguageData> and remove it
                     language_data = event_speaker.find('LanguageData')
-                    '''for lang in languages:      DAR Language FIX Experiment
+                    '''for lang in languages:      dar Language FIX
                         if lang.text in [l.text for l in language_data.xpath('Language')]:
                             # extra_lang = etree.SubElement(language_data, 'Language')
                             # extra_lang.text = lang.text
@@ -522,7 +521,7 @@ class ResourceTreeCollection(networkx.MultiDiGraph):
             for event_speaker in eventtree.getroot().xpath('//Speaker'):
                 # write from xml string to the element (cannot pass an etree-element to another
                 # document scope
-                print event_speaker.find('Label').text + ' vs2 ' + speakernode
+                # print event_speaker.find('Label').text + ' vs ' + speakernode
                 if event_speaker.find('Label').text == speakernode:
 
                     # prevent multiple entries to the speaker element
