@@ -5,7 +5,7 @@
 
     <!-- DGDEVENT2CMDI
     Ueberarbeitung der XSL Transformation Stylesheets zur Abdeckung der CLARIN VLO Facets.
-    Zweite Version im Maerz 2016
+    Dritte Version im Feb 2018
    
     Jede CMD Metafile glieder sich in drei Inhaltsbereiche:
     1. Header
@@ -16,7 +16,7 @@
     a) MdCreator: Bezeichner des Tools, das das Metafile genierte, e.g. dgd2cmdi
     b) MdCreationDate: Das Datum der Generierung der Metafile. Wird direkt erzeugt.
     c) MdSelfLink: Der Selbstverweis mittels Persistent Identifier (e.g. http://hdl.handle.net/10932/00-01B8-EF34-596D-DF01-7)
-    d) MdProfile: Das von der Metafile verwendete Profil aus der Clarin Component Registry. Für diesen Stylesheet also: clarin.eu:cr1:p_1455633534543
+    d) MdProfile: Das von der Metafile verwendete Profil aus der Clarin Component Registry. Für diesen Stylesheet also: clarin.eu:cr1:p_1498745062850
     e) MdCollectionDisplayName: Ein Bezeichner für das Gesamtverzeichnis, zu dem die Resource zählt, also "AGD"
     
     *Resource* enthält Angaben zu mit der Resource assozierte weitere Resourcen. Bei einer Korpus-Metafile sind dies prinzipiell alle dem Korpus zugerechnete
@@ -35,6 +35,9 @@
     
     
     CHANGELOG:
+
+    v4 (Feb 2018) New CDMI Profile clarin.eu:cr1:p_1498745062850 for video and various changes
+
     v3.5 (May 2nd 2015)
     - Disabled Geolocations - latitude and longitude elements. Note that grid element is kept.
     - removed href attribute for non-Relation.SubElements
@@ -96,12 +99,12 @@
     <xsl:param name="mdCreator" select="'DGD2CMDI'"/>
     <xsl:param name="mdCreationDate" select="current-date()"/>
     <xsl:param name="mdSelfLink" select="base-uri()"/>
-    <xsl:param name="mdCollectionDisplayName" select="'AGD'"/>
+    <xsl:param name="mdCollectionDisplayName" select="'Archiv für Gesprochenes Deutsch'"/>
 
 
     <!-- Profile ID that is assigned to each Resource profile in the 
     Clarin Compenent Registry (May 20th 2015)-->
-    <xsl:param name="cmdProfile" select="'clarin.eu:cr1:p_1456409483189'"/>
+    <xsl:param name="cmdProfile" select="'clarin.eu:cr1:p_1498745062850'"/>
 
     <!-- Resource Proxies parameters for CMDI header -->
     <xsl:param name="resourceProxyList" select="' '"/>
@@ -111,18 +114,18 @@
     <!-- define parameters for catalogue template -->
     <xsl:param name="title" select="/Ereignis/@Kennung"/>
     <xsl:param name="name" select="/Ereignis/Basisdaten[1]/Sonstige_Bezeichnungen[1]/text()"/>
-    <xsl:param name="collection" select="'AGD'"/>
+    <xsl:param name="collection" select="'Archiv für Gesprochenes Deutsch'"/> <!-- Änderung Thomas -->
     <xsl:param name="description" select="/Ereignis/Basisdaten[1]/Beschreibung[1]/text()"/>
     <xsl:param name="rightsHolder"
-        select="/Ereignis/Sprechereignis[1]/SE-Aufnahme[1]/Distribution[1]/Zugänglichkeit[2]/Kontakt[1]/text()"/>
+        select="'Institut für Deutsche Sprache'"/>
     <xsl:param name="license" select="'CLARIN RES+BY+NC+NORED'"/>
-
+    <xsl:param name="resourceClass" select="distinct-values(//Typ/text())"/>
     <xsl:param name="projectTitle" select="normalize-space(/Ereignis/Projekt[1]/@Titel)"/>
     <xsl:param name="date" select="/Ereignis/Basisdaten[1]/Datum[1]/YYYY-MM-DD[1]/text()"/>
     <xsl:param name="institution" select="/Ereignis/Basisdaten[1]/Institution[1]//text()"/>
     <xsl:param name="environment" select="/Ereignis/Basisdaten[1]/Räumlichkeiten[1]/text()"/>
     <xsl:param name="duration" select="/Ereignis/Basisdaten[1]/Dauer[1]/text()"/>
-    <xsl:param name="period" select="/Ereignis/Basisdaten[1]/Zeitraum[1]/text()"/>
+    <xsl:param name="period" select="/Ereignis/Basisdaten/Datum/YYYY-MM-DD"/>
     <xsl:param name="conditions" select="/Ereignis/Basisdaten[1]/Aufnahmebedingungen[1]/text()"/>
     <xsl:param name="type" select="/Ereignis/Sprechereignis[1]/Basisdaten[1]/Art[1]/text()"/>
 
@@ -187,7 +190,7 @@
     <xsl:template match="/">
         <CMD xmlns="http://www.clarin.eu/cmd/" CMDVersion="1.1"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:schemaLocation="http://www.clarin.eu/cmd/ http://catalog.clarin.eu/ds/ComponentRegistry/rest/registry/profiles/clarin.eu:cr1:p_1456409483189/xsd">
+            xsi:schemaLocation="http://www.clarin.eu/cmd/ http://catalog.clarin.eu/ds/ComponentRegistry/rest/registry/profiles/clarin.eu:cr1:p_1498745062850/xsd">
             <Header>
                 <MdCreator>
                     <xsl:value-of select="$mdCreator"/>
@@ -253,7 +256,14 @@
                     <xsl:value-of select="./Inhalt/Beschreibung/text()"/>
                 </Content>
                 <Modality>
-                    <xsl:value-of select="./Mediale_Realisierung[1]/text()"/>
+                    <xsl:choose>
+			<xsl:when test="/Ereignis/Sprechereignis/SE-Aufnahme/Digitale_Fassung/Videotechnische_Daten">
+				<xsl:value-of select="'spoken, gestures, facial-expressions'"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="'spoken'"/>
+			</xsl:otherwise>
+		    </xsl:choose>
                 </Modality>
                 <xsl:for-each select="tokenize(./Inhalt/Themen/text(), '\s;\s')">
                     <Subject xml:lang="deu">
@@ -330,8 +340,15 @@
                     <xsl:value-of select="./Basisdaten/Geschlecht/text()"/>
                 </Sex>
                 <Age>
-                    <xsl:value-of select="./Basisdaten/Alter/text()"/>
-                </Age>
+                    <xsl:choose>
+			<xsl:when test="./Basisdaten/Alter/text()=0">
+		    		<xsl:value-of select="'Nicht dokumentiert'"/>
+			</xsl:when>	
+			<xsl:otherwise>
+				<xsl:value-of select="./Basisdaten/Alter/text()"/>
+			</xsl:otherwise>
+                    </xsl:choose>
+		</Age>
                 <Role xml:lang="deu">
                     <xsl:value-of select="./Basisdaten/Rolle/text()"/>
                 </Role>
@@ -417,13 +434,13 @@
                 <xsl:value-of
                     select="./Digitale_Fassung[1]/Videotechnische_Daten[1]/Codec[1]/text()"/>
             </Codec>
-            <Framerate>
+            <FrameRate>
                 <xsl:value-of
-                    select="./Digitale_Fassung[1]/Videotechnische_Daten[1]/Framerate[1]/text()"/>
-            </Framerate>
+                    select="./Digitale_Fassung[1]/Videotechnische_Daten[1]/Bildwiederholungsrate/text()"/>
+            </FrameRate>
             <Color xml:lang="deu">
                 <xsl:value-of
-                    select="./Digitale_Fassung[1]/Videotechnische_Daten[1]/Farbe_Schwarz-weiß[1]/text()"
+                    select="./Digitale_Fassung[1]/Videotechnische_Daten[1]/Colorspace/text()"
                 />
             </Color>
         </VideoData>
@@ -509,7 +526,7 @@
                 </Title>
                 -->
                 <Institution xml:lang="deu">
-                    <xsl:value-of select="$institution"/>
+                    <xsl:value-of select="'Institut für Deusche Sprache'"/>
                 </Institution>
                 <RightsHolder xml:lang="deu">
                     <xsl:value-of select="$rightsHolder"/>
@@ -524,23 +541,35 @@
                     <xsl:value-of select="$duration"/>
                 </Duration>
                 <Environment xml:lang="deu">
-                    <xsl:value-of select="$environment"/>
-                </Environment>
+                    <xsl:choose>
+			<xsl:when test="$institution='Nicht vorhanden'">
+				<xsl:value-of select="$environment"/>
+			</xsl:when>
+			<xsl:otherwise>		
+				<xsl:value-of select="concat($institution,': ',$environment)"/>
+			</xsl:otherwise>
+                    </xsl:choose>	
+		</Environment>
                 <Conditions xml:lang="deu">
                     <xsl:value-of select="$conditions"/>
                 </Conditions>
 
                 <Availability xml:lang="deu">
                     <xsl:value-of
-                        select="/Ereignis/Quellaufnahme[1]/Distribution[1]/Zugänglichkeit[1]/@Art"/>
+                        select="'availabilityStatusRestricted'"/>
                 </Availability>
-                <DistributionType xml:lang="deu"><xsl:value-of select="/Ereignis/Quellaufnahme[1]/Distribution[1]/@Stelle"></xsl:value-of></DistributionType>
+                <DistributionType xml:lang="deu">
+		    <xsl:value-of select="'availabilityStatusRestricted'"/>
+		</DistributionType>
                 <License xml:lang="deu">
                     <xsl:value-of select="$license"/>
                 </License>
-                <ResourceClass xml:lang="deu">
-                    <xsl:value-of select="/Ereignis/Quellaufnahme[1]/Basisdaten[1]/Typ[1]/text()"/>
-                </ResourceClass>
+
+<!--                <xsl:for-each select="$resourceClass"> -->
+			<ResourceClass xml:lang="deu">
+                    		<xsl:value-of select="'Session'"/>
+                	</ResourceClass>
+<!--		</xsl:for-each> -->
                 <LastUpdate xml:lang="deu">
                     <xsl:value-of select="/Ereignis/Dokumentationsgeschichte[1]/Update[1]/@Datum"/>
                 </LastUpdate>
