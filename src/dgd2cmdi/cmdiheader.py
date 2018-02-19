@@ -12,7 +12,7 @@ import requests
 from lxml import etree
 
 MDCREATOR = 'dgd2cmdi.py'
-VALIDIDS = {'event': 'clarin.eu:cr1:p_1456409483189', 'corpus': 'clarin.eu:cr1:p_1455633534543'}
+VALIDIDS = {'event': 'clarin.eu:cr1:p_1498745062850', 'corpus': 'clarin.eu:cr1:p_1455633534543'}
 SVNROOT = 'dgd2_data/dgd2cmdi/cmdi/PF/'
 EVENTXSDURI = "http://www.clarin.eu/cmd/ http://catalog.clarin.eu/ds/ComponentRegistry/rest/registry/profiles/clarin.eu:cr1:p_1430905751615/xsd"
 CORPUSXSDURI = "http://www.clarin.eu/cmd/ http://catalog.clarin.eu/ds/ComponentRegistry/rest/registry/profiles/clarin.eu:cr1:p_1430905751614/xsd"
