@@ -5,11 +5,14 @@
     
     <!-- 
     
-    Da sich die extrahierten Speaker-Informationen zwischen den beiden Stylesheet Revisionen (May 15 vs. March 16) nicht geändert haben, 
+    Da sich die extrahierten Speaker-Informationen zwischen den Stylesheet Revisionen (May 15 vs. March 16 vs. Feb 2018) nicht geändert haben, 
     werden keine Änderungen an diesem Stylesheet durchgeführt. 
     
     
     CHANGELOG
+    
+    Nov 2018 
+    - Order NativeLanguage LanguageCompetence fixed dar
     
     2.1:a
     - renamed Occupation to Profession 
@@ -74,7 +77,16 @@
         <Alias><xsl:value-of select="/Sprecher/Basisdaten[1]/Pseudonym[1]/text()"></xsl:value-of></Alias>
         <TranscriptID><xsl:value-of select="/Sprecher/Basisdaten[1]/Sigle_in_Transkripten[1]/text()"></xsl:value-of></TranscriptID>
         <Sex xml:lang="deu"><xsl:value-of select="/Sprecher/Basisdaten[1]/Geschlecht[1]/text()"></xsl:value-of></Sex>
-        <DateOfBirth><xsl:value-of select="/Sprecher/Basisdaten[1]/Geburtsdatum[1]/YYYY-MM-DD/text()"></xsl:value-of></DateOfBirth>
+        <DateOfBirth>
+		<xsl:choose>
+                	<xsl:when test="/Sprecher/Basisdaten[1]/Geburtsdatum[1]/YYYY-MM-DD/text()='9999-01-01'">
+ 				<xsl:value-of select="'Nicht dokumentiert'"/>
+                        </xsl:when>    
+			<xsl:otherwise>
+				<xsl:value-of select="/Sprecher/Basisdaten[1]/Geburtsdatum[1]/YYYY-MM-DD/text()"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</DateOfBirth>
         <Education xml:lang="deu"><xsl:value-of select="/Sprecher/Basisdaten[1]/Bildungsabschluss[1]/text()"></xsl:value-of></Education>
         <Profession xml:lang="deu"><xsl:value-of select="/Sprecher/Basisdaten[1]/Berufe/text()"></xsl:value-of></Profession>
         <Ethnicity xml:lang="deu"><xsl:value-of select="/Sprecher/Basisdaten[1]/Ethnische_Zugehörigkeit[1]/text()"></xsl:value-of></Ethnicity>
@@ -113,8 +125,8 @@
     
 <!-- ****GeoLocalization Templates by Peter Fischer. (XSLT 1.0 port) **** -->
     
-    <xsl:template name="cmd:GeoLocalization" match="./Koordinaten" mode="GeoLocalization">
-        <xsl:variable name="srcGrids" select="./Planquadrat/text()"/>
+    <xsl:template name="cmd:GeoLocalization" match="/Koordinaten" mode="GeoLocalization">
+        <xsl:variable name="srcGrids" select="/Planquadrat/text()"/>
         
         <xsl:call-template name="cmd:extractCoordinates">
             <xsl:with-param name="gridsquares" select="$srcGrids"/>
@@ -264,8 +276,10 @@
                 <xsl:if test="./Sprachstatus = 'Muttersprache'">
                     <NativeLanguage xml:lang="deu"><xsl:value-of select="./@Sprachname"></xsl:value-of></NativeLanguage>
                 </xsl:if>
+	    </xsl:for-each>
+            <xsl:for-each select="/Sprecher/Sprachdaten/Sprachkenntnisse">
                 <xsl:if test="./Sprachstatus != 'Muttersprache'">
-                    <Language xml:lang="deu"><xsl:value-of select="./@Sprachname"></xsl:value-of></Language>
+                    <LanguageCompetence xml:lang="deu"><xsl:value-of select="./@Sprachname"></xsl:value-of></LanguageCompetence>
                 </xsl:if>
             </xsl:for-each>
         </LanguageData>

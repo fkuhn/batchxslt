@@ -9,9 +9,11 @@
     
     dgdCorpus2cmdi 
     Ueberarbeitung der XSL Transformation Stylesheets zur Abdeckung der CLARIN VLO Facets.
-    Zweite Version im Maerz 2016
-   
-    Jede CMD Metafile glieder sich in drei Inhaltsbereiche:
+    Dritte Version im Feb 2018
+        
+    Überarbeitung von media und format für die Aufnahme von Video in FOLK 2017
+
+    Jede CMD Metafile gliedert sich in drei Inhaltsbereiche:
     1. Header
     2. Resources
     3. Components
@@ -68,7 +70,7 @@
     <xsl:param name="mdCreator" select="'DGD2CMDI'"/>
     <xsl:param name="mdCreationDate" select="current-date()"/>
     <xsl:param name="mdSelfLink" select="base-uri()"/>
-    <xsl:param name="mdCollectionDisplayName" select="'AGD'"/>
+    <xsl:param name="mdCollectionDisplayName" select="'Archiv für Gesprochenes Deutsch'"/>
 
     <!-- Clarin Profile ID that is assigned to each profile in the Clarin
     Component Registry (March 2th 2016).-->
@@ -86,33 +88,39 @@
     <!-- due to the ambiguous definitions of elements in the dgd metadata schema, absolute xpath expressions are used -->
 
     <xsl:param name="name" select="normalize-space(/Korpus/Name/text())"/>
-    <xsl:param name="title" select="normalize-space(/Korpus/Sonstige_Bezeichnungen/text())"/>
-    <xsl:param name="collection" select="'AGD'"/>
-    <xsl:param name="projectTitle" select="normalize-space(/Korpus/Erstellungsprojekt/@Titel)"/>
+    <xsl:param name="title" select="normalize-space(/Korpus/Sonstige_Bezeichnungen/text())"/> <!-- löschen? -->
+    <xsl:param name="collection" select="'Archiv für Gesprochenes Deutsch'"/> <!-- Änderung Thomas  -->
+    <xsl:param name="projectTitle" select="distinct-values(/Korpus/Erstellungsprojekt/@Titel)"/>
     <xsl:param name="description"
         select="normalize-space(/Korpus/Korpus_Projekt_Kurzbeschreibung/text())"/>
-    <xsl:param name="resourceType" select="normalize-space(/Korpus/Erstellungsprojekt/Typ/text())"/>
+    <xsl:param name="resourceType" select="tokenize(/Korpus/Erstellungsprojekt/Typ/text(),';')"/>
     <xsl:param name="media"
-        select="normalize-space(/Korpus/Korpusbestandteile[1]/Quellaufnahmen[1]/@Typ)"/>
+        select="distinct-values(tokenize(replace(string-join(/Korpus/Korpusbestandteile/SE-Aufnahmen/@Typ,':'),'Tonkopie von Video','Audio'),':'))"/>
     <xsl:param name="modality"
-        select="/Korpus/Aufzeichnungsobjekte[1]/Sprechereignisse[1]/Basisdaten[1]/Mediale_Realisierung[1]/text()"/>
+        select="tokenize(/Korpus/Aufzeichnungsobjekte[1]/Sprechereignisse[1]/Basisdaten[1]/Mediale_Realisierung[1]/text(),';')"/>
     <xsl:param name="organisation"
-        select="normalize-space(/Korpus/Erstellungsprojekt/Institut/text())"/>
+        select="distinct-values(/Korpus/Erstellungsprojekt/Institut/text())"/>
     <xsl:param name="distributionType"
-        select="/Korpus/Korpusbestandteile/Quellaufnahmen/Distribution/@Stelle"/>
+        select="distinct-values(/Korpus/Korpusbestandteile/Quellaufnahmen/Distribution/@Stelle)"/>
     <xsl:param name="availability"
         select="/Korpus/Korpusbestandteile/Quellaufnahmen/Distribution/Zugänglichkeit/@Art"/>
-    <xsl:param name="rightsHolder"
-        select="normalize-space(/Korpus/Korpusbestandteile[1]/SE-Aufnahmen[1]/Distribution[1]/Zugänglichkeit[1]/Kontakt[1]/text())"/>
+    <!--<xsl:param name="rightsHolder"
+
+        select="normalize-space(/Korpus/Korpusbestandteile[1]/SE-Aufnahmen[1]/Distribution[1]/Zugänglichkeit[1]/Kontakt[1]/text())"/>-->
+    <xsl:param name="rightsHolder" select="'Institut für Deutsche Sprache'"/>
     <xsl:param name="license" select="'CLARIN RES+BY+NC+NORED'"/>
+    <!--<xsl:param name="publicationYear"
+        select="normalize-space(/Korpus/Aufzeichnungsobjekte/Ereignisse_Basisdaten/Zeit/text())"/>-->
     <xsl:param name="publicationYear"
-        select="normalize-space(/Korpus/Erstellungsprojekt/Laufzeit/text())"/>
+	select="substring(//Version[1]/@Datum, 7)"/><!--Erveröffentlichung, weil Last Update  -->	
     <xsl:param name="languages"
-        select="tokenize(normalize-space(/Korpus/Aufzeichnungsobjekte/Sprechereignisse/Basisdaten/Sprachen/text()), ';')"/>
+        select="tokenize(normalize-space(/Korpus/Aufzeichnungsobjekte/Sprechereignisse/Basisdaten/Sprachen/text()),';')"/> 
+    <xsl:param name="country" 
+	select="tokenize(normalize-space(/Korpus/Aufzeichnungsobjekte[1]/Ereignisse_Basisdaten[1]/Länder_Regionen_Orte[1]/text()),';')"/>
     <xsl:param name="format"
-        select="/Korpus/Korpusbestandteile/SE-Aufnahmen/Digitale_Fassungen/Tontechnische_Daten/Format/text()"/>
+        select="distinct-values(/Korpus/*/*/*/*/Format/text())"/>
     <xsl:param name="genre"
-        select="normalize-space(/Korpus/Aufzeichnungsobjekte[1]/Sprechereignisse[1]/Basisdaten[1]/Arten[1]/text())"/>
+        select="tokenize(/Korpus/Aufzeichnungsobjekte[1]/Sprechereignisse[1]/Basisdaten[1]/Arten[1]/text(),';')"/>
     <xsl:param name="subject"
         select="normalize-space(/Korpus/Aufzeichnungsobjekte[1]/Sprechereignisse[1]/Inhalte[1]/Themen[1]/text())"/>
     <xsl:param name="keywords" select="tokenize(normalize-space(/Korpus/Deskriptoren/text()), ';')"/>
@@ -202,7 +210,7 @@
                     $counter">
             <xsl:variable name="language" select="."/>
             <Language xml:lang="deu">
-                <xsl:value-of select="$language"/>
+                <xsl:value-of select="normalize-space($language)"/>
             </Language>
         </xsl:for-each>
     </xsl:template>
@@ -217,9 +225,11 @@
                 <Collection>
                     <xsl:value-of select="$collection"/>
                 </Collection>
+		<xsl:for-each select="$projectTitle">
                 <ProjectTitle xml:lang="deu">
-                    <xsl:value-of select="$projectTitle"/>
+                    <xsl:value-of select="."/>
                 </ProjectTitle>
+		</xsl:for-each>
                 <Name>
                     <xsl:value-of select="$name"/>
                 </Name>
@@ -231,6 +241,7 @@
                 </Institution>
                 <RightsHolder>
                     <xsl:value-of select="$rightsHolder"/>
+
                 </RightsHolder>
                 <PublicationYear>
                     <xsl:value-of select="$publicationYear"/>
@@ -240,41 +251,65 @@
                 </Description>
                 <TemporalCoverage xml:lang="deu">
                     <xsl:value-of
-                        select="normalize-space(/Korpus/Erstellungsprojekt/Laufzeit/text())"/>
+                        select="normalize-space(/Korpus/Aufzeichnungsobjekte/Ereignisse_Basisdaten/Zeit)"/>
                 </TemporalCoverage>
                 <License><xsl:value-of select="$license"/></License>
                 <ResourceType xml:lang="deu">
-                    <xsl:value-of select="$resourceType"/>
+                    <xsl:value-of select="'Corpus'"/> <!-- Konstante Thomas-->
                 </ResourceType>
-                <ResourceMediaType>
+                <!--<ResourceMediaType> 
                     <xsl:value-of select="$media"/>
-                </ResourceMediaType>
-                <xsl:for-each select="$distributionType">
+                </ResourceMediaType>-->
+		<xsl:for-each select="$media">
+		<ResourceMediaType>	
+			<xsl:value-of select="."/>
+		</ResourceMediaType>	
+		</xsl:for-each>		
+                <!--<xsl:for-each select="$distributionType">
                     <DistributionType xml:lang="deu">
                         <xsl:value-of select="."/>
                     </DistributionType>
-                </xsl:for-each>
+                </xsl:for-each>-->
+		 
+		<DistributionType xml:lang="deu">
+		   <xsl:value-of select="'availabilityStatusRestricted'"/>			
+		</DistributionType> <!-- Konstante Thomas -->	
 
                 <Continent>
                     <!-- No Continent Values used so far -->
                 </Continent>
-                <Country xml:lang="deu">
+                <!--<Country xml:lang="deu">
                     <xsl:value-of
                         select="/Korpus/Aufzeichnungsobjekte[1]/Ereignisse_Basisdaten[1]/Länder_Regionen_Orte[1]/text()"
                     />
-                </Country>
+                </Country>-->
+		<xsl:for-each select="$country">
+		    <Country xml:lang="deu">
+			<xsl:value-of select="normalize-space(.)"/>
+		    </Country>	
+		</xsl:for-each>
                 <xsl:call-template name="cmd:Languages"/>
-                <xsl:for-each select="$format">
-                    <DeliveryFormat xml:lang="deu">
+                <!-- <xsl:for-each select="$format"> Rausgenommen: Nicht aussagekräftig
+                    <DeliveryFormat>
                         <xsl:value-of select="."/>
                     </DeliveryFormat>
-                </xsl:for-each>
-                <Genre xml:lang="deu">
+                </xsl:for-each>-->
+                <!--<Genre xml:lang="deu">
                     <xsl:value-of select="$genre"/>
-                </Genre>
-                <Modality xml:lang="deu">
+                </Genre>-->
+		<xsl:for-each select="$genre">
+		    <Genre xml:lang="deu">
+		        <xsl:value-of select="normalize-space(.)"/>
+		    </Genre>	
+		</xsl:for-each>
+                <!--<Modality xml:lang="deu">
                     <xsl:value-of select="$modality"/>
-                </Modality>
+                </Modality>-->
+                <xsl:for-each select="$modality">
+                    <Modality xml:lang="deu">
+                        <xsl:value-of select="normalize-space(.)"/>
+                    </Modality>
+                </xsl:for-each>
                 <Subject>
                     <xsl:value-of select="$subject"/>
                 </Subject>
