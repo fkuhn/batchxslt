@@ -11,6 +11,9 @@
     
     CHANGELOG
     
+    Nov 2018 
+    - Order NativeLanguage LanguageCompetence fixed dar
+    
     2.1:a
     - renamed Occupation to Profession 
     - Documentation Attribute convention: using XPATH expression to values in original german markup (in cmdi profile)
@@ -273,6 +276,8 @@
                 <xsl:if test="./Sprachstatus = 'Muttersprache'">
                     <NativeLanguage xml:lang="deu"><xsl:value-of select="./@Sprachname"></xsl:value-of></NativeLanguage>
                 </xsl:if>
+	    </xsl:for-each>
+            <xsl:for-each select="/Sprecher/Sprachdaten/Sprachkenntnisse">
                 <xsl:if test="./Sprachstatus != 'Muttersprache'">
                     <LanguageCompetence xml:lang="deu"><xsl:value-of select="./@Sprachname"></xsl:value-of></LanguageCompetence>
                 </xsl:if>
